@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エコーブレード (Echo Blade)</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- メインゲーム画面 -->
+        <canvas id="game-canvas" width="1600" height="900"></canvas>
+
+        <!-- メニュー画面 -->
+        <div id="menu-screen" class="screen">
+            <div class="menu-content">
+                <h1 class="game-title">エコーブレード</h1>
+                <h2 class="game-subtitle">Echo Blade</h2>
+                <p class="game-description">時間の残響と共に戦う90秒の戦い</p>
+
+                <div class="menu-buttons">
+                    <button id="start-button" class="menu-btn primary">ゲーム開始</button>
+                    <button id="instructions-button" class="menu-btn">操作説明</button>
+                    <button id="settings-button" class="menu-btn">設定</button>
+                </div>
+
+                <div class="difficulty-selector">
+                    <label>難易度:</label>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-button" data-difficulty="easy">初級</button>
+                        <button class="difficulty-button active" data-difficulty="normal">標準</button>
+                        <button class="difficulty-button" data-difficulty="hard">上級</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作説明画面 -->
+        <div id="instructions-screen" class="screen hidden">
+            <div class="menu-content">
+                <h2>操作説明</h2>
+                <div class="instructions">
+                    <div class="instruction-item">
+                        <strong>移動:</strong> ← → キー または A D キー
+                    </div>
+                    <div class="instruction-item">
+                        <strong>ジャンプ:</strong> ↑ キー または W キー / スペースキー
+                    </div>
+                    <div class="instruction-item">
+                        <strong>斬撃:</strong> Z キー
+                    </div>
+                    <div class="instruction-item">
+                        <strong>ダッシュ:</strong> X キー
+                    </div>
+                    <div class="instruction-item">
+                        <strong>ポーズ:</strong> P キー または Esc キー
+                    </div>
+                </div>
+                <div class="game-rules">
+                    <h3>ゲームルール</h3>
+                    <ul>
+                        <li>制限時間90秒以内に敵を倒してスコアを稼げ</li>
+                        <li>斬撃は2秒後に「エコー」として再現される</li>
+                        <li>エコーは敵にダメージを与えるが、自分にも当たる</li>
+                        <li>敵を連続撃破でコンボボーナス</li>
+                        <li>時間が経つにつれ強力な敵が出現</li>
+                    </ul>
+                </div>
+                <button class="back-button menu-btn">戻る</button>
+            </div>
+        </div>
+
+        <!-- 設定画面 -->
+        <div id="settings-screen" class="screen hidden">
+            <div class="menu-content">
+                <h2>設定</h2>
+                <div class="settings">
+                    <div class="setting-item">
+                        <label for="bgmVolume">BGM音量:</label>
+                        <input type="range" id="bgmVolume" min="0" max="100" value="70">
+                        <span id="bgmVolumeText">70</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="sfxVolume">効果音音量:</label>
+                        <input type="range" id="sfxVolume" min="0" max="100" value="80">
+                        <span id="sfxVolumeText">80</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="showFPS"> FPS表示
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="enableParticles" checked> パーティクル効果
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="enableScreenEffects" checked> 画面効果
+                        </label>
+                    </div>
+                </div>
+                <button class="back-button menu-btn">戻る</button>
+            </div>
+        </div>
+
+        <!-- ゲームオーバー画面 -->
+        <div id="game-over-screen" class="screen hidden">
+            <div class="menu-content">
+                <h2 id="gameOverTitle">ゲームオーバー</h2>
+                <div class="results">
+                    <div class="result-item">
+                        <span>最終スコア:</span>
+                        <span id="final-score">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>最大コンボ:</span>
+                        <span id="final-combo">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>敵撃破数:</span>
+                        <span id="enemies-killed">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>エコーキル:</span>
+                        <span id="echo-kills">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>最高記録:</span>
+                        <span id="best-score">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>評価:</span>
+                        <span id="performance-rating">E - 初心者</span>
+                    </div>
+                </div>
+                <div class="menu-buttons">
+                    <button id="play-again-button" class="menu-btn primary">もう一度</button>
+                    <button class="back-button menu-btn">メニューに戻る</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲームスクリプト（ES6モジュール） -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
