@@ -15,10 +15,11 @@ class ParticleSystem {
         }
     }
 
-    createExplosion(x, y) {
+    createExplosion(x, y, color = null) {
         // Create multiple particles for explosion effect
-        for (let i = 0; i < 15; i++) {
-            this.particles.push(new ExplosionParticle(x, y));
+        const particleCount = color ? 25 : 15; // 色指定時はより多くのパーティクル
+        for (let i = 0; i < particleCount; i++) {
+            this.particles.push(new ExplosionParticle(x, y, color));
         }
     }
 
@@ -34,6 +35,32 @@ class ParticleSystem {
         for (let i = 0; i < 5; i++) {
             this.particles.push(new ImpactParticle(x, y));
         }
+    }
+
+    // 🆕 レーザーエフェクト
+    createLaserEffect(x1, y1, x2, y2, color = '#ff0040') {
+        // レーザービーム作成
+        for (let i = 0; i < 30; i++) {
+            const progress = i / 29;
+            const x = x1 + (x2 - x1) * progress;
+            const y = y1 + (y2 - y1) * progress;
+            this.particles.push(new LaserParticle(x, y, color));
+        }
+
+        // 爆発エフェクトを端点に追加
+        this.createExplosion(x1, y1, color);
+        this.createExplosion(x2, y2, color);
+    }
+
+    // 🆕 スコア爆発エフェクト
+    createScoreExplosion(x, y, points) {
+        // 大量のゴールドパーティクル
+        for (let i = 0; i < 20; i++) {
+            this.particles.push(new ScoreParticle(x, y, points));
+        }
+
+        // 中央に大きな爆発
+        this.createExplosion(x, y, '#ffff00');
     }
 
     update() {
@@ -91,7 +118,7 @@ class Particle {
 }
 
 class ExplosionParticle extends Particle {
-    constructor(x, y) {
+    constructor(x, y, color = null) {
         super(x, y);
 
         // Random explosion direction
@@ -105,7 +132,7 @@ class ExplosionParticle extends Particle {
 
         // Explosion colors
         const colors = ['#ff4000', '#ff8000', '#ffff00', '#ff0080'];
-        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.color = color || colors[Math.floor(Math.random() * colors.length)];
 
         // Add gravity effect
         this.gravity = 0.1;
@@ -286,5 +313,151 @@ class TrailParticle extends Particle {
 function createBallTrail(x, y, particles) {
     if (Math.random() < 0.3) { // Only create trail sometimes for performance
         particles.push(new TrailParticle(x, y));
+    }
+}
+
+// 🆕 レーザーパーティクル
+class LaserParticle extends Particle {
+    constructor(x, y, color = '#ff0040') {
+        super(x, y);
+        this.color = color;
+        this.size = 2 + Math.random() * 3;
+        this.decay = 0.03;
+        this.intensity = 1.0;
+
+        // 軽微な動き
+        this.vx = (Math.random() - 0.5) * 1;
+        this.vy = (Math.random() - 0.5) * 1;
+    }
+
+    update() {
+        super.update();
+        this.intensity = this.life;
+    }
+
+    render(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.life;
+
+        // 強烈な光効果
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 15;
+
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * this.intensity, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 内側の白い光
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * this.intensity * 0.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+}
+
+// 🆕 スコアパーティクル
+class ScoreParticle extends Particle {
+    constructor(x, y, points) {
+        super(x, y);
+
+        // ゴールド色のパーティクル
+        this.color = '#ffff00';
+        this.size = 3 + Math.random() * 4;
+        this.decay = 0.02;
+        this.points = points;
+
+        // 上向きの動き
+        const angle = -Math.PI/2 + (Math.random() - 0.5) * Math.PI/3;
+        const speed = 2 + Math.random() * 3;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+
+        this.gravity = 0.1;
+        this.twinkle = Math.random() * Math.PI * 2;
+        this.twinkleSpeed = 0.15;
+    }
+
+    update() {
+        super.update();
+        this.vy += this.gravity;
+        this.twinkle += this.twinkleSpeed;
+    }
+
+    render(ctx) {
+        ctx.save();
+
+        // きらめき効果
+        const alpha = this.life * (0.7 + 0.3 * Math.sin(this.twinkle));
+        ctx.globalAlpha = alpha;
+
+        // 強い光効果
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 12;
+
+        // メインの星型パーティクル
+        ctx.fillStyle = this.color;
+        this.drawStar(ctx, this.x, this.y, this.size, this.size * 0.5, 5);
+
+        ctx.restore();
+    }
+
+    drawStar(ctx, x, y, outerRadius, innerRadius, points) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(this.twinkle);
+
+        ctx.beginPath();
+        for (let i = 0; i < points * 2; i++) {
+            const radius = i % 2 === 0 ? outerRadius : innerRadius;
+            const angle = (i * Math.PI) / points;
+            const px = Math.cos(angle) * radius;
+            const py = Math.sin(angle) * radius;
+
+            if (i === 0) {
+                ctx.moveTo(px, py);
+            } else {
+                ctx.lineTo(px, py);
+            }
+        }
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+    }
+}
+
+// 🆕 連鎖爆発パーティクル
+class ChainExplosionParticle extends ExplosionParticle {
+    constructor(x, y) {
+        super(x, y, '#ff8000');
+        this.size = 2 + Math.random() * 3;
+        this.chainPulse = 0;
+        this.chainPulseSpeed = 0.2;
+    }
+
+    update() {
+        super.update();
+        this.chainPulse += this.chainPulseSpeed;
+    }
+
+    render(ctx) {
+        ctx.save();
+
+        // 脈動効果
+        const pulseSize = this.size * (1 + 0.3 * Math.sin(this.chainPulse));
+
+        ctx.globalAlpha = this.life;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 10;
+
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
     }
 }
