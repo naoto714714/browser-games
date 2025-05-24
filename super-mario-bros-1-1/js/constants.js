@@ -75,12 +75,6 @@ const GAME_CONSTANTS = {
         FIRE: 'fire'
     },
 
-    // 方向
-    DIRECTION: {
-        LEFT: 'left',
-        RIGHT: 'right'
-    },
-
     // 色パレット（マリオの伝統的な色）
     COLORS: {
         SKY_BLUE: '#5C94FC',
@@ -108,6 +102,12 @@ const GAME_CONSTANTS = {
         COIN_SOUND_LENGTH: 15,
         POWER_UP_SOUND_LENGTH: 30
     }
+};
+
+// 方向定数（独立した定数として定義）
+const DIRECTION = {
+    LEFT: 'left',
+    RIGHT: 'right'
 };
 
 // ブロックタイプ

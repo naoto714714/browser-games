@@ -1,17 +1,24 @@
 // メイン処理 - ゲーム初期化とイベント処理
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, starting game initialization...');
+
     // Canvas要素を取得
     const canvas = document.getElementById('gameCanvas');
     if (!canvas) {
         console.error('Canvas element not found');
         return;
     }
+    console.log('Canvas found:', canvas);
 
     // スプライトローダーを初期化
+    console.log('Initializing sprite loader...');
     SpriteLoader.init();
+    console.log('Sprite loader initialized. Available sprites:', Object.keys(SpriteLoader.sprites));
 
     // ゲームインスタンスを作成
+    console.log('Creating game instance...');
     const game = new Game(canvas);
+    console.log('Game instance created successfully');
 
     // スタートボタンイベント
     const startScreen = document.getElementById('startScreen');
@@ -24,9 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!startScreen.classList.contains('hidden')) {
                 // スタート画面からゲーム開始
+                console.log('Starting game...');
                 game.startGame();
             } else if (!gameOverScreen.classList.contains('hidden')) {
                 // ゲームオーバー画面からリスタート
+                console.log('Restarting game...');
                 game.restartGame();
             }
         }
@@ -34,10 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // クリックでもゲーム開始可能
     startScreen.addEventListener('click', () => {
+        console.log('Starting game via click...');
         game.startGame();
     });
 
     gameOverScreen.addEventListener('click', () => {
+        console.log('Restarting game via click...');
         game.restartGame();
     });
 
@@ -59,6 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // エラーハンドリング
 window.addEventListener('error', (event) => {
     console.error('Game Error:', event.error);
+    console.error('Error details:', {
+        message: event.message,
+        filename: event.filename,
+        lineno: event.lineno,
+        colno: event.colno,
+        stack: event.error?.stack
+    });
 });
 
 // ページがアンロードされる時の処理
