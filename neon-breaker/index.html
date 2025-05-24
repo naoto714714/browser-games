@@ -33,12 +33,44 @@
 
         <div class="game-area">
             <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+            <!-- 🆕 コンボ表示 -->
+            <div class="combo-display" id="combo" style="display: none;">
+                COMBO!
+            </div>
+
             <div class="game-overlay" id="gameOverlay">
                 <div class="overlay-content">
                     <h2 id="overlayTitle">NEON BREAKER</h2>
                     <p id="overlayText">未来のブロック崩しへようこそ</p>
-                    <button class="neon-button" id="startButton">START GAME</button>
-                    <button class="neon-button" id="restartButton" style="display: none;">RESTART</button>
+
+                    <!-- 🆕 操作方法選択 -->
+                    <div class="control-selection" id="controlSelection">
+                        <h3 class="control-title">操作方法を選択してください</h3>
+                        <div class="control-buttons">
+                            <button class="neon-button control-btn" id="keyboardButton">
+                                <span class="control-icon">⌨️</span>
+                                <span class="control-text">キーボード</span>
+                                <span class="control-desc">矢印キー / WASD</span>
+                            </button>
+                            <button class="neon-button control-btn" id="mouseButton">
+                                <span class="control-icon">🖱️</span>
+                                <span class="control-text">マウス</span>
+                                <span class="control-desc">マウス移動</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- スタートボタンコンテナ -->
+                    <div id="startButtonContainer" style="display: none;">
+                        <button class="neon-button" id="startButton">START GAME</button>
+                    </div>
+
+                    <!-- 🆕 ゲームオーバー時のボタンコンテナ -->
+                    <div id="gameOverButtons" style="display: none;">
+                        <button class="neon-button" id="restartButton">RESTART</button>
+                        <button class="neon-button home-button" id="homeButton">HOME</button>
+                    </div>
                 </div>
             </div>
         </div>
