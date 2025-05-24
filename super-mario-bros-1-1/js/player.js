@@ -24,6 +24,8 @@ class Player extends Entity {
         this.currentSprite = 'marioSmallStanding';
         this.walkAnimationTimer = 0;
         this.facingDirection = DIRECTION.RIGHT;
+        this.spriteKey = 'marioSmallStanding'; // 初期スプライトキーを設定
+        this.visible = true; // 初期状態で表示
 
         // 入力状態
         this.inputLeft = false;
@@ -141,31 +143,28 @@ class Player extends Entity {
 
     // アニメーション更新
     updateAnimation() {
-        let newSprite = this.currentSprite;
+        // 利用可能なスプライトに基づく
+        if (this.powerState === GAME_CONSTANTS.PLAYER_STATE.SMALL) {
+            if (Math.abs(this.velocityX) > 0.1) {
+                // 歩行・走行中
+                this.walkAnimationTimer++;
+                const animationSpeed = this.running ? 8 : 12;
 
-        // パワーアップ状態に応じたベーススプライト名
-        const baseName = this.powerState === GAME_CONSTANTS.PLAYER_STATE.SMALL ? 'marioSmall' : 'marioBig';
-
-        if (!this.grounded) {
-            // ジャンプ中
-            newSprite = baseName + 'Jumping';
-        } else if (Math.abs(this.velocityX) > 0.1) {
-            // 歩行・走行中
-            this.walkAnimationTimer++;
-            const animationSpeed = this.running ? 8 : 12;
-
-            if (this.walkAnimationTimer >= animationSpeed) {
-                this.walkAnimationTimer = 0;
-                const walkFrame = Math.floor(this.animationFrame / 2) % 2;
-                newSprite = baseName + (walkFrame === 0 ? 'Walking' : 'Standing');
+                if (this.walkAnimationTimer >= animationSpeed) {
+                    this.walkAnimationTimer = 0;
+                    // marioSmallStandingとmarioSmallWalkingを交互に切り替え
+                    this.spriteKey = this.spriteKey === 'marioSmallStanding' ? 'marioSmallWalking' : 'marioSmallStanding';
+                }
+            } else {
+                // 立ち状態
+                this.spriteKey = 'marioSmallStanding';
             }
         } else {
-            // 立ち状態
-            newSprite = baseName + 'Standing';
+            // 大きいマリオの場合（今はsmallマリオのスプライトを使用）
+            this.spriteKey = 'marioSmallStanding';
         }
 
-        this.currentSprite = newSprite;
-        this.spriteKey = newSprite;
+        this.currentSprite = this.spriteKey;
         this.direction = this.facingDirection;
     }
 
