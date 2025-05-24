@@ -30,16 +30,16 @@ class GameState {
     }
 
     initializeGame() {
+        // Initialize particle effects first
+        this.particleSystem = new ParticleSystem(this.canvas.width, this.canvas.height);
+
         // Initialize game objects
         this.paddle = new Paddle(this.canvas.width / 2 - 50, this.canvas.height - 40, 100, 15);
         this.ball = new Ball(this.canvas.width / 2, this.canvas.height - 60, 8);
         this.createBlocks();
 
-        // Start animation loop
+        // Start animation loop after all objects are initialized
         this.gameLoop();
-
-        // Initialize particle effects
-        this.particleSystem = new ParticleSystem();
     }
 
     bindEvents() {
@@ -199,7 +199,9 @@ class GameState {
         this.updatePowerUps();
 
         // Update particles
-        this.particleSystem.update();
+        if (this.particleSystem) {
+            this.particleSystem.update();
+        }
 
         // Check win condition
         if (this.blocks.length === 0) {
@@ -318,7 +320,9 @@ class GameState {
         }
 
         // Create explosion particle effect
-        this.particleSystem.createExplosion(x, y);
+        if (this.particleSystem) {
+            this.particleSystem.createExplosion(x, y);
+        }
         this.updateUI();
     }
 
@@ -336,15 +340,19 @@ class GameState {
     }
 
     createBlockDestructionEffect(block) {
-        this.particleSystem.createBlockDestruction(
-            block.x + block.width / 2,
-            block.y + block.height / 2,
-            block.color
-        );
+        if (this.particleSystem) {
+            this.particleSystem.createBlockDestruction(
+                block.x + block.width / 2,
+                block.y + block.height / 2,
+                block.color
+            );
+        }
     }
 
     createImpactParticles(x, y) {
-        this.particleSystem.createImpact(x, y);
+        if (this.particleSystem) {
+            this.particleSystem.createImpact(x, y);
+        }
     }
 
     updatePowerUps() {
@@ -418,7 +426,9 @@ class GameState {
         this.powerUps.forEach(powerUp => powerUp.render(this.ctx));
 
         // Render particle effects
-        this.particleSystem.render(this.ctx);
+        if (this.particleSystem) {
+            this.particleSystem.render(this.ctx);
+        }
 
         // Render pause indicator
         if (this.isPaused) {
