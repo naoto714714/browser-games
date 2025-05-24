@@ -101,12 +101,13 @@ class GameState {
     }
 
     restartGame() {
+        this.gameStarted = true;
         this.hideOverlay();
         this.resetGame();
     }
 
     launchBall() {
-        if (!this.isPlaying) {
+        if (!this.isPlaying && this.gameStarted) {
             this.ball.launch();
             this.isPlaying = true;
         }
