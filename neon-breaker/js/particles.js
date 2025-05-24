@@ -1,15 +1,17 @@
 // ========== Particle System ==========
 class ParticleSystem {
-    constructor() {
+    constructor(canvasWidth = 800, canvasHeight = 600) {
         this.particles = [];
         this.backgroundParticles = [];
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
         this.createBackgroundParticles();
     }
 
     createBackgroundParticles() {
         // Create floating background particles for atmosphere
         for (let i = 0; i < 20; i++) {
-            this.backgroundParticles.push(new BackgroundParticle());
+            this.backgroundParticles.push(new BackgroundParticle(this.canvasWidth, this.canvasHeight));
         }
     }
 
@@ -204,14 +206,16 @@ class ImpactParticle extends Particle {
 }
 
 class BackgroundParticle {
-    constructor() {
+    constructor(canvasWidth = 800, canvasHeight = 600) {
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
         this.reset();
-        this.y = Math.random() * window.innerHeight; // Start at random height initially
+        this.y = Math.random() * this.canvasHeight; // Start at random height initially
     }
 
     reset() {
-        this.x = Math.random() * window.innerWidth;
-        this.y = window.innerHeight + 10;
+        this.x = Math.random() * this.canvasWidth;
+        this.y = this.canvasHeight + 10;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = -0.2 - Math.random() * 0.8;
         this.size = 0.5 + Math.random() * 1.5;
@@ -230,7 +234,7 @@ class BackgroundParticle {
         this.twinkle += this.twinkleSpeed;
 
         // Reset when particle goes off screen
-        if (this.y < -10 || this.x < -10 || this.x > window.innerWidth + 10) {
+        if (this.y < -10 || this.x < -10 || this.x > this.canvasWidth + 10) {
             this.reset();
         }
     }

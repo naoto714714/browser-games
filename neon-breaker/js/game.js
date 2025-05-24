@@ -30,16 +30,16 @@ class GameState {
     }
 
     initializeGame() {
+        // Initialize particle effects first
+        this.particleSystem = new ParticleSystem(this.canvas.width, this.canvas.height);
+
         // Initialize game objects
         this.paddle = new Paddle(this.canvas.width / 2 - 50, this.canvas.height - 40, 100, 15);
         this.ball = new Ball(this.canvas.width / 2, this.canvas.height - 60, 8);
         this.createBlocks();
 
-        // Start animation loop
+        // Start animation loop after all objects are initialized
         this.gameLoop();
-
-        // Initialize particle effects
-        this.particleSystem = new ParticleSystem();
     }
 
     bindEvents() {
@@ -101,13 +101,14 @@ class GameState {
     }
 
     restartGame() {
+        this.gameStarted = true;
         this.hideOverlay();
         this.resetGame();
     }
 
     launchBall() {
-        if (!this.isPlaying) {
-            this.ball.launch();
+        if (!this.isPlaying && this.gameStarted) {
+            this.ball.launch(this.level);
             this.isPlaying = true;
         }
     }
@@ -199,7 +200,9 @@ class GameState {
         this.updatePowerUps();
 
         // Update particles
-        this.particleSystem.update();
+        if (this.particleSystem) {
+            this.particleSystem.update();
+        }
 
         // Check win condition
         if (this.blocks.length === 0) {
@@ -318,14 +321,25 @@ class GameState {
         }
 
         // Create explosion particle effect
-        this.particleSystem.createExplosion(x, y);
+        if (this.particleSystem) {
+            this.particleSystem.createExplosion(x, y);
+        }
         this.updateUI();
     }
 
     createMultiBall() {
-        // This is a simplified multiball - would need ball array for full implementation
-        this.ball.dx *= 1.2;
-        this.ball.dy *= 1.2;
+        // より劇的なマルチボール効果でスピードアップ
+        this.ball.dx *= 1.4;  // 1.2から1.4に増加
+        this.ball.dy *= 1.4;  // 1.2から1.4に増加
+
+        // 一時的にボールサイズを小さくして視覚的により速く見せる
+        const originalRadius = this.ball.radius;
+        this.ball.radius *= 0.8;
+
+        // 5秒後に元のサイズに戻す
+        setTimeout(() => {
+            this.ball.radius = originalRadius;
+        }, 5000);
     }
 
     expandPaddle() {
@@ -336,15 +350,19 @@ class GameState {
     }
 
     createBlockDestructionEffect(block) {
-        this.particleSystem.createBlockDestruction(
-            block.x + block.width / 2,
-            block.y + block.height / 2,
-            block.color
-        );
+        if (this.particleSystem) {
+            this.particleSystem.createBlockDestruction(
+                block.x + block.width / 2,
+                block.y + block.height / 2,
+                block.color
+            );
+        }
     }
 
     createImpactParticles(x, y) {
-        this.particleSystem.createImpact(x, y);
+        if (this.particleSystem) {
+            this.particleSystem.createImpact(x, y);
+        }
     }
 
     updatePowerUps() {
@@ -418,7 +436,9 @@ class GameState {
         this.powerUps.forEach(powerUp => powerUp.render(this.ctx));
 
         // Render particle effects
-        this.particleSystem.render(this.ctx);
+        if (this.particleSystem) {
+            this.particleSystem.render(this.ctx);
+        }
 
         // Render pause indicator
         if (this.isPaused) {
@@ -443,7 +463,7 @@ class Paddle {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = 8;
+        this.speed = 10;
         this.originalWidth = width;
     }
 
@@ -495,7 +515,8 @@ class Ball {
         this.radius = radius;
         this.dx = 0;
         this.dy = 0;
-        this.speed = 6;
+        this.baseSpeed = 8;  // 基本スピードを6から8に増加
+        this.speed = this.baseSpeed;
         this.originalX = x;
         this.originalY = y;
     }
@@ -509,8 +530,13 @@ class Ball {
         this.dy = 0;
     }
 
-    launch() {
-        this.dx = (Math.random() - 0.5) * 4;
+    launch(level = 1) {
+        // レベルに応じてスピードを上げる（最大1.5倍）
+        const levelMultiplier = Math.min(1.5, 1 + (level - 1) * 0.05);
+        this.speed = this.baseSpeed * levelMultiplier;
+
+        // 横方向の初期速度も少し上げる
+        this.dx = (Math.random() - 0.5) * 6;  // 4から6に増加
         this.dy = -this.speed;
     }
 
