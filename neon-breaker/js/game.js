@@ -43,6 +43,11 @@ class GameState {
 
         this.initializeGame();
         this.bindEvents();
+
+        // 🆕 初期画面でホーム画面を表示
+        setTimeout(() => {
+            this.showHomeScreen();
+        }, 100);
     }
 
     initializeGame() {
@@ -103,6 +108,11 @@ class GameState {
 
         document.getElementById('mouseButton').addEventListener('click', () => {
             this.selectControlMethod('mouse');
+        });
+
+        // 🆕 HOMEボタン
+        document.getElementById('homeButton').addEventListener('click', () => {
+            this.goHome();
         });
     }
 
@@ -173,6 +183,7 @@ class GameState {
     }
 
     restartGame() {
+        // 操作方法は保持したままゲームをリスタート
         this.gameStarted = true;
         this.hideOverlay();
         this.resetGame();
@@ -1048,7 +1059,13 @@ class GameState {
     gameOver() {
         this.isPlaying = false;
         this.gameStarted = false;
-        this.showOverlay('GAME OVER', `最終スコア: ${this.score.toLocaleString()}`, true);
+
+        // 🆕 ゲームオーバー時の詳細情報
+        const gameOverText = `最終スコア: ${this.score.toLocaleString()}\n` +
+                            `到達レベル: ${this.level}\n` +
+                            `最大コンボ: ${this.maxCombo}`;
+
+        this.showOverlay('GAME OVER', gameOverText, true);
     }
 
     updateUI() {
@@ -1072,8 +1089,19 @@ class GameState {
     showOverlay(title, text, showRestart = false) {
         document.getElementById('overlayTitle').textContent = title;
         document.getElementById('overlayText').textContent = text;
-        document.getElementById('startButton').style.display = showRestart ? 'none' : 'inline-block';
-        document.getElementById('restartButton').style.display = showRestart ? 'inline-block' : 'none';
+
+        if (showRestart) {
+            // ゲームオーバー時：RESTARTとHOMEボタンを表示
+            document.getElementById('controlSelection').style.display = 'none';
+            document.getElementById('startButtonContainer').style.display = 'none';
+            document.getElementById('gameOverButtons').style.display = 'flex';
+        } else {
+            // 通常時：操作方法選択を表示
+            document.getElementById('controlSelection').style.display = 'block';
+            document.getElementById('startButtonContainer').style.display = 'none';
+            document.getElementById('gameOverButtons').style.display = 'none';
+        }
+
         document.getElementById('gameOverlay').style.display = 'flex';
     }
 
@@ -1122,6 +1150,62 @@ class GameState {
         this.update();
         this.render();
         requestAnimationFrame(() => this.gameLoop());
+    }
+
+    // 🆕 ホーム画面に戻る
+    goHome() {
+        // ゲーム状態を完全リセット
+        this.controlMethod = 'none';
+        this.gameStarted = false;
+        this.isPlaying = false;
+        this.isPaused = false;
+
+        // スコアと統計をリセット
+        this.score = 0;
+        this.level = 1;
+        this.lives = 3;
+        this.multiplier = 1;
+        this.multiplierTimer = 0;
+        this.combo = 0;
+        this.comboTimer = 0;
+        this.maxCombo = 0;
+        this.lastHitTime = 0;
+
+        // 革新的システムリセット
+        this.powerUpItems = [];
+        this.bossBlock = null;
+        this.isBossLevel = false;
+        this.gravity = false;
+        this.superComboActive = false;
+        this.achievements.clear();
+
+        // オブジェクトリセット
+        this.paddle.reset(this.canvas.width / 2 - 50, this.canvas.height - 40);
+        this.ball.reset(this.canvas.width / 2, this.canvas.height - 60);
+        this.balls = [this.ball];
+        this.powerUps = [];
+        this.particles = [];
+
+        // UIをリセット
+        this.updateUI();
+
+        // ホーム画面を表示
+        this.showHomeScreen();
+    }
+
+    // 🆕 ホーム画面表示
+    showHomeScreen() {
+        // オーバーレイタイトルとテキストを初期状態に戻す
+        document.getElementById('overlayTitle').textContent = 'NEON BREAKER';
+        document.getElementById('overlayText').textContent = '未来のブロック崩しへようこそ';
+
+        // 全てのボタンコンテナを非表示
+        document.getElementById('controlSelection').style.display = 'block';
+        document.getElementById('startButtonContainer').style.display = 'none';
+        document.getElementById('gameOverButtons').style.display = 'none';
+
+        // オーバーレイを表示
+        document.getElementById('gameOverlay').style.display = 'flex';
     }
 }
 

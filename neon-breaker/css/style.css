@@ -147,6 +147,8 @@ body::before {
     font-size: 1.1rem;
     margin-bottom: 30px;
     color: #aaa;
+    white-space: pre-line;
+    line-height: 1.6;
 }
 
 /* ========== Neon Button ========== */
@@ -419,4 +421,28 @@ body::before {
     font-size: 0.8rem;
     color: #888;
     text-align: center;
+}
+
+/* 🆕 ゲームオーバーボタンコンテナ */
+#gameOverButtons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* 🆕 HOMEボタン */
+.home-button {
+    background: rgba(255, 128, 0, 0.1);
+    border-color: #ff8000;
+    color: #ff8000;
+}
+
+.home-button:hover {
+    background: rgba(255, 128, 0, 0.2);
+    box-shadow:
+        0 0 20px #ff8000,
+        inset 0 0 20px rgba(255, 128, 0, 0.1);
+    border-color: #ff8000;
 }
