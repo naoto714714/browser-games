@@ -39,6 +39,7 @@ class GameState {
         // Input handling
         this.keys = {};
         this.mouseX = 0;
+        this.controlMethod = 'none'; // 'keyboard' または 'mouse'
 
         this.initializeGame();
         this.bindEvents();
@@ -94,12 +95,45 @@ class GameState {
         document.getElementById('restartButton').addEventListener('click', () => {
             this.restartGame();
         });
+
+        // 🆕 操作方法選択ボタン
+        document.getElementById('keyboardButton').addEventListener('click', () => {
+            this.selectControlMethod('keyboard');
+        });
+
+        document.getElementById('mouseButton').addEventListener('click', () => {
+            this.selectControlMethod('mouse');
+        });
+    }
+
+    // 🆕 操作方法選択
+    selectControlMethod(method) {
+        this.controlMethod = method;
+        this.showStartButton();
+    }
+
+    // 🆕 スタートボタン表示
+    showStartButton() {
+        document.getElementById('controlSelection').style.display = 'none';
+        document.getElementById('startButtonContainer').style.display = 'block';
     }
 
     startGame() {
+        if (this.controlMethod === 'none') {
+            // 操作方法が選択されていない場合は選択画面を表示
+            this.showControlSelection();
+            return;
+        }
+
         this.gameStarted = true;
         this.hideOverlay();
         this.resetGame();
+    }
+
+    // 🆕 操作方法選択画面表示
+    showControlSelection() {
+        document.getElementById('controlSelection').style.display = 'block';
+        document.getElementById('startButtonContainer').style.display = 'none';
     }
 
     resetGame() {
@@ -198,7 +232,6 @@ class GameState {
             'mega_score',    // 🆕 メガスコア（1000点）
             'paddle_power',  // 🆕 パドル強化
             'gravity_bomb',  // 🆕 重力爆弾
-            'time_freeze',   // 🆕 時間停止
         ];
 
         for (let row = 0; row < rows; row++) {
@@ -305,7 +338,7 @@ class GameState {
         }
 
         // Update paddle
-        this.paddle.update(this.keys, this.mouseX, this.canvas.width);
+        this.paddle.update(this.keys, this.mouseX, this.canvas.width, this.controlMethod);
 
         // 🚀 マルチボールシステム更新
         for (let i = this.balls.length - 1; i >= 0; i--) {
@@ -590,11 +623,6 @@ class GameState {
                 this.activateGravityBomb();
                 break;
 
-            case 'time_freeze':
-                // 🆕 時間停止：ボールとボスを3秒間停止
-                this.activateTimeFreeze();
-                break;
-
             case 'paddle': // 旧システム互換
                 this.expandPaddle();
                 break;
@@ -833,35 +861,6 @@ class GameState {
         });
     }
 
-    // 🆕 時間停止効果
-    activateTimeFreeze() {
-        // 全ボールの速度を保存して停止
-        const savedVelocities = this.balls.map(ball => ({dx: ball.dx, dy: ball.dy}));
-        this.balls.forEach(ball => {
-            ball.dx = 0;
-            ball.dy = 0;
-        });
-
-        // ボスも停止
-        if (this.bossBlock) {
-            this.bossBlock.frozen = true;
-        }
-
-        // 3秒後に復元
-        setTimeout(() => {
-            this.balls.forEach((ball, index) => {
-                if (savedVelocities[index]) {
-                    ball.dx = savedVelocities[index].dx;
-                    ball.dy = savedVelocities[index].dy;
-                }
-            });
-
-            if (this.bossBlock) {
-                this.bossBlock.frozen = false;
-            }
-        }, 3000);
-    }
-
     // 🆕 重力システム適用
     applyGravityToBlocks() {
         for (let i = 0; i < this.blocks.length; i++) {
@@ -960,6 +959,9 @@ class GameState {
         this.score += 10000 * this.level;
         this.gravity = false;
 
+        // 🔥 残りの雑魚ブロックも全て削除
+        this.blocks = [];
+
         // 大爆発エフェクト
         for (let i = 0; i < 50; i++) {
             setTimeout(() => {
@@ -969,7 +971,14 @@ class GameState {
             }, i * 50);
         }
 
+        // ボス削除とレベル進行準備
         this.bossBlock = null;
+        this.isBossLevel = false;
+
+        // 3秒後に自動的にレベル進行
+        setTimeout(() => {
+            this.nextLevel();
+        }, 3000);
     }
 
     expandPaddle() {
@@ -1133,17 +1142,19 @@ class Paddle {
         this.width = this.originalWidth;
     }
 
-    update(keys, mouseX, canvasWidth) {
+    update(keys, mouseX, canvasWidth, controlMethod) {
         // Keyboard control
-        if (keys['ArrowLeft'] || keys['KeyA']) {
-            this.x = Math.max(0, this.x - this.speed);
-        }
-        if (keys['ArrowRight'] || keys['KeyD']) {
-            this.x = Math.min(canvasWidth - this.width, this.x + this.speed);
+        if (controlMethod === 'keyboard') {
+            if (keys['ArrowLeft'] || keys['KeyA']) {
+                this.x = Math.max(0, this.x - this.speed);
+            }
+            if (keys['ArrowRight'] || keys['KeyD']) {
+                this.x = Math.min(canvasWidth - this.width, this.x + this.speed);
+            }
         }
 
-        // Mouse control (overrides keyboard)
-        if (mouseX > 0) {
+        // Mouse control
+        if (mouseX > 0 && controlMethod === 'mouse') {
             this.x = Math.max(0, Math.min(canvasWidth - this.width, mouseX - this.width / 2));
         }
     }
@@ -1255,7 +1266,6 @@ class Block {
             mega_score: ['#ffff40', '#ffcc20'],   // 金色（メガスコア）
             paddle_power: ['#40ff80', '#20cc60'], // 緑系（パドル強化）
             gravity_bomb: ['#8040ff', '#6020cc'], // 紫系（重力爆弾）
-            time_freeze: ['#40c0ff', '#20a0cc']   // 青白系（時間停止）
         };
 
         const colorPair = colors[this.type] || colors.normal;
@@ -1285,7 +1295,6 @@ class Block {
             mega_score: 1000,  // メガスコア
             paddle_power: 250, // パドル強化
             gravity_bomb: 300, // 重力爆弾
-            time_freeze: 350   // 時間停止
         };
 
         return (basePoints[this.type] || 100) * this.maxHits;
@@ -1341,7 +1350,6 @@ class Block {
             mega_score: '💎',   // メガスコア
             paddle_power: '🚀',  // パドル強化
             gravity_bomb: '💣',  // 重力爆弾
-            time_freeze: '⏸️'   // 時間停止
         };
         return symbols[this.type] || '';
     }
@@ -1355,7 +1363,6 @@ class Block {
             mega_score: 18,
             paddle_power: 16,
             gravity_bomb: 14,
-            time_freeze: 14
         };
         return sizes[this.type] || 12;
     }
