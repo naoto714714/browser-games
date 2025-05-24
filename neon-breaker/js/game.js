@@ -108,7 +108,7 @@ class GameState {
 
     launchBall() {
         if (!this.isPlaying && this.gameStarted) {
-            this.ball.launch();
+            this.ball.launch(this.level);
             this.isPlaying = true;
         }
     }
@@ -328,9 +328,18 @@ class GameState {
     }
 
     createMultiBall() {
-        // This is a simplified multiball - would need ball array for full implementation
-        this.ball.dx *= 1.2;
-        this.ball.dy *= 1.2;
+        // より劇的なマルチボール効果でスピードアップ
+        this.ball.dx *= 1.4;  // 1.2から1.4に増加
+        this.ball.dy *= 1.4;  // 1.2から1.4に増加
+
+        // 一時的にボールサイズを小さくして視覚的により速く見せる
+        const originalRadius = this.ball.radius;
+        this.ball.radius *= 0.8;
+
+        // 5秒後に元のサイズに戻す
+        setTimeout(() => {
+            this.ball.radius = originalRadius;
+        }, 5000);
     }
 
     expandPaddle() {
@@ -454,7 +463,7 @@ class Paddle {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = 8;
+        this.speed = 10;
         this.originalWidth = width;
     }
 
@@ -506,7 +515,8 @@ class Ball {
         this.radius = radius;
         this.dx = 0;
         this.dy = 0;
-        this.speed = 6;
+        this.baseSpeed = 8;  // 基本スピードを6から8に増加
+        this.speed = this.baseSpeed;
         this.originalX = x;
         this.originalY = y;
     }
@@ -520,8 +530,13 @@ class Ball {
         this.dy = 0;
     }
 
-    launch() {
-        this.dx = (Math.random() - 0.5) * 4;
+    launch(level = 1) {
+        // レベルに応じてスピードを上げる（最大1.5倍）
+        const levelMultiplier = Math.min(1.5, 1 + (level - 1) * 0.05);
+        this.speed = this.baseSpeed * levelMultiplier;
+
+        // 横方向の初期速度も少し上げる
+        this.dx = (Math.random() - 0.5) * 6;  // 4から6に増加
         this.dy = -this.speed;
     }
 
