@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(to bottom, #87CEEB 0%, #5C94FC 100%);
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#gameContainer {
+    position: relative;
+    border: 4px solid #000;
+    background-color: #5C94FC;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, #000 0%, #333 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 10;
+    border-bottom: 2px solid #666;
+    text-shadow: 1px 1px 0px #000;
+}
+
+#hud > div {
+    text-align: center;
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#hud span {
+    color: #FFD700;
+    font-size: 12px;
+    text-shadow: 1px 1px 0px #B8860B;
+}
+
+#score {
+    color: #FF6B6B;
+}
+
+#coins {
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#world {
+    color: #87CEEB;
+}
+
+#time {
+    color: #98FB98;
+}
+
+#lives {
+    color: #FFA500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#gameCanvas {
+    display: block;
+    margin-top: 40px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#startScreen, #gameOverScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(50, 50, 50, 0.9) 100%);
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid #FFD700;
+    z-index: 100;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+#startScreen h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #FF6B6B;
+    text-shadow: 2px 2px 4px #000;
+    letter-spacing: 2px;
+}
+
+#startScreen h2, #gameOverScreen h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #87CEEB;
+    text-shadow: 1px 1px 2px #000;
+}
+
+#startScreen p, #gameOverScreen p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #FFD700;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.controls {
+    margin-top: 25px;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #666;
+}
+
+.controls p {
+    margin: 8px 0;
+    color: #FFF;
+}
+
+.controls p:first-child {
+    color: #FFD700;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ピクセルパーフェクトなスタイリング */
+canvas {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    #gameContainer {
+        transform: scale(0.8);
+        border-radius: 6px;
+    }
+
+    #hud {
+        font-size: 9px;
+        height: 35px;
+        padding: 0 15px;
+    }
+
+    #hud span {
+        font-size: 10px;
+    }
+
+    #startScreen h1 {
+        font-size: 22px;
+    }
+
+    #startScreen h2, #gameOverScreen h2 {
+        font-size: 16px;
+    }
+
+    .controls {
+        font-size: 12px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    #gameContainer {
+        transform: scale(0.6);
+        border-radius: 4px;
+    }
+
+    #hud {
+        font-size: 8px;
+        height: 32px;
+        padding: 0 12px;
+    }
+
+    #hud span {
+        font-size: 9px;
+    }
+
+    #startScreen h1 {
+        font-size: 18px;
+    }
+
+    #startScreen h2, #gameOverScreen h2 {
+        font-size: 14px;
+    }
+
+    .controls {
+        font-size: 11px;
+        padding: 10px;
+    }
+}
