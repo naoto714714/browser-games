@@ -4,6 +4,16 @@
 
 ## 🎮 収録ゲーム
 
+### [Super Mario Bros 1-1](./super-mario-bros-1-1/)
+**スーパーマリオブラザーズ1-1完全再現**
+
+- 🍄 **特徴**: オリジナル1-1ステージの完全再現、本格的な物理演算
+- 🎯 **オリジナル要素**: プロシージャルピクセルアート、Web Audio API音響システム
+- 🛠️ **技術**: HTML5 Canvas, Vanilla JavaScript, Object-Oriented Design
+- 🕹️ **操作**: 矢印キー移動、スペースでジャンプ、Xで走る
+
+[➤ ゲームを開始](./super-mario-bros-1-1/)
+
 ### [Neon Breaker](./neon-breaker/)
 **近未来的ブロック崩しゲーム**
 
@@ -23,12 +33,17 @@
 ### ディレクトリ構成
 ```
 browser-games/
-├── neon-breaker/           # ネオンブロック崩し
-│   ├── index.html         # ゲームエントリーポイント
-│   ├── css/style.css      # スタイルシート
-│   ├── js/                # JavaScript モジュール
-│   └── README.md          # ゲーム説明
-└── README.md              # このファイル
+├── super-mario-bros-1-1/      # スーパーマリオ1-1完全再現
+│   ├── index.html            # ゲームエントリーポイント
+│   ├── css/style.css         # スタイルシート
+│   ├── js/                   # JavaScript モジュール
+│   └── README.md             # ゲーム説明
+├── neon-breaker/             # ネオンブロック崩し
+│   ├── index.html           # ゲームエントリーポイント
+│   ├── css/style.css        # スタイルシート
+│   ├── js/                  # JavaScript モジュール
+│   └── README.md            # ゲーム説明
+└── README.md                # このファイル
 ```
 
 ### 開発ルール
@@ -68,5 +83,5 @@ MIT License - 学習・改良・再配布自由
 ---
 
 **Updated**: 2024年
-**Games Count**: 1
+**Games Count**: 2
 **Status**: 🟢 Active Development
