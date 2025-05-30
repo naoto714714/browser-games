@@ -225,6 +225,22 @@ class PassiveManager {
         
         container.innerHTML = '';
         
+        const unlockedPassives = this.passives.filter(p => p.unlocked);
+        
+        if (unlockedPassives.length === 0) {
+            const noPassivesDiv = document.createElement('div');
+            noPassivesDiv.className = 'no-passives-message';
+            noPassivesDiv.innerHTML = `
+                <div class="message-content">
+                    <h3>パッシブスキル未解放</h3>
+                    <p>次元跳躍を行うとパッシブスキルが解放されます。</p>
+                    <p>必要: 1M GraviCoin</p>
+                </div>
+            `;
+            container.appendChild(noPassivesDiv);
+            return;
+        }
+        
         this.passives.forEach(passive => {
             if (!passive.unlocked) return;
             

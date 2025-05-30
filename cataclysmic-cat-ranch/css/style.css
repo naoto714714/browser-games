@@ -631,6 +631,47 @@ body {
     margin-bottom: 15px;
     color: #a0aec0;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.passives-info {
+    background: rgba(255, 107, 129, 0.1);
+    border: 1px solid rgba(255, 107, 129, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.info-text {
+    font-size: 0.8em;
+    color: #ff6b81;
+    margin: 0;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.no-passives-message {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #a0aec0;
+}
+
+.no-passives-message h3 {
+    margin: 0 0 10px 0;
+    color: #ff6b81;
+    font-size: 1.1em;
+}
+
+.no-passives-message p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
 }
 
 /* アップグレードリスト */
