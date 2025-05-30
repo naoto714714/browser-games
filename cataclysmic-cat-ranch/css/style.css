@@ -643,16 +643,30 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* ゲームパネル */
-.game-panels {
+/* ゲームレイアウト */
+.game-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
+    grid-template-columns: 350px 1fr 350px;
+    gap: 20px;
     margin-bottom: 30px;
-    width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
+    min-height: 70vh;
+}
+
+.left-panels, .right-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.center-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
 .panel {
@@ -662,6 +676,7 @@ body {
     padding: 15px;
     backdrop-filter: blur(10px);
     min-height: 350px;
+    max-height: 70vh;
     display: flex;
     flex-direction: column;
 }
@@ -1009,9 +1024,18 @@ body {
         height: 130px;
     }
     
-    .game-panels {
+    .game-layout {
         grid-template-columns: 1fr;
         gap: 15px;
+        min-height: auto;
+    }
+    
+    .left-panels, .right-panels {
+        order: 2;
+    }
+    
+    .center-area {
+        order: 1;
     }
     
     .panel {
