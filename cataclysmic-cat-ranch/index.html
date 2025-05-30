@@ -20,17 +20,17 @@
 
         <main class="game-main">
             <div class="resource-panel">
-                <div class="resource-item main-resource">
-                    <div class="resource-label">GraviCoin</div>
+                <div class="resource-item main-resource" data-tooltip="メイン通貨。ねこを撫でて獲得し、アップグレードに使用します。">
+                    <div class="resource-label">GraviCoin <span class="help-icon">?</span></div>
                     <div class="resource-value" id="graviCoin">0</div>
                     <div class="resource-per-sec">(<span id="gcPerSec">0</span>/秒)</div>
                 </div>
-                <div class="resource-item">
-                    <div class="resource-label">Singularity Level</div>
+                <div class="resource-item" data-tooltip="ねこブラックホールの成長度。高いほどクリック・放置効率が指数的に上昇します。">
+                    <div class="resource-label">Singularity Level <span class="help-icon">?</span></div>
                     <div class="resource-value" id="singularityLevel">1</div>
                 </div>
-                <div class="resource-item quantum">
-                    <div class="resource-label">量子毛玉</div>
+                <div class="resource-item quantum" data-tooltip="レア通貨。次元跳躍時に獲得し、恒久パッシブスキルを解放・強化します。">
+                    <div class="resource-label">量子毛玉 <span class="help-icon">?</span></div>
                     <div class="resource-value" id="quantumYarn">0</div>
                 </div>
             </div>
@@ -87,8 +87,8 @@
             </div>
 
             <div class="prestige-section">
-                <button class="prestige-button" id="prestigeButton" disabled>
-                    <span class="prestige-title">次元跳躍</span>
+                <button class="prestige-button" id="prestigeButton" disabled data-tooltip="GraviCoinとSingularity Levelをリセットし、量子毛玉を獲得します。パッシブスキルは残ります。">
+                    <span class="prestige-title">次元跳躍 <span class="help-icon small">?</span></span>
                     <span class="prestige-reward">量子毛玉 +<span id="prestigeReward">0</span></span>
                 </button>
             </div>

@@ -152,6 +152,86 @@ body {
     font-size: 0.9em;
     color: #a0aec0;
     margin-bottom: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    font-size: 11px;
+    color: #667eea;
+    cursor: help;
+    transition: all 0.3s ease;
+}
+
+.help-icon.small {
+    width: 14px;
+    height: 14px;
+    font-size: 10px;
+}
+
+.help-icon:hover {
+    background: rgba(102, 126, 234, 0.5);
+    transform: scale(1.1);
+}
+
+/* ツールチップ */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    font-family: 'Noto Sans JP', sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    max-width: 250px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+}
+
+[data-tooltip]::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 .resource-value {
