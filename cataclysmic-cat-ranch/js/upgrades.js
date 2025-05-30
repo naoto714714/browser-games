@@ -36,6 +36,12 @@ class Upgrade {
         if (this.canUpgrade() && resourceManager.spendGraviCoin(this.getCost())) {
             this.level++;
             this.applyEffect();
+            
+            // 環境エフェクトを更新
+            if (window.effectsManager) {
+                effectsManager.updateEnvironmentEffects();
+            }
+            
             return true;
         }
         return false;
