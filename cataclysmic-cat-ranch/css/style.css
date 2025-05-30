@@ -214,32 +214,46 @@ body {
 
 .cat-ears {
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: 50%;
     transform: translateX(-50%);
-    width: 160px;
-    height: 60px;
+    width: 170px;
+    height: 70px;
 }
 
 .cat-ears::before,
 .cat-ears::after {
     content: '';
     position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
+    width: 60px;
+    height: 70px;
+    background: #2d3748;
+    border-radius: 70% 30% 0 0;
+    box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .cat-ears::before {
-    left: 10px;
-    border-width: 0 30px 60px 30px;
-    border-color: transparent transparent #2d3748 transparent;
+    left: 15px;
+    transform: rotate(-15deg);
 }
 
 .cat-ears::after {
-    right: 10px;
-    border-width: 0 30px 60px 30px;
-    border-color: transparent transparent #2d3748 transparent;
+    right: 15px;
+    transform: rotate(15deg);
+}
+
+/* 耳の内側 */
+.cat-ears::before::after,
+.cat-ears::after::after {
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 45px;
+    background: #ff6b81;
+    border-radius: 50%;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .cat-face {
@@ -248,43 +262,112 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 160px;
-    height: 160px;
+    height: 150px;
     background: #2d3748;
+    border-radius: 50% 50% 45% 45%;
+    overflow: visible;
+    box-shadow: 0 0 40px rgba(102, 126, 234, 0.5),
+                inset 0 -10px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* 猫の模様 */
+.cat-face::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 50px;
+    background: #1a202c;
     border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 40px rgba(102, 126, 234, 0.5);
+    opacity: 0.3;
+}
+
+/* ほっぺた */
+.cat-cheeks {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cat-cheek {
+    width: 30px;
+    height: 20px;
+    background: rgba(255, 107, 129, 0.3);
+    border-radius: 50%;
+    filter: blur(5px);
 }
 
 .cat-eyes {
     position: absolute;
-    top: 50px;
+    top: 55px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
+    width: 90px;
     display: flex;
     justify-content: space-between;
 }
 
 .cat-eye {
-    width: 30px;
-    height: 40px;
+    width: 32px;
+    height: 38px;
     background: #ffffff;
     border-radius: 50%;
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 瞳 */
 .cat-eye::after {
     content: '';
     position: absolute;
-    bottom: 5px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background: #000;
+    width: 22px;
+    height: 24px;
+    background: radial-gradient(circle at 30% 30%, #4a5568, #000);
     border-radius: 50%;
     animation: eyeMove 4s ease-in-out infinite;
+}
+
+/* 瞳孔 */
+.cat-eye::before {
+    content: '';
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 12px;
+    background: #000;
+    border-radius: 50%;
+    z-index: 2;
+    animation: pupilDilate 6s ease-in-out infinite;
+}
+
+/* 光の反射 */
+.eye-shine {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    z-index: 3;
+}
+
+@keyframes pupilDilate {
+    0%, 100% { transform: translateX(-50%) scaleY(1); }
+    50% { transform: translateX(-50%) scaleY(0.7); }
 }
 
 @keyframes eyeMove {
@@ -295,23 +378,90 @@ body {
 
 .cat-nose {
     position: absolute;
-    top: 100px;
+    top: 95px;
     left: 50%;
     transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 8px 10px 8px;
-    border-color: transparent transparent #ff6b81 transparent;
+    width: 12px;
+    height: 10px;
+    background: #ff6b81;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 .cat-mouth {
     position: absolute;
-    top: 105px;
+    top: 103px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 24px;
-    color: #ff6b81;
+    width: 30px;
+    height: 20px;
+}
+
+.cat-mouth::before,
+.cat-mouth::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #ff6b81;
+    border-radius: 0 0 50% 0;
+    border-top: none;
+    border-left: none;
+}
+
+.cat-mouth::before {
+    left: -2px;
+    transform: rotate(-30deg);
+}
+
+.cat-mouth::after {
+    right: -2px;
+    transform: rotate(30deg) scaleX(-1);
+}
+
+/* ひげ */
+.cat-whiskers {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 40px;
+}
+
+.whisker {
+    position: absolute;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    transform-origin: 0 50%;
+}
+
+.whisker-left-1 {
+    width: 40px;
+    top: 5px;
+    left: 10px;
+    transform: rotate(-10deg);
+}
+
+.whisker-left-2 {
+    width: 35px;
+    top: 15px;
+    left: 15px;
+    transform: rotate(-5deg);
+}
+
+.whisker-right-1 {
+    width: 40px;
+    top: 5px;
+    right: 10px;
+    transform: rotate(10deg) scaleX(-1);
+}
+
+.whisker-right-2 {
+    width: 35px;
+    top: 15px;
+    right: 15px;
+    transform: rotate(5deg) scaleX(-1);
 }
 
 .gravity-waves {
