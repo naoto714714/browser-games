@@ -52,8 +52,11 @@ class Game {
         const catBlackhole = document.getElementById('catBlackhole');
         
         const handleClick = (e) => {
-            // クリック処理
-            const value = this.handleClick();
+            // コンボシステム
+            const comboMultiplier = window.comboManager ? comboManager.onClick() : 1;
+            
+            // クリック処理（コンボボーナス適用）
+            const value = this.handleClick(comboMultiplier);
             
             // エフェクト
             effectsManager.animateCatClick();
@@ -102,11 +105,11 @@ class Game {
         });
     }
     
-    handleClick() {
-        // イベント乗数を適用
+    handleClick(comboMultiplier = 1) {
+        // 各種乗数を適用
         const eventMultiplier = eventManager.getClickMultiplier();
         const passiveMultiplier = passiveManager.getClickMultiplier();
-        const totalMultiplier = eventMultiplier * passiveMultiplier;
+        const totalMultiplier = eventMultiplier * passiveMultiplier * comboMultiplier;
         
         // 元のクリック値を保存
         const originalMultiplier = resourceManager.clickMultiplier;
