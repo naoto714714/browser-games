@@ -36,6 +36,12 @@ class Upgrade {
         if (this.canUpgrade() && resourceManager.spendGraviCoin(this.getCost())) {
             this.level++;
             this.applyEffect();
+            
+            // 環境エフェクトを更新
+            if (window.effectsManager) {
+                effectsManager.updateEnvironmentEffects();
+            }
+            
             return true;
         }
         return false;
@@ -45,7 +51,9 @@ class Upgrade {
         // 各アップグレードの効果を適用
         switch(this.id) {
             case 'catToy':
-                resourceManager.clickMultiplier = 1 + this.getEffectValue();
+            case 'catnip':
+                // クリック強化系は累積で計算
+                this.updateClickMultiplier();
                 break;
             case 'cushion':
                 resourceManager.baseIdle = this.getEffectValue();
@@ -55,12 +63,37 @@ class Upgrade {
                 resourceManager.increaseSingularityLevel(1);
                 break;
             case 'telescope':
-                resourceManager.idleMultiplier = 1 + this.getEffectValue();
+            case 'quantumTunnel':
+                // 放置強化系は累積で計算
+                this.updateIdleMultiplier();
                 break;
             case 'laser':
-                resourceManager.baseClick = 1 + this.getEffectValue();
+            case 'gravitySiphon':
+                // クリック基本値強化系は累積で計算
+                this.updateBaseClick();
+                break;
+            case 'blackHoleCore':
+                // 全収益強化は別途計算される
                 break;
         }
+    }
+    
+    updateClickMultiplier() {
+        const catToyLevel = upgradeManager.getUpgrade('catToy').level;
+        const catnipLevel = upgradeManager.getUpgrade('catnip').level;
+        resourceManager.clickMultiplier = 1 + (catToyLevel * 0.2) + (catnipLevel * 0.5);
+    }
+    
+    updateIdleMultiplier() {
+        const telescopeLevel = upgradeManager.getUpgrade('telescope').level;
+        const quantumLevel = upgradeManager.getUpgrade('quantumTunnel').level;
+        resourceManager.idleMultiplier = 1 + (telescopeLevel * 0.3) + (quantumLevel * 1.0);
+    }
+    
+    updateBaseClick() {
+        const laserLevel = upgradeManager.getUpgrade('laser').level;
+        const siphonLevel = upgradeManager.getUpgrade('gravitySiphon').level;
+        resourceManager.baseClick = 1 + (laserLevel * 2) + (siphonLevel * 10);
     }
     
     getSaveData() {
@@ -88,7 +121,7 @@ class UpgradeManager {
                 'catToy',
                 '猫じゃらし改良',
                 'クリック収益 +20%',
-                100,
+                15,
                 1.15,
                 (level) => level * 0.2
             ),
@@ -96,7 +129,7 @@ class UpgradeManager {
                 'cushion',
                 'クッション型時空安定器',
                 '放置収益の基本値を増加',
-                500,
+                50,
                 1.12,
                 (level) => level * 0.5
             ),
@@ -104,7 +137,7 @@ class UpgradeManager {
                 'treats',
                 '特殊相対論おやつ',
                 'Singularity Level +1',
-                1000,
+                200,
                 1.25,
                 (level) => level
             ),
@@ -112,7 +145,7 @@ class UpgradeManager {
                 'telescope',
                 '重力波望遠鏡',
                 '放置収益 +30%',
-                5000,
+                1000,
                 1.18,
                 (level) => level * 0.3
             ),
@@ -120,9 +153,41 @@ class UpgradeManager {
                 'laser',
                 'レーザーポインター改',
                 'クリック基本値 +2',
-                10000,
+                2500,
                 1.20,
                 (level) => level * 2
+            ),
+            new Upgrade(
+                'catnip',
+                '宇宙マタタビ',
+                'クリック収益 +50%',
+                8000,
+                1.22,
+                (level) => level * 0.5
+            ),
+            new Upgrade(
+                'blackHoleCore',
+                'ブラックホールコア',
+                '全収益 +25%',
+                25000,
+                1.25,
+                (level) => level * 0.25
+            ),
+            new Upgrade(
+                'quantumTunnel',
+                '量子トンネル効果',
+                '放置収益 +100%',
+                75000,
+                1.28,
+                (level) => level * 1.0
+            ),
+            new Upgrade(
+                'gravitySiphon',
+                '重力サイフォン',
+                'クリック基本値 +10',
+                150000,
+                1.30,
+                (level) => level * 10
             )
         ];
         
@@ -191,12 +256,15 @@ class UpgradeManager {
     formatEffect(id, value) {
         switch(id) {
             case 'catToy':
+            case 'catnip':
+            case 'telescope':
+            case 'quantumTunnel':
+            case 'blackHoleCore':
                 return `+${formatPercent(value)}`;
             case 'cushion':
                 return `+${formatNumber(value)}/秒`;
-            case 'telescope':
-                return `+${formatPercent(value)}`;
             case 'laser':
+            case 'gravitySiphon':
                 return `+${formatNumber(value)}`;
             default:
                 return `+${formatNumber(value)}`;

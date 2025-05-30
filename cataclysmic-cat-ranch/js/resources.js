@@ -25,13 +25,24 @@ class Resources {
     
     // クリック収益計算
     getClickValue() {
-        return this.baseClick * this.clickMultiplier * (1 + this.singularityLevel * 0.1);
+        const baseValue = this.baseClick * this.clickMultiplier * (1 + this.singularityLevel * 0.1);
+        return baseValue * this.getBlackHoleCoreMultiplier();
     }
     
     // 放置収益計算（秒あたり）
     getIdleValue() {
         if (this.baseIdle === 0) return 0;
-        return this.baseIdle * this.singularityLevel * this.idleMultiplier;
+        const baseValue = this.baseIdle * this.singularityLevel * this.idleMultiplier;
+        return baseValue * this.getBlackHoleCoreMultiplier();
+    }
+    
+    // ブラックホールコアの全収益倍率
+    getBlackHoleCoreMultiplier() {
+        if (window.upgradeManager) {
+            const coreLevel = upgradeManager.getUpgrade('blackHoleCore').level;
+            return 1 + (coreLevel * 0.25);
+        }
+        return 1;
     }
     
     // クリック処理
