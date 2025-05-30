@@ -525,17 +525,24 @@ body {
 /* ゲームパネル */
 .game-panels {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
     margin-bottom: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .panel {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 20px;
+    padding: 15px;
     backdrop-filter: blur(10px);
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-title {
@@ -550,21 +557,23 @@ body {
 .upgrades-list, .passives-list, .achievements-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-height: 300px;
+    gap: 8px;
+    max-height: 280px;
     overflow-y: auto;
-    padding-right: 10px;
+    padding-right: 5px;
+    flex: 1;
 }
 
 .upgrade-item, .passive-item, .achievement-item {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 15px;
+    padding: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    min-height: 80px;
 }
 
 .upgrade-item:hover, .passive-item:hover {
@@ -584,29 +593,33 @@ body {
 
 .item-name {
     font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    font-size: 0.95em;
+    padding-right: 50px; /* レベル表示のスペース確保 */
 }
 
 .item-effect {
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: #68d391;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
+    line-height: 1.3;
 }
 
 .item-cost {
     font-family: 'Orbitron', monospace;
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: #fbbf24;
+    margin-top: auto;
 }
 
 .item-level {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     background: rgba(102, 126, 234, 0.5);
-    padding: 2px 8px;
-    border-radius: 15px;
-    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 0.75em;
 }
 
 /* 実績 */
@@ -764,21 +777,34 @@ body {
 
 /* スクロールバー */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgba(102, 126, 234, 0.5);
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(102, 126, 234, 0.7);
+}
+
+/* \u30d1\u30cd\u30eb\u5185\u306e\u30b9\u30af\u30ed\u30fc\u30eb\u30d0\u30fc */
+.upgrades-list::-webkit-scrollbar,
+.passives-list::-webkit-scrollbar,
+.achievements-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.upgrades-list::-webkit-scrollbar-thumb,
+.passives-list::-webkit-scrollbar-thumb,
+.achievements-list::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
 }
 
 /* レスポンシブ */
