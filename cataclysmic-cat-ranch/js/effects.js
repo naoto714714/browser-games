@@ -276,15 +276,8 @@ class EffectsManager {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
         
-        // 目を閉じるアニメーション
-        const eyes = catElement.querySelectorAll('.cat-eye');
-        eyes.forEach(eye => {
-            eye.style.transition = 'height 0.1s ease';
-            eye.style.height = '5px';
-            setTimeout(() => {
-                eye.style.height = '38px';
-            }, 100);
-        });
+        // ランダムな表情アニメーション
+        this.playRandomCatExpression();
         
         // ハートパーティクル
         this.createHeartParticle();
@@ -293,6 +286,14 @@ class EffectsManager {
         this.createClickRipple();
         this.createClickSparks();
         this.createClickShockwave();
+        this.createSoundWaves();
+        this.createClickBurst();
+        
+        // 耳の動きアニメーション
+        this.animateEars();
+        
+        // ひげの動きアニメーション
+        this.animateWhiskers();
     }
     
     // ハートパーティクル
@@ -776,6 +777,389 @@ class EffectsManager {
             duration: 400,
             easing: 'ease-out'
         }).onfinish = () => shockwave.remove();
+    }
+    
+    // サウンドウェーブエフェクト（視覚的表現）
+    createSoundWaves() {
+        const catElement = document.getElementById('catBlackhole');
+        if (!catElement) return;
+        
+        const rect = catElement.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // 音波を表現する複数の円
+        for (let i = 0; i < 4; i++) {
+            setTimeout(() => {
+                const soundWave = document.createElement('div');
+                soundWave.style.cssText = `
+                    position: absolute;
+                    left: ${centerX - 10}px;
+                    top: ${centerY - 20}px;
+                    width: 20px;
+                    height: 10px;
+                    border: 2px solid rgba(255, 223, 0, 0.8);
+                    border-radius: 50%;
+                    pointer-events: none;
+                `;
+                
+                this.particleContainer.appendChild(soundWave);
+                
+                soundWave.animate([
+                    {
+                        transform: 'scale(1)',
+                        opacity: 0.8
+                    },
+                    {
+                        transform: 'scale(6)',
+                        opacity: 0
+                    }
+                ], {
+                    duration: 600 + i * 100,
+                    easing: 'ease-out'
+                }).onfinish = () => soundWave.remove();
+            }, i * 150);
+        }
+        
+        // 音符エフェクト
+        this.createMusicNotes(centerX, centerY);
+    }
+    
+    // 音符パーティクル
+    createMusicNotes(centerX, centerY) {
+        const notes = ['♪', '♫', '♬', '♩'];
+        
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const note = document.createElement('div');
+                note.style.cssText = `
+                    position: absolute;
+                    left: ${centerX + (Math.random() - 0.5) * 60}px;
+                    top: ${centerY - 10}px;
+                    font-size: ${16 + Math.random() * 8}px;
+                    color: #ffd32a;
+                    pointer-events: none;
+                    font-weight: bold;
+                    text-shadow: 0 0 8px #ffd32a;
+                `;
+                note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                
+                this.particleContainer.appendChild(note);
+                
+                note.animate([
+                    {
+                        transform: 'translateY(0) rotate(0deg) scale(1)',
+                        opacity: 1
+                    },
+                    {
+                        transform: `translateY(-60px) rotate(${(Math.random() - 0.5) * 30}deg) scale(1.2)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: 1200,
+                    easing: 'ease-out'
+                }).onfinish = () => note.remove();
+            }, i * 200);
+        }
+    }
+    
+    // クリックバーストエフェクト
+    createClickBurst() {
+        const catElement = document.getElementById('catBlackhole');
+        if (!catElement) return;
+        
+        const rect = catElement.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // エネルギーバースト
+        for (let i = 0; i < 12; i++) {
+            const burst = document.createElement('div');
+            burst.style.cssText = `
+                position: absolute;
+                left: ${centerX}px;
+                top: ${centerY}px;
+                width: 4px;
+                height: 20px;
+                background: linear-gradient(to bottom, 
+                    rgba(255, 255, 255, 0.9) 0%, 
+                    rgba(104, 211, 145, 0.8) 50%, 
+                    transparent 100%);
+                border-radius: 2px;
+                pointer-events: none;
+                transform-origin: 50% 100%;
+            `;
+            
+            this.particleContainer.appendChild(burst);
+            
+            const angle = (Math.PI * 2 * i) / 12;
+            const distance = 40 + Math.random() * 20;
+            
+            burst.animate([
+                {
+                    transform: `rotate(${angle}rad) translate(0, 0) scale(1)`,
+                    opacity: 1
+                },
+                {
+                    transform: `rotate(${angle}rad) translate(0, -${distance}px) scale(0)`,
+                    opacity: 0
+                }
+            ], {
+                duration: 500,
+                easing: 'ease-out'
+            }).onfinish = () => burst.remove();
+        }
+    }
+    
+    // ランダムな猫の表情アニメーション
+    playRandomCatExpression() {
+        const expressions = [
+            this.blinkExpression.bind(this),
+            this.winkExpression.bind(this),
+            this.happyExpression.bind(this),
+            this.sleepyExpression.bind(this),
+            this.surprisedExpression.bind(this)
+        ];
+        
+        const randomExpression = expressions[Math.floor(Math.random() * expressions.length)];
+        randomExpression();
+    }
+    
+    // まばたき表情
+    blinkExpression() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        eyes.forEach(eye => {
+            eye.style.transition = 'height 0.1s ease';
+            eye.style.height = '5px';
+            setTimeout(() => {
+                eye.style.height = '38px';
+            }, 120);
+        });
+    }
+    
+    // ウィンク表情
+    winkExpression() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        if (eyes.length >= 2) {
+            const winkEye = eyes[Math.floor(Math.random() * eyes.length)];
+            winkEye.style.transition = 'height 0.15s ease';
+            winkEye.style.height = '5px';
+            setTimeout(() => {
+                winkEye.style.height = '38px';
+            }, 300);
+        }
+    }
+    
+    // 幸せ表情（目が細くなる）
+    happyExpression() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        eyes.forEach(eye => {
+            eye.style.transition = 'height 0.2s ease';
+            eye.style.height = '15px';
+            eye.style.borderRadius = '50% 50% 80% 80%';
+            setTimeout(() => {
+                eye.style.height = '38px';
+                eye.style.borderRadius = '50%';
+            }, 400);
+        });
+        
+        // ほっぺの色を一時的に強くする
+        const cheeks = document.querySelectorAll('.cat-cheek');
+        cheeks.forEach(cheek => {
+            cheek.style.transition = 'background 0.3s ease';
+            cheek.style.background = 'rgba(255, 107, 129, 0.6)';
+            setTimeout(() => {
+                cheek.style.background = 'rgba(255, 107, 129, 0.3)';
+            }, 400);
+        });
+    }
+    
+    // 眠そうな表情
+    sleepyExpression() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        eyes.forEach(eye => {
+            eye.style.transition = 'height 0.3s ease';
+            eye.style.height = '8px';
+            setTimeout(() => {
+                eye.style.height = '38px';
+            }, 600);
+        });
+    }
+    
+    // 驚き表情（目が大きくなる）
+    surprisedExpression() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        eyes.forEach(eye => {
+            eye.style.transition = 'all 0.1s ease';
+            eye.style.height = '45px';
+            eye.style.width = '38px';
+            setTimeout(() => {
+                eye.style.height = '38px';
+                eye.style.width = '32px';
+            }, 200);
+        });
+    }
+    
+    // 耳のアニメーション
+    animateEars() {
+        const ears = document.querySelector('.cat-ears');
+        if (!ears) return;
+        
+        const animations = [
+            () => {
+                // 耳をぴくっと動かす
+                ears.style.transition = 'transform 0.1s ease';
+                ears.style.transform = 'translateX(-50%) rotate(-2deg)';
+                setTimeout(() => {
+                    ears.style.transform = 'translateX(-50%) rotate(2deg)';
+                    setTimeout(() => {
+                        ears.style.transform = 'translateX(-50%) rotate(0deg)';
+                    }, 100);
+                }, 100);
+            },
+            () => {
+                // 耳を前に傾ける
+                ears.style.transition = 'transform 0.15s ease';
+                ears.style.transform = 'translateX(-50%) translateY(-3px)';
+                setTimeout(() => {
+                    ears.style.transform = 'translateX(-50%) translateY(0px)';
+                }, 300);
+            }
+        ];
+        
+        if (Math.random() < 0.4) { // 40%の確率で耳が動く
+            const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+            randomAnimation();
+        }
+    }
+    
+    // ひげのアニメーション
+    animateWhiskers() {
+        const whiskers = document.querySelectorAll('.whisker');
+        if (!whiskers.length) return;
+        
+        if (Math.random() < 0.3) { // 30%の確率でひげが動く
+            whiskers.forEach((whisker, index) => {
+                setTimeout(() => {
+                    whisker.style.transition = 'transform 0.2s ease';
+                    const isLeft = whisker.classList.contains('whisker-left-1') || whisker.classList.contains('whisker-left-2');
+                    const direction = isLeft ? 1 : -1;
+                    const currentRotation = isLeft ? 
+                        (whisker.classList.contains('whisker-left-1') ? -10 : -5) :
+                        (whisker.classList.contains('whisker-right-1') ? 10 : 5);
+                    
+                    whisker.style.transform = `rotate(${currentRotation + direction * 3}deg)${!isLeft ? ' scaleX(-1)' : ''}`;
+                    
+                    setTimeout(() => {
+                        whisker.style.transform = `rotate(${currentRotation}deg)${!isLeft ? ' scaleX(-1)' : ''}`;
+                    }, 200);
+                }, index * 50);
+            });
+        }
+    }
+    
+    // 特別なコンボ表情（高コンボ時）
+    playComboExpression(comboLevel) {
+        if (comboLevel >= 50) {
+            this.excitedExpression();
+        } else if (comboLevel >= 20) {
+            this.focusedExpression();
+        } else if (comboLevel >= 10) {
+            this.concentratedExpression();
+        }
+    }
+    
+    // 興奮状態の表情
+    excitedExpression() {
+        const catFace = document.querySelector('.cat-face');
+        if (!catFace) return;
+        
+        // 顔全体を振動させる
+        catFace.style.animation = 'catExcitement 0.3s ease-in-out infinite';
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes catExcitement {
+                0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+                25% { transform: translateX(-50%) translateY(-1px) scale(1.02); }
+                75% { transform: translateX(-50%) translateY(1px) scale(0.98); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        setTimeout(() => {
+            catFace.style.animation = '';
+            style.remove();
+        }, 1000);
+        
+        // 目をキラキラさせる
+        this.addEyeSparkles();
+    }
+    
+    // 集中状態の表情
+    focusedExpression() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        eyes.forEach(eye => {
+            eye.style.transition = 'all 0.2s ease';
+            eye.style.height = '30px';
+            setTimeout(() => {
+                eye.style.height = '38px';
+            }, 400);
+        });
+    }
+    
+    // 真剣な表情
+    concentratedExpression() {
+        const eyeShines = document.querySelectorAll('.eye-shine');
+        eyeShines.forEach(shine => {
+            shine.style.transition = 'all 0.3s ease';
+            shine.style.background = 'rgba(255, 255, 255, 1)';
+            shine.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.8)';
+            setTimeout(() => {
+                shine.style.background = 'rgba(255, 255, 255, 0.8)';
+                shine.style.boxShadow = 'none';
+            }, 500);
+        });
+    }
+    
+    // 目のキラキラエフェクト
+    addEyeSparkles() {
+        const eyes = document.querySelectorAll('.cat-eye');
+        eyes.forEach((eye, index) => {
+            setTimeout(() => {
+                for (let i = 0; i < 3; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        top: ${Math.random() * 30}px;
+                        left: ${Math.random() * 25}px;
+                        width: 4px;
+                        height: 4px;
+                        background: white;
+                        border-radius: 50%;
+                        pointer-events: none;
+                        animation: eyeSparkle 0.8s ease-out forwards;
+                    `;
+                    
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes eyeSparkle {
+                            0% { opacity: 0; transform: scale(0); }
+                            50% { opacity: 1; transform: scale(1.5); }
+                            100% { opacity: 0; transform: scale(0); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    eye.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        sparkle.remove();
+                        style.remove();
+                    }, 800);
+                }
+            }, index * 100);
+        });
     }
 }
 

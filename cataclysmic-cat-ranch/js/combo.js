@@ -218,6 +218,11 @@ class ComboManager {
         if (this.combo >= 20) {
             this.showHighComboEffect(intensity);
         }
+        
+        // コンボレベルに応じた猫の表情
+        if (window.effectsManager && this.combo >= 10) {
+            effectsManager.playComboExpression(this.combo);
+        }
     }
     
     // コンボマイルストーンエフェクト
