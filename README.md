@@ -23,6 +23,16 @@
 
 [➤ ゲームを開始](./neon-breaker/)
 
+### [ねこ型ブラックホール養殖場](./cataclysmic-cat-ranch/)
+**宇宙×ねこ×インフレ系クリッカーゲーム**
+
+- 🐱 **特徴**: ねこ型ブラックホールを撫でてGraviCoin獲得、無限インフレの爽快感
+- 🌌 **オリジナル要素**: 次元跳躍システム、量子毛玉、時間反転コア
+- 🛠️ **技術**: HTML5, Vanilla JavaScript, CSS3アニメーション
+- 🎮 **ジャンル**: インクリメンタル/クリッカー/放置ゲーム
+
+[➤ ゲームを開始](./cataclysmic-cat-ranch/)
+
 ## 🚀 プロジェクト概要
 
 ### 公開設定
@@ -39,6 +49,11 @@ browser-games/
 │   ├── js/                   # JavaScript モジュール
 │   └── README.md             # ゲーム説明
 ├── neon-breaker/             # ネオンブロック崩し
+│   ├── index.html           # ゲームエントリーポイント
+│   ├── css/style.css        # スタイルシート
+│   ├── js/                  # JavaScript モジュール
+│   └── README.md            # ゲーム説明
+├── cataclysmic-cat-ranch/   # ねこ型ブラックホール養殖場
 │   ├── index.html           # ゲームエントリーポイント
 │   ├── css/style.css        # スタイルシート
 │   ├── js/                  # JavaScript モジュール
@@ -82,6 +97,6 @@ MIT License - 学習・改良・再配布自由
 
 ---
 
-**Updated**: 2024年
-**Games Count**: 2
+**Updated**: 2025年1月
+**Games Count**: 3
 **Status**: 🟢 Active Development

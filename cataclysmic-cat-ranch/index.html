@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ねこ型ブラックホール養殖場 - Cataclysmic Cat Ranch</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <div class="game-container">
+        <header class="game-header">
+            <h1 class="game-title">ねこ型ブラックホール養殖場</h1>
+            <div class="subtitle">Cataclysmic Cat Ranch</div>
+        </header>
+
+        <main class="game-main">
+            <div class="resource-panel">
+                <div class="resource-item main-resource">
+                    <div class="resource-label">GraviCoin</div>
+                    <div class="resource-value" id="graviCoin">0</div>
+                    <div class="resource-per-sec">(<span id="gcPerSec">0</span>/秒)</div>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-label">Singularity Level</div>
+                    <div class="resource-value" id="singularityLevel">1</div>
+                </div>
+                <div class="resource-item quantum">
+                    <div class="resource-label">量子毛玉</div>
+                    <div class="resource-value" id="quantumYarn">0</div>
+                </div>
+            </div>
+
+            <div class="cat-container">
+                <div class="black-hole-effect"></div>
+                <div class="cat-blackhole" id="catBlackhole">
+                    <div class="cat-ears"></div>
+                    <div class="cat-face">
+                        <div class="cat-eyes">
+                            <div class="cat-eye left"></div>
+                            <div class="cat-eye right"></div>
+                        </div>
+                        <div class="cat-nose"></div>
+                        <div class="cat-mouth">ω</div>
+                    </div>
+                    <div class="gravity-waves"></div>
+                </div>
+                <button class="pet-button" id="petButton">
+                    <span class="button-text">撫でる</span>
+                    <span class="click-value" id="clickValue">+0</span>
+                </button>
+            </div>
+
+            <div class="game-panels">
+                <div class="panel upgrades-panel">
+                    <h2 class="panel-title">アップグレード</h2>
+                    <div class="upgrades-list" id="upgradesList"></div>
+                </div>
+
+                <div class="panel passives-panel">
+                    <h2 class="panel-title">パッシブスキル</h2>
+                    <div class="passives-list" id="passivesList"></div>
+                </div>
+
+                <div class="panel achievements-panel">
+                    <h2 class="panel-title">実績</h2>
+                    <div class="achievements-list" id="achievementsList"></div>
+                </div>
+            </div>
+
+            <div class="prestige-section">
+                <button class="prestige-button" id="prestigeButton" disabled>
+                    <span class="prestige-title">次元跳躍</span>
+                    <span class="prestige-reward">量子毛玉 +<span id="prestigeReward">0</span></span>
+                </button>
+            </div>
+        </main>
+
+        <div class="event-popup" id="eventPopup">
+            <div class="event-title" id="eventTitle"></div>
+            <div class="event-description" id="eventDescription"></div>
+        </div>
+
+        <div class="floating-numbers" id="floatingNumbers"></div>
+    </div>
+
+    <script src="js/format.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/upgrades.js"></script>
+    <script src="js/passives.js"></script>
+    <script src="js/prestige.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/save.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
