@@ -138,7 +138,7 @@ class ReactionGame {
         
         switch (this.gameState) {
             case 'waiting':
-                this.startCountdown();
+                // waiting状態では何もしない（カウントダウンは自動開始）
                 break;
                 
             case 'countdown':

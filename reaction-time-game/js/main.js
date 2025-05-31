@@ -136,7 +136,12 @@ class GameController {
         startBtn.classList.add('bounce');
         setTimeout(() => startBtn.classList.remove('bounce'), 500);
         
-        console.log('🚀 New game started!');
+        // すぐにカウントダウン開始
+        setTimeout(() => {
+            this.game.startCountdown();
+        }, 100);
+        
+        console.log('🚀 New game started with immediate countdown!');
     }
     
     // 次のラウンド
