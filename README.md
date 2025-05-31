@@ -33,6 +33,17 @@
 
 [➤ ゲームを開始](./cataclysmic-cat-ranch/)
 
+### [刹那の見切り](./reaction-time-game/)
+**可愛いピクセルアート反射神経ゲーム**
+
+- 🐱 **特徴**: 可愛いねこキャラクター、リアルタイム反応測定、段階的難易度上昇
+- ⚡ **オリジナル要素**: Web Audio API音響効果、パーティクルエフェクト、ピクセルアート描画
+- 🛠️ **技術**: HTML5 Canvas, Vanilla JavaScript, Web Audio API
+- 🎮 **操作**: クリック/タップで反応、モバイル対応
+- 🏆 **ゲーム性**: 合図を待って素早く反応、記録更新を目指そう
+
+[➤ ゲームを開始](./reaction-time-game/)
+
 ## 🚀 プロジェクト概要
 
 ### 公開設定
@@ -54,6 +65,11 @@ browser-games/
 │   ├── js/                  # JavaScript モジュール
 │   └── README.md            # ゲーム説明
 ├── cataclysmic-cat-ranch/   # ねこ型ブラックホール養殖場
+│   ├── index.html           # ゲームエントリーポイント
+│   ├── css/style.css        # スタイルシート
+│   ├── js/                  # JavaScript モジュール
+│   └── README.md            # ゲーム説明
+├── reaction-time-game/      # 刹那の見切り（反射神経ゲーム）
 │   ├── index.html           # ゲームエントリーポイント
 │   ├── css/style.css        # スタイルシート
 │   ├── js/                  # JavaScript モジュール
@@ -97,6 +113,6 @@ MIT License - 学習・改良・再配布自由
 
 ---
 
-**Updated**: 2025年1月
-**Games Count**: 3
+**Updated**: 2025年5月
+**Games Count**: 4
 **Status**: 🟢 Active Development
