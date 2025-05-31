@@ -71,21 +71,28 @@ class ReactionGame {
     
     // キャラクター位置の動的計算
     updateCharacterPositions() {
-        const center = this.renderer.center;
-        const spacing = 20; // キャラクター間の距離（ピクセル単位）
-        const characterWidth = 16; // キャラクターの幅
+        // 固定値を使用して安定した配置を実現
+        // Canvas: 800x600, PixelSize: 8 => 100x75 logical units
+        const logicalWidth = 100;
+        const logicalHeight = 75;
+        const centerX = 50;
+        const centerY = 37;
+        
+        const spacing = 10; // キャラクター間の距離（ピクセル単位）
+        const characterWidth = 8; // キャラクターの半分の幅
         
         // プレイヤーキャラを中央より左に配置
         this.catPosition = { 
-            x: center.x - spacing - characterWidth, 
-            y: center.y - 10 // 少し上に配置
+            x: centerX - spacing - characterWidth, 
+            y: centerY - 5 // 少し上に配置
         };
         
         // 敵キャラを中央より右に配置
         this.enemyPosition = { 
-            x: center.x + spacing, 
-            y: center.y - 10 
+            x: centerX + spacing, 
+            y: centerY - 5 
         };
+        
     }
     
     // 音声初期化
@@ -275,20 +282,11 @@ class ReactionGame {
         this.playGoSound();
         
         // エフェクト追加（画面全体に散らばる）
-        const sparkleArea = {
-            width: this.renderer.logicalWidth * 0.8,
-            height: this.renderer.logicalHeight * 0.6
-        };
-        const sparkleOffset = {
-            x: this.renderer.center.x - sparkleArea.width / 2,
-            y: this.renderer.center.y - sparkleArea.height / 2
-        };
-        
         for (let i = 0; i < 10; i++) {
             setTimeout(() => {
                 this.renderer.addSparkle(
-                    sparkleOffset.x + Math.random() * sparkleArea.width,
-                    sparkleOffset.y + Math.random() * sparkleArea.height
+                    20 + Math.random() * 60,
+                    10 + Math.random() * 50
                 );
             }, i * 50);
         }
@@ -526,29 +524,29 @@ class ReactionGame {
         
         // VS表示（キャラクター間の中央）
         if (this.battlePhase === 'countdown' || this.battlePhase === 'ready') {
-            const vsX = this.renderer.center.x - 4; // VSテキストの幅の半分を引く
-            const vsY = this.catPosition.y - 8;
+            const vsX = 46; // 中央に配置
+            const vsY = 25;
             this.renderer.drawVSText(vsX, vsY);
         }
         
         // 信号機描画（中央下部）
-        const signalX = this.renderer.center.x - 2; // 信号機の幅の半分を引く
-        const signalY = this.renderer.center.y + 20;
+        const signalX = 48; // 信号機を中央に
+        const signalY = 50;
         this.renderer.drawTrafficLight(signalX, signalY, this.signalLight);
         
         // ゲーム状態に応じた描画
         switch (this.gameState) {
             case 'countdown':
                 if (this.countdownValue > 0) {
-                    const countX = this.renderer.center.x - 2;
-                    const countY = this.renderer.center.y + 12;
+                    const countX = 48;
+                    const countY = 42;
                     this.renderer.drawCountdownNumber(countX, countY, this.countdownValue);
                 }
                 break;
                 
             case 'signal':
-                const goX = this.renderer.center.x;
-                const goY = this.renderer.center.y + 12;
+                const goX = 50;
+                const goY = 42;
                 this.renderer.drawGoText(goX, goY);
                 break;
         }
