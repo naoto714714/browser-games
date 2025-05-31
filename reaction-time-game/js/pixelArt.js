@@ -9,6 +9,16 @@ class PixelArtRenderer {
         this.ctx = ctx;
         this.pixelSize = 8; // ピクセルサイズ倍率（大きくした）
         
+        // キャンバスの論理サイズ（ピクセル単位）
+        this.logicalWidth = Math.floor(this.canvas.width / this.pixelSize);
+        this.logicalHeight = Math.floor(this.canvas.height / this.pixelSize);
+        
+        // 中央配置用の計算ヘルパー
+        this.center = {
+            x: Math.floor(this.logicalWidth / 2),
+            y: Math.floor(this.logicalHeight / 2)
+        };
+        
         // カラーパレット（超可愛い新色合い）
         this.colors = {
             // プレイヤーキャラクター色（コントラストを重視したピンクの猫）
@@ -68,6 +78,16 @@ class PixelArtRenderer {
         this.hearts = [];
     }
     
+    // キャンバスサイズ更新時の再計算
+    updateCanvasSize() {
+        this.logicalWidth = Math.floor(this.canvas.width / this.pixelSize);
+        this.logicalHeight = Math.floor(this.canvas.height / this.pixelSize);
+        this.center = {
+            x: Math.floor(this.logicalWidth / 2),
+            y: Math.floor(this.logicalHeight / 2)
+        };
+    }
+    
     // ピクセル描画（基本単位）
     drawPixel(x, y, color) {
         this.ctx.fillStyle = color;
@@ -106,8 +126,12 @@ class PixelArtRenderer {
     
     // 雲描画
     drawClouds() {
+        // 画面幅に応じて雲を配置
         const cloudPositions = [
-            {x: 20, y: 10}, {x: 80, y: 15}, {x: 140, y: 8}, {x: 180, y: 20}
+            {x: this.center.x - 60, y: 10}, 
+            {x: this.center.x - 20, y: 15}, 
+            {x: this.center.x + 20, y: 8}, 
+            {x: this.center.x + 60, y: 20}
         ];
         
         cloudPositions.forEach(pos => {
@@ -142,10 +166,12 @@ class PixelArtRenderer {
     
     // 花描画（控えめに）
     drawFlowers() {
+        // 画面の下部に中央配置
+        const bottomY = this.logicalHeight - 10;
         const flowerPositions = [
-            {x: 8, y: 68, color: '#ff69b4'},
-            {x: 92, y: 70, color: '#ffd700'},
-            {x: 15, y: 72, color: '#ff8c00'}
+            {x: this.center.x - 40, y: bottomY - 4, color: '#ff69b4'},
+            {x: this.center.x, y: bottomY - 2, color: '#ffd700'},
+            {x: this.center.x + 40, y: bottomY, color: '#ff8c00'}
         ];
         
         flowerPositions.forEach(flower => {
@@ -166,7 +192,9 @@ class PixelArtRenderer {
     // 背景の星描画（控えめに）
     drawBackgroundStars() {
         const starPositions = [
-            {x: 15, y: 8}, {x: 85, y: 12}, {x: 70, y: 6}
+            {x: this.center.x - 35, y: 8}, 
+            {x: this.center.x + 35, y: 12}, 
+            {x: this.center.x, y: 6}
         ];
         
         starPositions.forEach(star => {
@@ -185,10 +213,11 @@ class PixelArtRenderer {
     
     // 草描画
     drawGrass() {
-        for (let x = 0; x < 100; x += 3) {
+        const grassY = this.logicalHeight - 5;
+        for (let x = 0; x < this.logicalWidth; x += 3) {
             const height = Math.floor(Math.random() * 3) + 1;
             for (let h = 0; h < height; h++) {
-                this.drawPixel(x, 72 + h, this.colors.grassGreen);
+                this.drawPixel(x, grassY + h, this.colors.grassGreen);
             }
         }
     }

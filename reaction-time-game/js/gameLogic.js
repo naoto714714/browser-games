@@ -41,12 +41,12 @@ class ReactionGame {
         
         // キャラクター状態（16x16キャラクター対応、画面中央に配置）
         this.catExpression = 'normal';
-        this.catPosition = { x: 32, y: 40 }; // 中央左側に配置
+        // キャラクター位置を動的に計算
+        this.updateCharacterPositions();
         this.signalLight = 'red';
         
         // 敵システム
         this.currentEnemy = null;
-        this.enemyPosition = { x: 52, y: 40 }; // 中央右側に配置
         this.enemyReactionTime = 0;
         this.enemyReactionTimer = null; // 敵の自動反応タイマー
         this.battlePhase = 'ready'; // ready, countdown, signal, result
@@ -66,6 +66,25 @@ class ReactionGame {
             defeat: ['敗北...', '相手の方が早かった', '次は頑張ろう', 'もう一度挑戦！'],
             draw: ['引き分け', '互角の勝負', '同じタイミング！', 'すごい接戦！'],
             falseStart: ['フライング！', '早すぎる！', '待って！', '焦りすぎ！']
+        };
+    }
+    
+    // キャラクター位置の動的計算
+    updateCharacterPositions() {
+        const center = this.renderer.center;
+        const spacing = 20; // キャラクター間の距離（ピクセル単位）
+        const characterWidth = 16; // キャラクターの幅
+        
+        // プレイヤーキャラを中央より左に配置
+        this.catPosition = { 
+            x: center.x - spacing - characterWidth, 
+            y: center.y - 10 // 少し上に配置
+        };
+        
+        // 敵キャラを中央より右に配置
+        this.enemyPosition = { 
+            x: center.x + spacing, 
+            y: center.y - 10 
         };
     }
     
@@ -255,12 +274,21 @@ class ReactionGame {
         
         this.playGoSound();
         
-        // エフェクト追加
+        // エフェクト追加（画面全体に散らばる）
+        const sparkleArea = {
+            width: this.renderer.logicalWidth * 0.8,
+            height: this.renderer.logicalHeight * 0.6
+        };
+        const sparkleOffset = {
+            x: this.renderer.center.x - sparkleArea.width / 2,
+            y: this.renderer.center.y - sparkleArea.height / 2
+        };
+        
         for (let i = 0; i < 10; i++) {
             setTimeout(() => {
                 this.renderer.addSparkle(
-                    Math.random() * 200,
-                    Math.random() * 150
+                    sparkleOffset.x + Math.random() * sparkleArea.width,
+                    sparkleOffset.y + Math.random() * sparkleArea.height
                 );
             }, i * 50);
         }
@@ -496,26 +524,32 @@ class ReactionGame {
             );
         }
         
-        // VS表示（キャラクター間）
+        // VS表示（キャラクター間の中央）
         if (this.battlePhase === 'countdown' || this.battlePhase === 'ready') {
-            this.renderer.drawVSText(42, 32);
+            const vsX = this.renderer.center.x - 4; // VSテキストの幅の半分を引く
+            const vsY = this.catPosition.y - 8;
+            this.renderer.drawVSText(vsX, vsY);
         }
         
         // 信号機描画（中央下部）
-        this.renderer.drawTrafficLight(42, 60, this.signalLight);
+        const signalX = this.renderer.center.x - 2; // 信号機の幅の半分を引く
+        const signalY = this.renderer.center.y + 20;
+        this.renderer.drawTrafficLight(signalX, signalY, this.signalLight);
         
         // ゲーム状態に応じた描画
         switch (this.gameState) {
             case 'countdown':
                 if (this.countdownValue > 0) {
-                    this.renderer.drawCountdownNumber(
-                        44, 52, this.countdownValue
-                    );
+                    const countX = this.renderer.center.x - 2;
+                    const countY = this.renderer.center.y + 12;
+                    this.renderer.drawCountdownNumber(countX, countY, this.countdownValue);
                 }
                 break;
                 
             case 'signal':
-                this.renderer.drawGoText(42, 52);
+                const goX = this.renderer.center.x;
+                const goY = this.renderer.center.y + 12;
+                this.renderer.drawGoText(goX, goY);
                 break;
         }
         
