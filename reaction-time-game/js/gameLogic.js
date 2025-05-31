@@ -424,11 +424,12 @@ class ReactionGame {
         
         if (this.reactionTime === -1) {
             reactionTimeElement.textContent = 'フライング！';
-        } else {
-            reactionTimeElement.innerHTML = `
-                あなた: ${this.reactionTime}ms<br>
-                ${this.currentEnemy.name}: ${Math.round(this.enemyReactionTime)}ms
-            `;
+        } else if (battleResult === 'victory' || battleResult === 'draw') {
+            // プレイヤーが勝利または引き分けの場合は自分の時間を表示
+            reactionTimeElement.textContent = `${this.reactionTime}ms`;
+        } else if (battleResult === 'defeat') {
+            // プレイヤーが敗北の場合は敵の時間を表示
+            reactionTimeElement.textContent = `${Math.round(this.enemyReactionTime)}ms`;
         }
         
         messageElement.textContent = message;
