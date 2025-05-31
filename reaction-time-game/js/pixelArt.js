@@ -7,7 +7,7 @@ class PixelArtRenderer {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
-        this.pixelSize = 4; // ピクセルサイズ倍率
+        this.pixelSize = 8; // ピクセルサイズ倍率（大きくした）
         
         // カラーパレット（可愛い色合い）
         this.colors = {
@@ -31,7 +31,12 @@ class PixelArtRenderer {
             // 背景色
             skyBlue: '#a8e6cf',      // 空色
             cloudWhite: '#ffffff',   // 雲白
-            grassGreen: '#88d8a3'    // 草緑
+            grassGreen: '#88d8a3',   // 草緑
+            
+            // 敵キャラクター色
+            enemyBody: '#ff8fab',    // 敵のピンク
+            enemyDark: '#ff5757',    // 敵の濃いピンク
+            enemyEvil: '#d63031',    // 敵の邪悪な赤
         };
         
         // アニメーション用の状態
@@ -281,6 +286,84 @@ class PixelArtRenderer {
             for(let col = 0; col < pattern[row].length; col++) {
                 if(pattern[row][col]) {
                     this.drawPixel(x + col, y + row, this.colors.catBlack);
+                }
+            }
+        }
+    }
+    
+    // 敵キャラクター描画
+    drawEnemy(x, y, enemyType = 'basic', expression = 'normal') {
+        // 敵の基本形状（猫ベースだが少し違う）
+        const enemyBody = [
+            [0,0,1,1,1,1,0,0],
+            [0,1,2,1,1,2,1,0],
+            [1,1,1,1,1,1,1,1],
+            [1,3,1,1,1,1,3,1],
+            [1,1,4,1,1,4,1,1],
+            [1,1,1,5,5,1,1,1],
+            [1,1,1,1,1,1,1,1],
+            [0,1,1,1,1,1,1,0]
+        ];
+        
+        // 敵タイプによる色設定
+        const enemyColors = {
+            basic: {
+                body: this.colors.enemyBody,
+                dark: this.colors.enemyDark,
+                accent: this.colors.enemyEvil
+            },
+            fast: {
+                body: '#ff6b6b',
+                dark: '#e55353',
+                accent: '#d63031'
+            },
+            master: {
+                body: '#a29bfe',
+                dark: '#6c5ce7',
+                accent: '#5f3dc4'
+            }
+        };
+        
+        const colorSet = enemyColors[enemyType] || enemyColors.basic;
+        
+        const colors = [
+            null,                    // 0: 透明
+            colorSet.body,           // 1: 体
+            colorSet.dark,           // 2: 耳
+            this.colors.catBlack,    // 3: 目
+            this.colors.catBlack,    // 4: 鼻
+            colorSet.accent,         // 5: 口（邪悪）
+        ];
+        
+        // 敵を描画
+        for(let row = 0; row < enemyBody.length; row++) {
+            for(let col = 0; col < enemyBody[row].length; col++) {
+                const colorIndex = enemyBody[row][col];
+                if(colorIndex && colors[colorIndex]) {
+                    this.drawPixel(x + col, y + row, colors[colorIndex]);
+                }
+            }
+        }
+        
+        // 敵の特徴的な目（邪悪）
+        this.drawPixel(x + 2, y + 3, colorSet.accent);
+        this.drawPixel(x + 5, y + 3, colorSet.accent);
+    }
+    
+    // VS表示
+    drawVSText(x, y) {
+        const vsPattern = [
+            [1,0,0,0,1,0,1,1,1],
+            [1,0,0,0,1,0,1,0,0],
+            [0,1,0,1,0,0,1,1,0],
+            [0,0,1,0,0,0,0,0,1],
+            [0,0,1,0,0,0,1,1,1]
+        ];
+        
+        for(let row = 0; row < vsPattern.length; row++) {
+            for(let col = 0; col < vsPattern[row].length; col++) {
+                if(vsPattern[row][col]) {
+                    this.drawPixel(x + col, y + row, this.colors.signalRed);
                 }
             }
         }

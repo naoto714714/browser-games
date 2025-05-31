@@ -41,16 +41,30 @@ class ReactionGame {
         
         // キャラクター状態
         this.catExpression = 'normal';
-        this.catPosition = { x: 80, y: 60 };
+        this.catPosition = { x: 20, y: 30 }; // 左側に配置
         this.signalLight = 'red';
         
-        // パフォーマンス評価
-        this.performanceMessages = {
-            excellent: ['完璧！', '素晴らしい反射神経！', '忍者並みの速さ！'],
-            good: ['良い反応！', 'なかなかやるね！', 'いい感じ！'],
-            average: ['普通だね', 'もう少し早く！', '集中して！'],
-            slow: ['遅いよ〜', '気を引き締めて！', '頑張って！'],
-            falseStart: ['フライング！', '早すぎる！', '待って！']
+        // 敵システム
+        this.currentEnemy = null;
+        this.enemyPosition = { x: 70, y: 30 }; // 右側に配置
+        this.enemyReactionTime = 0;
+        this.battlePhase = 'ready'; // ready, countdown, signal, result
+        
+        // 敵の種類とAI
+        this.enemies = [
+            { name: 'ノロマくん', type: 'basic', reactionRange: [400, 600], description: '反応がちょっと遅い敵' },
+            { name: 'フツーちゃん', type: 'basic', reactionRange: [300, 450], description: '普通の反応速度の敵' },
+            { name: 'ハヤトくん', type: 'fast', reactionRange: [200, 350], description: '素早い反応の敵' },
+            { name: 'スピードちゃん', type: 'fast', reactionRange: [150, 280], description: 'かなり早い反応の敵' },
+            { name: 'ライトニング', type: 'master', reactionRange: [100, 220], description: '電光石火の反応を持つ強敵' },
+        ];
+        
+        // バトル結果メッセージ
+        this.battleMessages = {
+            victory: ['勝利！', '見事な反応！', '君の勝ちだ！', '素晴らしい！'],
+            defeat: ['敗北...', '相手の方が早かった', '次は頑張ろう', 'もう一度挑戦！'],
+            draw: ['引き分け', '互角の勝負', '同じタイミング！', 'すごい接戦！'],
+            falseStart: ['フライング！', '早すぎる！', '待って！', '焦りすぎ！']
         };
     }
     
@@ -163,7 +177,23 @@ class ReactionGame {
         this.currentRound = 0;
         this.gameState = 'waiting';
         this.catExpression = 'normal';
+        this.battlePhase = 'ready';
+        this.selectCurrentEnemy();
         this.updateUI();
+    }
+    
+    // 現在の敵を選択
+    selectCurrentEnemy() {
+        const enemyIndex = Math.min(this.level - 1, this.enemies.length - 1);
+        this.currentEnemy = this.enemies[enemyIndex];
+        console.log(`🎯 Battle vs ${this.currentEnemy.name}: ${this.currentEnemy.description}`);
+    }
+    
+    // 敵の反応時間を生成（AI）
+    generateEnemyReaction() {
+        const range = this.currentEnemy.reactionRange;
+        this.enemyReactionTime = Math.random() * (range[1] - range[0]) + range[0];
+        console.log(`🤖 Enemy reaction time: ${Math.round(this.enemyReactionTime)}ms`);
     }
     
     // カウントダウン開始
@@ -172,6 +202,10 @@ class ReactionGame {
         this.countdownValue = 3;
         this.countdownTimer = Date.now();
         this.catExpression = 'focused';
+        this.battlePhase = 'countdown';
+        
+        // 敵の反応時間を先に決定
+        this.generateEnemyReaction();
         
         this.playCountdownSound();
         
@@ -235,39 +269,54 @@ class ReactionGame {
         this.processReaction();
     }
     
-    // 反応処理
+    // バトル結果処理
     processReaction() {
-        let performance, message, points = 0;
+        let battleResult, message;
         
         if (this.reactionTime === -1) {
             // フライング
-            performance = 'falseStart';
-            const penalty = this.difficulty[Math.min(this.level, 5)].falseStartPenalty;
-            this.score = Math.max(0, this.score - penalty);
+            battleResult = 'falseStart';
             this.catExpression = 'surprised';
         } else {
-            // 正常な反応時間評価
-            if (this.reactionTime < 200) {
-                performance = 'excellent';
-                points = 1000;
-                this.catExpression = 'happy';
-            } else if (this.reactionTime < 300) {
-                performance = 'good';
-                points = 500;
-                this.catExpression = 'happy';
-            } else if (this.reactionTime < 500) {
-                performance = 'average';
-                points = 200;
-                this.catExpression = 'normal';
-            } else {
-                performance = 'slow';
-                points = 50;
-                this.catExpression = 'normal';
-            }
+            // バトル結果判定
+            const timeDiff = Math.abs(this.reactionTime - this.enemyReactionTime);
             
-            // レベルボーナス
-            points += (this.level - 1) * 100;
-            this.score += points;
+            if (this.reactionTime < this.enemyReactionTime) {
+                // プレイヤーの勝利
+                battleResult = 'victory';
+                this.catExpression = 'happy';
+                this.score += 1000 + (this.level * 200);
+                
+                // 勝利エフェクト
+                for (let i = 0; i < 8; i++) {
+                    this.renderer.addSparkle(
+                        this.catPosition.x + Math.random() * 64,
+                        this.catPosition.y + Math.random() * 64
+                    );
+                }
+                
+                this.playSuccessSound();
+                
+                // レベルアップ
+                this.level++;
+                this.selectCurrentEnemy();
+                
+            } else if (timeDiff < 10) {
+                // 引き分け（10ms以内の差）
+                battleResult = 'draw';
+                this.catExpression = 'surprised';
+                this.score += 500;
+                this.playCountdownSound();
+                
+            } else {
+                // プレイヤーの敗北
+                battleResult = 'defeat';
+                this.catExpression = 'normal';
+                this.playErrorSound();
+                
+                // ゲームオーバー処理
+                this.handleGameOver();
+            }
             
             // ベストタイム更新
             if (!this.bestTime || this.reactionTime < this.bestTime) {
@@ -277,28 +326,26 @@ class ReactionGame {
                 // 新記録エフェクト
                 for (let i = 0; i < 5; i++) {
                     this.renderer.addHeart(
-                        this.catPosition.x + Math.random() * 40,
-                        this.catPosition.y + Math.random() * 40
+                        this.catPosition.x + Math.random() * 64,
+                        this.catPosition.y + Math.random() * 64
                     );
                 }
             }
-            
-            this.playSuccessSound();
         }
         
         // メッセージ選択
-        const messages = this.performanceMessages[performance];
+        const messages = this.battleMessages[battleResult];
         message = messages[Math.floor(Math.random() * messages.length)];
         
         // UI更新
-        this.updateResultUI(message);
+        this.updateResultUI(message, battleResult);
         this.updateUI();
-        
-        // ラウンド進行
-        this.currentRound++;
-        if (this.currentRound >= this.maxRounds) {
-            this.levelUp();
-        }
+    }
+    
+    // ゲームオーバー処理
+    handleGameOver() {
+        this.battlePhase = 'gameOver';
+        console.log(`💀 Game Over! Reached level ${this.level}, Score: ${this.score}`);
     }
     
     // レベルアップ
@@ -335,8 +382,8 @@ class ReactionGame {
             this.bestTime ? `${this.bestTime}ms` : '---';
     }
     
-    // 結果UI更新
-    updateResultUI(message) {
+    // バトル結果UI更新
+    updateResultUI(message, battleResult) {
         const resultPanel = document.getElementById('result-panel');
         const reactionTimeElement = document.getElementById('reaction-time');
         const messageElement = document.getElementById('result-message');
@@ -344,10 +391,21 @@ class ReactionGame {
         if (this.reactionTime === -1) {
             reactionTimeElement.textContent = 'フライング！';
         } else {
-            reactionTimeElement.textContent = this.reactionTime;
+            reactionTimeElement.innerHTML = `
+                あなた: ${this.reactionTime}ms<br>
+                ${this.currentEnemy.name}: ${Math.round(this.enemyReactionTime)}ms
+            `;
         }
         
         messageElement.textContent = message;
+        
+        // 次へボタンの表示制御
+        const nextBtn = document.getElementById('next-btn');
+        if (battleResult === 'defeat') {
+            nextBtn.style.display = 'none';
+        } else {
+            nextBtn.style.display = 'inline-block';
+        }
         
         // パネル表示
         document.getElementById('game-status').classList.add('hidden');
@@ -365,28 +423,42 @@ class ReactionGame {
         // 背景描画
         this.renderer.drawBackground();
         
-        // キャラクター描画
+        // プレイヤーキャラクター描画
         this.renderer.drawCat(
             this.catPosition.x, 
             this.catPosition.y, 
             this.catExpression
         );
         
+        // 敵キャラクター描画
+        if (this.currentEnemy) {
+            this.renderer.drawEnemy(
+                this.enemyPosition.x,
+                this.enemyPosition.y,
+                this.currentEnemy.type
+            );
+        }
+        
+        // VS表示
+        if (this.battlePhase === 'countdown' || this.battlePhase === 'ready') {
+            this.renderer.drawVSText(45, 25);
+        }
+        
         // 信号機描画
-        this.renderer.drawTrafficLight(30, 30, this.signalLight);
+        this.renderer.drawTrafficLight(45, 50, this.signalLight);
         
         // ゲーム状態に応じた描画
         switch (this.gameState) {
             case 'countdown':
                 if (this.countdownValue > 0) {
                     this.renderer.drawCountdownNumber(
-                        90, 40, this.countdownValue
+                        48, 35, this.countdownValue
                     );
                 }
                 break;
                 
             case 'signal':
-                this.renderer.drawGoText(80, 45);
+                this.renderer.drawGoText(45, 35);
                 break;
         }
         
