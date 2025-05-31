@@ -422,13 +422,15 @@ class ReactionGame {
     // 結果パネル非表示
     hideResultPanel() {
         document.getElementById('result-panel').classList.add('hidden');
-        document.getElementById('game-status').classList.remove('hidden');
+        // スタート画面は表示しない（次のバトルに直接進むため）
+        // document.getElementById('game-status').classList.remove('hidden');
     }
     
     // 自動リトライ画面表示
     autoShowRetryScreen() {
         // 結果パネルを隠してスタート画面を表示
-        this.hideResultPanel();
+        document.getElementById('result-panel').classList.add('hidden');
+        document.getElementById('game-status').classList.remove('hidden');
         
         // ゲーム状態をリセット
         this.gameState = 'waiting';
@@ -499,6 +501,7 @@ class ReactionGame {
     // ゲームリセット
     reset() {
         this.startGame();
-        this.hideResultPanel();
+        document.getElementById('result-panel').classList.add('hidden');
+        document.getElementById('game-status').classList.remove('hidden');
     }
 }

@@ -152,6 +152,11 @@ class GameController {
         // エフェクト音
         this.game.playCountdownSound();
         
+        // 次のバトルのカウントダウンを開始
+        setTimeout(() => {
+            this.game.startCountdown();
+        }, 500); // 少し待ってからカウントダウン開始
+        
         console.log(`📈 Round ${this.game.currentRound + 1} started`);
     }
     
