@@ -9,34 +9,57 @@ class PixelArtRenderer {
         this.ctx = ctx;
         this.pixelSize = 8; // ピクセルサイズ倍率（大きくした）
         
-        // カラーパレット（可愛い色合い）
+        // カラーパレット（超可愛い新色合い）
         this.colors = {
-            // キャラクター色
-            catBody: '#ffb3ba',      // ピンクの猫
-            catDark: '#ff8a94',      // 濃いピンク
-            catWhite: '#ffffff',     // 白
-            catBlack: '#2c3e50',     // 黒（目、鼻）
-            catBlush: '#ff6b9d',     // 頬赤
-            
-            // UI色
-            signalGreen: '#4ecdc4',  // 緑信号
-            signalRed: '#ff6b6b',    // 赤信号
-            signalYellow: '#ffd93d', // 黄信号
-            
-            // エフェクト色
-            sparkle: '#fff700',      // きらきら
-            heart: '#ff1744',        // ハート
-            star: '#7c4dff',         // 星
-            
-            // 背景色
-            skyBlue: '#a8e6cf',      // 空色
-            cloudWhite: '#ffffff',   // 雲白
-            grassGreen: '#88d8a3',   // 草緑
+            // プレイヤーキャラクター色（ミルキーピンクの猫）
+            playerBody: '#ffcccb',      // ミルキーピンク
+            playerDark: '#ffb3ba',      // 少し濃いピンク
+            playerAccent: '#ff69b4',    // 鮮やかピンク（リボン）
+            playerBlush: '#ff1493',     // 頬赤
+            playerWhite: '#ffffff',     // 白
+            playerBlack: '#2c3e50',     // 黒（目、鼻）
+            playerBelly: '#fff0f5',     // お腹の白
             
             // 敵キャラクター色
-            enemyBody: '#ff8fab',    // 敵のピンク
-            enemyDark: '#ff5757',    // 敵の濃いピンク
-            enemyEvil: '#d63031',    // 敵の邪悪な赤
+            // ひなたちゃん（黄色系）
+            hinataBg: '#fff8dc',        // クリーム色
+            hinataMain: '#ffd700',      // 黄金色
+            hinataAccent: '#ff8c00',    // オレンジ
+            
+            // さくらちゃん（桜色系）
+            sakuraBg: '#ffe4e1',        // 薄桜色
+            sakuraMain: '#ffb6c1',      // 桜色
+            sakuraAccent: '#ff69b4',    // 濃い桜色
+            
+            // そらくん（水色系）
+            soraBg: '#e0f6ff',          // 薄水色
+            soraMain: '#87ceeb',        // スカイブルー
+            soraAccent: '#4169e1',      // ロイヤルブルー
+            
+            // ほしちゃん（紫色系）
+            hoshiBg: '#f0e6ff',         // 薄紫
+            hoshiMain: '#dda0dd',       // プラム
+            hoshiAccent: '#8a2be2',     // ブルーバイオレット
+            
+            // かげまる（グレー系）
+            kageBg: '#f5f5f5',          // 薄グレー
+            kageMain: '#696969',        // ダークグレー
+            kageAccent: '#2f4f4f',      // ダークスレートグレー
+            
+            // UI色
+            signalGreen: '#32cd32',     // ライムグリーン
+            signalRed: '#ff4500',       // オレンジレッド
+            signalYellow: '#ffd700',    // ゴールド
+            
+            // エフェクト色
+            sparkle: '#fff700',         // きらきら
+            heart: '#ff1744',           // ハート
+            star: '#9370db',            // 紫の星
+            
+            // 背景色
+            skyBlue: '#87ceeb',         // スカイブルー
+            cloudWhite: '#ffffff',      // 雲白
+            grassGreen: '#90ee90',      // ライトグリーン
         };
         
         // アニメーション用の状態
@@ -100,25 +123,29 @@ class PixelArtRenderer {
         }
     }
     
-    // 超可愛い猫キャラクター描画
+    // 超可愛いプレイヤー猫キャラクター描画（完全新設計）
     drawCat(x, y, expression = 'normal') {
-        // より詳細で可愛い猫の形状（12x12ピクセル）
+        // 16x16の大きくて詳細な猫（ぷっくりした丸い形）
         const catBody = [
-            [0,0,0,1,1,1,1,1,1,0,0,0],  // 耳の形
-            [0,0,1,2,1,1,1,1,2,1,0,0],  // 耳の内側
-            [0,1,1,1,1,1,1,1,1,1,1,0],  // 頭上部
-            [1,1,1,1,1,1,1,1,1,1,1,1],  // 頭部
-            [1,3,3,1,1,1,1,1,1,3,3,1],  // 目の位置
-            [1,1,1,1,4,4,4,1,1,1,1,1],  // 鼻の位置
-            [1,1,1,1,1,5,5,1,1,1,1,1],  // 口の位置
-            [1,1,1,1,1,1,1,1,1,1,1,1],  // 顔下部
-            [0,1,1,1,1,1,1,1,1,1,1,0],  // 首部分
-            [0,0,1,1,1,1,1,1,1,1,0,0],  // 体上部
-            [0,0,0,1,1,1,1,1,1,0,0,0],  // 体中部
-            [0,0,0,0,1,1,1,1,0,0,0,0]   // 体下部
+            [0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0],  // 耳の輪郭
+            [0,0,0,1,2,2,1,1,1,1,2,2,1,0,0,0],  // 耳の内側
+            [0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0],  // 頭の輪郭上
+            [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],  // 頭部上
+            [1,1,1,3,3,1,1,1,1,1,1,3,3,1,1,1],  // 目のライン
+            [1,1,1,1,1,1,4,4,4,1,1,1,1,1,1,1],  // 鼻のライン
+            [1,1,1,1,1,1,1,5,5,1,1,1,1,1,1,1],  // 口のライン
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  // 顔下部
+            [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],  // 首
+            [0,0,1,1,1,6,6,6,6,6,6,1,1,1,0,0],  // お腹部分
+            [0,0,1,1,6,6,6,6,6,6,6,6,1,1,0,0],  // お腹中央
+            [0,0,0,1,1,6,6,6,6,6,6,1,1,0,0,0],  // お腹下
+            [0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0],  // 体下部
+            [0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0],  // 足部分
+            [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0],  // 前足
+            [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0]   // 前足先
         ];
         
-        // 表情パターン（より豊富に）
+        // 表情パターン
         const expressions = {
             normal: { eyeType: 'normal', mouthType: 'normal', special: null },
             happy: { eyeType: 'happy', mouthType: 'smile', special: 'blush' },
@@ -129,12 +156,13 @@ class PixelArtRenderer {
         const currentExpr = expressions[expression] || expressions.normal;
         
         const baseColors = [
-            null,                    // 0: 透明
-            this.colors.catBody,     // 1: 体（薄いピンク）
-            this.colors.catDark,     // 2: 耳内側（濃いピンク）
-            this.colors.catBlack,    // 3: 目の基本色
-            this.colors.catBlack,    // 4: 鼻
-            this.colors.catBlack,    // 5: 口
+            null,                        // 0: 透明
+            this.colors.playerBody,      // 1: 体（ミルキーピンク）
+            this.colors.playerDark,      // 2: 耳内側（濃いピンク）
+            this.colors.playerBlack,     // 3: 目の基本色
+            this.colors.playerBlack,     // 4: 鼻
+            this.colors.playerBlack,     // 5: 口
+            this.colors.playerBelly,     // 6: お腹（白）
         ];
         
         // 基本形状を描画
@@ -148,94 +176,122 @@ class PixelArtRenderer {
         }
         
         // 表情の詳細描画
-        this.drawCatExpression(x, y, currentExpr);
+        this.drawPlayerExpression(x, y, currentExpr);
         
         // 特殊効果
         if (currentExpr.special === 'blush') {
-            this.drawPixel(x + 1, y + 5, this.colors.catBlush);
-            this.drawPixel(x + 10, y + 5, this.colors.catBlush);
+            // 頬赤
+            this.drawPixel(x + 2, y + 5, this.colors.playerBlush);
+            this.drawPixel(x + 13, y + 5, this.colors.playerBlush);
         }
         
         if (currentExpr.special === 'sparkle') {
             // きらめく目のエフェクト
             this.drawPixel(x + 2, y + 4, this.colors.sparkle);
-            this.drawPixel(x + 9, y + 4, this.colors.sparkle);
+            this.drawPixel(x + 13, y + 4, this.colors.sparkle);
         }
         
-        // 可愛いアクセサリー（リボン）
-        this.drawPixel(x + 3, y + 1, this.colors.heart);
-        this.drawPixel(x + 4, y + 1, this.colors.heart);
-        this.drawPixel(x + 7, y + 1, this.colors.heart);
-        this.drawPixel(x + 8, y + 1, this.colors.heart);
+        // 可愛いリボン（頭上に大きめ）
+        this.drawPlayerRibbon(x, y);
     }
     
-    // 猫の表情詳細描画
-    drawCatExpression(x, y, expression) {
-        // 目の描画
+    // プレイヤー猫の表情詳細描画
+    drawPlayerExpression(x, y, expression) {
+        // 目の描画（16x16スケール）
         switch(expression.eyeType) {
             case 'normal':
-                this.drawPixel(x + 3, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 8, y + 4, this.colors.catBlack);
+                // 通常の丸い目
+                this.drawPixel(x + 3, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 4, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 11, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 12, y + 4, this.colors.playerBlack);
                 break;
             case 'happy':
-                // 三日月目
-                this.drawPixel(x + 2, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 3, y + 5, this.colors.catBlack);
-                this.drawPixel(x + 4, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 7, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 8, y + 5, this.colors.catBlack);
-                this.drawPixel(x + 9, y + 4, this.colors.catBlack);
+                // 三日月目（にっこり）
+                this.drawPixel(x + 2, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 3, y + 5, this.colors.playerBlack);
+                this.drawPixel(x + 4, y + 5, this.colors.playerBlack);
+                this.drawPixel(x + 5, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 10, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 11, y + 5, this.colors.playerBlack);
+                this.drawPixel(x + 12, y + 5, this.colors.playerBlack);
+                this.drawPixel(x + 13, y + 4, this.colors.playerBlack);
                 break;
             case 'wide':
-                // 大きい目
-                this.drawPixel(x + 2, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 3, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 4, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 7, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 8, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 9, y + 4, this.colors.catBlack);
+                // 大きい驚きの目
+                this.drawPixel(x + 2, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 3, y + 3, this.colors.playerBlack);
+                this.drawPixel(x + 4, y + 3, this.colors.playerBlack);
+                this.drawPixel(x + 5, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 10, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 11, y + 3, this.colors.playerBlack);
+                this.drawPixel(x + 12, y + 3, this.colors.playerBlack);
+                this.drawPixel(x + 13, y + 4, this.colors.playerBlack);
                 break;
             case 'determined':
-                // 決意の目
-                this.drawPixel(x + 3, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 2, y + 5, this.colors.catBlack);
-                this.drawPixel(x + 8, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 9, y + 5, this.colors.catBlack);
+                // 決意の目（キリッと）
+                this.drawPixel(x + 3, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 4, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 2, y + 5, this.colors.playerBlack);
+                this.drawPixel(x + 11, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 12, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 13, y + 5, this.colors.playerBlack);
                 break;
         }
         
         // 口の描画
         switch(expression.mouthType) {
             case 'normal':
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
+                // 小さなかわいい口
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
                 break;
             case 'smile':
                 // 笑顔
-                this.drawPixel(x + 4, y + 7, this.colors.catBlack);
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 7, y + 7, this.colors.catBlack);
+                this.drawPixel(x + 6, y + 7, this.colors.playerBlack);
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 9, y + 7, this.colors.playerBlack);
                 break;
             case 'o':
-                // 驚きの口
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 5, y + 7, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 7, this.colors.catBlack);
+                // 驚きの口（O形）
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 7, y + 7, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 7, this.colors.playerBlack);
                 break;
             case 'serious':
-                // 真剣な口
-                this.drawPixel(x + 4, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 7, y + 6, this.colors.catBlack);
+                // 真剣な口（一直線）
+                this.drawPixel(x + 6, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 9, y + 6, this.colors.playerBlack);
                 break;
         }
         
-        // 鼻は共通
-        this.drawPixel(x + 5, y + 5, this.colors.catBlack);
-        this.drawPixel(x + 6, y + 5, this.colors.catBlack);
+        // 鼻は共通（ハート型）
+        this.drawPixel(x + 7, y + 5, this.colors.playerBlack);
+        this.drawPixel(x + 8, y + 5, this.colors.playerBlack);
+        this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+    }
+    
+    // プレイヤーのリボン描画
+    drawPlayerRibbon(x, y) {
+        // 大きなリボン（頭上）
+        const ribbonPattern = [
+            [0,1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1,1],
+            [0,1,1,1,1,1,1,0],
+            [0,0,1,1,1,1,0,0]
+        ];
+        
+        for(let row = 0; row < ribbonPattern.length; row++) {
+            for(let col = 0; col < ribbonPattern[row].length; col++) {
+                if(ribbonPattern[row][col]) {
+                    this.drawPixel(x + col + 4, y + row, this.colors.playerAccent);
+                }
+            }
+        }
     }
     
     // 信号機描画
@@ -376,58 +432,39 @@ class PixelArtRenderer {
         }
     }
     
-    // 超魅力的な敵キャラクター描画
+    // 超魅力的な敵キャラクター描画（完全新設計）
     drawEnemy(x, y, enemyType = 'basic', expression = 'normal') {
-        // より詳細で魅力的な敵の形状（12x12ピクセル）
+        // 敵の種類に応じた形状とキャラクター性を決定
+        const enemyData = this.getEnemyData(enemyType);
+        
+        // 16x16の大きくて個性的な敵キャラクター
         const enemyBody = [
-            [0,0,0,1,1,1,1,1,1,0,0,0],  // 角のような耳
-            [0,0,1,2,1,1,1,1,2,1,0,0],  // 角の内側
-            [0,1,1,1,1,1,1,1,1,1,1,0],  // 頭上部
-            [1,1,1,1,1,1,1,1,1,1,1,1],  // 頭部
-            [1,3,3,1,1,1,1,1,1,3,3,1],  // 目の位置
-            [1,1,1,1,4,4,4,1,1,1,1,1],  // 鼻の位置
-            [1,1,1,1,1,5,5,1,1,1,1,1],  // 口の位置
-            [1,1,1,1,1,1,1,1,1,1,1,1],  // 顔下部
-            [0,1,1,1,1,1,1,1,1,1,1,0],  // 首部分
-            [0,0,1,1,1,1,1,1,1,1,0,0],  // 体上部
-            [0,0,0,1,1,1,1,1,1,0,0,0],  // 体中部
-            [0,0,0,0,1,1,1,1,0,0,0,0]   // 体下部
+            [0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0],  // 耳の輪郭
+            [0,0,0,1,2,2,1,1,1,1,2,2,1,0,0,0],  // 耳の内側
+            [0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0],  // 頭の輪郭上
+            [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],  // 頭部上
+            [1,1,1,3,3,1,1,1,1,1,1,3,3,1,1,1],  // 目のライン
+            [1,1,1,1,1,1,4,4,4,1,1,1,1,1,1,1],  // 鼻のライン
+            [1,1,1,1,1,1,1,5,5,1,1,1,1,1,1,1],  // 口のライン
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  // 顔下部
+            [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],  // 首
+            [0,0,1,1,1,6,6,6,6,6,6,1,1,1,0,0],  // お腹部分
+            [0,0,1,1,6,6,6,6,6,6,6,6,1,1,0,0],  // お腹中央
+            [0,0,0,1,1,6,6,6,6,6,6,1,1,0,0,0],  // お腹下
+            [0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0],  // 体下部
+            [0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0],  // 足部分
+            [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0],  // 前足
+            [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0]   // 前足先
         ];
-        
-        // 敵タイプによる色設定とキャラクター性
-        const enemyColors = {
-            basic: {
-                body: '#ffb3e6',
-                dark: '#ff80d4',
-                accent: '#e91e63',
-                name: 'のんびり猫',
-                personality: 'cute'
-            },
-            fast: {
-                body: '#ff9999',
-                dark: '#ff6666',
-                accent: '#ff1744',
-                name: 'はりきり猫',
-                personality: 'energetic'
-            },
-            master: {
-                body: '#c4b5fd',
-                dark: '#a78bfa',
-                accent: '#8b5cf6',
-                name: 'みすてりー猫',
-                personality: 'mysterious'
-            }
-        };
-        
-        const colorSet = enemyColors[enemyType] || enemyColors.basic;
         
         const baseColors = [
             null,                    // 0: 透明
-            colorSet.body,           // 1: 体
-            colorSet.dark,           // 2: 耳/角
-            this.colors.catBlack,    // 3: 目の基本色
-            this.colors.catBlack,    // 4: 鼻
-            this.colors.catBlack,    // 5: 口
+            enemyData.mainColor,     // 1: 体のメイン色
+            enemyData.darkColor,     // 2: 耳の色
+            this.colors.playerBlack, // 3: 目の基本色
+            this.colors.playerBlack, // 4: 鼻
+            this.colors.playerBlack, // 5: 口
+            enemyData.bellyColor,    // 6: お腹の色
         ];
         
         // 基本形状を描画
@@ -441,88 +478,149 @@ class PixelArtRenderer {
         }
         
         // 敵の個性的な表情
-        this.drawEnemyExpression(x, y, enemyType, colorSet);
+        this.drawEnemyExpression(x, y, enemyType, enemyData);
         
         // タイプ別の特徴装飾
-        this.drawEnemyAccessories(x, y, enemyType, colorSet);
+        this.drawEnemyAccessories(x, y, enemyType, enemyData);
     }
     
-    // 敵の表情描画
-    drawEnemyExpression(x, y, enemyType, colorSet) {
-        switch(enemyType) {
-            case 'basic':
-                // のんびり目
-                this.drawPixel(x + 3, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 8, y + 4, this.colors.catBlack);
-                // にっこり口
-                this.drawPixel(x + 4, y + 7, this.colors.catBlack);
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 7, y + 7, this.colors.catBlack);
+    // 敵のデータ取得
+    getEnemyData(enemyType) {
+        const enemyDatabase = {
+            basic: {
+                // ひなたちゃん・さくらちゃん
+                mainColor: enemyType === 'basic' ? this.colors.hinataMain : this.colors.sakuraMain,
+                darkColor: enemyType === 'basic' ? this.colors.hinataAccent : this.colors.sakuraAccent,
+                bellyColor: enemyType === 'basic' ? this.colors.hinataBg : this.colors.sakuraBg,
+                accentColor: enemyType === 'basic' ? this.colors.hinataAccent : this.colors.sakuraAccent,
+                personality: 'gentle'
+            },
+            fast: {
+                // そらくん・ほしちゃん
+                mainColor: enemyType === 'fast' ? this.colors.soraMain : this.colors.hoshiMain,
+                darkColor: enemyType === 'fast' ? this.colors.soraAccent : this.colors.hoshiAccent,
+                bellyColor: enemyType === 'fast' ? this.colors.soraBg : this.colors.hoshiBg,
+                accentColor: enemyType === 'fast' ? this.colors.soraAccent : this.colors.hoshiAccent,
+                personality: 'energetic'
+            },
+            master: {
+                // かげまる
+                mainColor: this.colors.kageMain,
+                darkColor: this.colors.kageAccent,
+                bellyColor: this.colors.kageBg,
+                accentColor: this.colors.kageAccent,
+                personality: 'mysterious'
+            }
+        };
+        
+        return enemyDatabase[enemyType] || enemyDatabase.basic;
+    }
+    
+    // 敵の表情描画（16x16スケール対応）
+    drawEnemyExpression(x, y, enemyType, enemyData) {
+        switch(enemyData.personality) {
+            case 'gentle':
+                // 優しい目（ひなたちゃん・さくらちゃん）
+                this.drawPixel(x + 3, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 4, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 11, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 12, y + 4, this.colors.playerBlack);
+                // にっこり笑顔
+                this.drawPixel(x + 6, y + 7, this.colors.playerBlack);
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 9, y + 7, this.colors.playerBlack);
                 break;
                 
-            case 'fast':
-                // キラキラ目
-                this.drawPixel(x + 2, y + 4, colorSet.accent);
-                this.drawPixel(x + 3, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 4, y + 4, colorSet.accent);
-                this.drawPixel(x + 7, y + 4, colorSet.accent);
-                this.drawPixel(x + 8, y + 4, this.colors.catBlack);
-                this.drawPixel(x + 9, y + 4, colorSet.accent);
-                // 興奮の口
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 5, y + 7, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 7, this.colors.catBlack);
+            case 'energetic':
+                // キラキラした目（そらくん・ほしちゃん）
+                this.drawPixel(x + 2, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 3, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 4, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 5, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 10, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 11, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 12, y + 4, this.colors.playerBlack);
+                this.drawPixel(x + 13, y + 4, enemyData.accentColor);
+                // 興奮の口（O形）
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 7, y + 7, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 7, this.colors.playerBlack);
                 break;
                 
-            case 'master':
-                // 神秘的な目
-                this.drawPixel(x + 2, y + 4, colorSet.accent);
-                this.drawPixel(x + 3, y + 4, colorSet.accent);
-                this.drawPixel(x + 4, y + 4, colorSet.accent);
-                this.drawPixel(x + 7, y + 4, colorSet.accent);
-                this.drawPixel(x + 8, y + 4, colorSet.accent);
-                this.drawPixel(x + 9, y + 4, colorSet.accent);
-                // 微笑み
-                this.drawPixel(x + 4, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 5, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 6, y + 6, this.colors.catBlack);
-                this.drawPixel(x + 7, y + 6, this.colors.catBlack);
+            case 'mysterious':
+                // 神秘的な目（かげまる）
+                this.drawPixel(x + 2, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 3, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 4, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 5, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 10, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 11, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 12, y + 4, enemyData.accentColor);
+                this.drawPixel(x + 13, y + 4, enemyData.accentColor);
+                // 控えめな微笑み
+                this.drawPixel(x + 6, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 7, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
+                this.drawPixel(x + 9, y + 6, this.colors.playerBlack);
                 break;
         }
         
-        // 共通の鼻
-        this.drawPixel(x + 5, y + 5, this.colors.catBlack);
-        this.drawPixel(x + 6, y + 5, this.colors.catBlack);
+        // 共通の鼻（ハート型）
+        this.drawPixel(x + 7, y + 5, this.colors.playerBlack);
+        this.drawPixel(x + 8, y + 5, this.colors.playerBlack);
+        this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
     }
     
-    // 敵のアクセサリー描画
-    drawEnemyAccessories(x, y, enemyType, colorSet) {
-        switch(enemyType) {
-            case 'basic':
-                // 花の飾り
-                this.drawPixel(x + 2, y + 1, '#ffeb3b');
-                this.drawPixel(x + 9, y + 1, '#ffeb3b');
+    // 敵のアクセサリー描画（16x16スケール対応）
+    drawEnemyAccessories(x, y, enemyType, enemyData) {
+        switch(enemyData.personality) {
+            case 'gentle':
+                // 花の飾り（ひなたちゃん・さくらちゃん）
+                if (enemyType === 'basic') {
+                    // ひなたちゃん：太陽の飾り
+                    this.drawPixel(x + 2, y + 1, this.colors.hinataAccent);
+                    this.drawPixel(x + 3, y + 0, this.colors.hinataAccent);
+                    this.drawPixel(x + 12, y + 0, this.colors.hinataAccent);
+                    this.drawPixel(x + 13, y + 1, this.colors.hinataAccent);
+                } else {
+                    // さくらちゃん：桜の花びら
+                    this.drawPixel(x + 2, y + 1, this.colors.sakuraAccent);
+                    this.drawPixel(x + 3, y + 0, this.colors.sakuraAccent);
+                    this.drawPixel(x + 12, y + 0, this.colors.sakuraAccent);
+                    this.drawPixel(x + 13, y + 1, this.colors.sakuraAccent);
+                }
                 break;
                 
-            case 'fast':
-                // 炎のような装飾
-                this.drawPixel(x + 1, y + 2, colorSet.accent);
-                this.drawPixel(x + 10, y + 2, colorSet.accent);
-                this.drawPixel(x + 0, y + 3, colorSet.accent);
-                this.drawPixel(x + 11, y + 3, colorSet.accent);
+            case 'energetic':
+                // エネルギッシュな装飾（そらくん・ほしちゃん）
+                if (enemyType === 'fast') {
+                    // そらくん：雲の飾り
+                    this.drawPixel(x + 1, y + 2, this.colors.soraAccent);
+                    this.drawPixel(x + 2, y + 1, this.colors.cloudWhite);
+                    this.drawPixel(x + 13, y + 1, this.colors.cloudWhite);
+                    this.drawPixel(x + 14, y + 2, this.colors.soraAccent);
+                } else {
+                    // ほしちゃん：星の飾り
+                    this.drawPixel(x + 1, y + 1, this.colors.star);
+                    this.drawPixel(x + 2, y + 0, this.colors.hoshiAccent);
+                    this.drawPixel(x + 13, y + 0, this.colors.hoshiAccent);
+                    this.drawPixel(x + 14, y + 1, this.colors.star);
+                }
                 break;
                 
-            case 'master':
-                // 星の装飾
+            case 'mysterious':
+                // かげまる：影のオーラ
+                this.drawPixel(x + 0, y + 1, enemyData.accentColor);
                 this.drawPixel(x + 1, y + 0, this.colors.sparkle);
-                this.drawPixel(x + 10, y + 0, this.colors.sparkle);
-                this.drawPixel(x + 0, y + 2, this.colors.sparkle);
-                this.drawPixel(x + 11, y + 2, this.colors.sparkle);
-                // オーラ効果
-                this.drawPixel(x + 2, y + 0, colorSet.accent);
-                this.drawPixel(x + 9, y + 0, colorSet.accent);
+                this.drawPixel(x + 2, y + 0, enemyData.accentColor);
+                this.drawPixel(x + 13, y + 0, enemyData.accentColor);
+                this.drawPixel(x + 14, y + 0, this.colors.sparkle);
+                this.drawPixel(x + 15, y + 1, enemyData.accentColor);
+                // 神秘的なオーラ効果
+                this.drawPixel(x + 0, y + 3, enemyData.accentColor);
+                this.drawPixel(x + 15, y + 3, enemyData.accentColor);
                 break;
         }
     }

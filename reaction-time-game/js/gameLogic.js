@@ -39,24 +39,24 @@ class ReactionGame {
         // 入力ハンドリング
         this.setupInputHandlers();
         
-        // キャラクター状態
+        // キャラクター状態（16x16キャラクター対応）
         this.catExpression = 'normal';
-        this.catPosition = { x: 30, y: 40 }; // 中央寄り左側に配置
+        this.catPosition = { x: 25, y: 35 }; // 中央寄り左側に配置
         this.signalLight = 'red';
         
         // 敵システム
         this.currentEnemy = null;
-        this.enemyPosition = { x: 60, y: 40 }; // 中央寄り右側に配置
+        this.enemyPosition = { x: 55, y: 35 }; // 中央寄り右側に配置
         this.enemyReactionTime = 0;
         this.battlePhase = 'ready'; // ready, countdown, signal, result
         
-        // 敵の種類とAI
+        // 敵の種類とAI（世界観に合った可愛い名前で段階的難易度）
         this.enemies = [
-            { name: 'ノロマくん', type: 'basic', reactionRange: [400, 600], description: '反応がちょっと遅い敵' },
-            { name: 'フツーちゃん', type: 'basic', reactionRange: [300, 450], description: '普通の反応速度の敵' },
-            { name: 'ハヤトくん', type: 'fast', reactionRange: [200, 350], description: '素早い反応の敵' },
-            { name: 'スピードちゃん', type: 'fast', reactionRange: [150, 280], description: 'かなり早い反応の敵' },
-            { name: 'ライトニング', type: 'master', reactionRange: [100, 220], description: '電光石火の反応を持つ強敵' },
+            { name: 'ひなたちゃん', type: 'basic', reactionRange: [600, 800], description: 'のんびり屋さんの優しい猫' },
+            { name: 'さくらちゃん', type: 'basic', reactionRange: [400, 600], description: '春らしい穏やかな猫' },
+            { name: 'そらくん', type: 'fast', reactionRange: [300, 450], description: '空のように自由な猫' },
+            { name: 'ほしちゃん', type: 'fast', reactionRange: [200, 350], description: '星のように輝く素早い猫' },
+            { name: 'かげまる', type: 'master', reactionRange: [150, 250], description: '影のように神秘的な最強の猫' },
         ];
         
         // バトル結果メッセージ

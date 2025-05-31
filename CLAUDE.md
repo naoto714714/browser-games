@@ -61,6 +61,13 @@ git push origin main
 - **Boss Battles**: Level progression with boss fights every 5 levels
 - **Multi-ball Physics**: Complex ball physics with collision handling
 
+### Reaction Time Game (刹那の見切り)
+- **Battle System**: Player vs AI enemy reaction time battles
+- **Progressive Difficulty**: 5 enemy types with increasing reaction speeds
+- **Pixel Art Characters**: 12x12 detailed character sprites with expressions
+- **Web Audio API**: Procedural sound generation for effects
+- **Mobile-First Design**: Touch-optimized controls with responsive layout
+
 ## Common Tasks
 
 ### Adding a New Game
