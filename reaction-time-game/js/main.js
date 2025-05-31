@@ -152,6 +152,11 @@ class GameController {
         // エフェクト音
         this.game.playCountdownSound();
         
+        // 次のバトルのカウントダウンを開始
+        setTimeout(() => {
+            this.game.startCountdown();
+        }, 500); // 少し待ってからカウントダウン開始
+        
         console.log(`📈 Round ${this.game.currentRound + 1} started`);
     }
     
@@ -204,6 +209,16 @@ class GameController {
         
         this.ctx.scale(devicePixelRatio, devicePixelRatio);
         this.ctx.imageSmoothingEnabled = false;
+        
+        // レンダラーのサイズを更新
+        if (this.pixelRenderer) {
+            this.pixelRenderer.updateCanvasSize();
+        }
+        
+        // ゲームのキャラクター位置を再計算
+        if (this.game) {
+            this.game.updateCharacterPositions();
+        }
         
         console.log(`📐 Canvas resized: ${this.canvas.width}x${this.canvas.height}`);
     }
