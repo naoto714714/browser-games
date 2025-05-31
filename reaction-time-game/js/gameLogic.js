@@ -340,6 +340,13 @@ class ReactionGame {
         // UI更新
         this.updateResultUI(message, battleResult);
         this.updateUI();
+        
+        // 敗北時は自動でリトライ画面に移行
+        if (battleResult === 'defeat') {
+            setTimeout(() => {
+                this.autoShowRetryScreen();
+            }, 2000); // 2秒後に自動表示
+        }
     }
     
     // ゲームオーバー処理
@@ -416,6 +423,26 @@ class ReactionGame {
     hideResultPanel() {
         document.getElementById('result-panel').classList.add('hidden');
         document.getElementById('game-status').classList.remove('hidden');
+    }
+    
+    // 自動リトライ画面表示
+    autoShowRetryScreen() {
+        // 結果パネルを隠してスタート画面を表示
+        this.hideResultPanel();
+        
+        // ゲーム状態をリセット
+        this.gameState = 'waiting';
+        this.battlePhase = 'ready';
+        this.catExpression = 'normal';
+        this.signalLight = 'red';
+        
+        // レベルとスコアをリセット
+        this.level = 1;
+        this.score = 0;
+        this.selectCurrentEnemy();
+        this.updateUI();
+        
+        console.log('🔄 Auto retry screen displayed');
     }
     
     // メインゲームループ

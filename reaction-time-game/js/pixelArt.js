@@ -79,18 +79,32 @@ class PixelArtRenderer {
         );
     }
     
-    // 背景描画（空と雲）
+    // 超可愛い背景描画（空・雲・花・虹）
     drawBackground() {
-        // 空のグラデーション
+        // 空のグラデーション（よりカラフルに）
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, this.colors.skyBlue);
-        gradient.addColorStop(1, '#e8f5e8');
+        gradient.addColorStop(0, '#ff9a9e');      // ピンクの空
+        gradient.addColorStop(0.3, '#fecfef');    // 薄紫
+        gradient.addColorStop(0.6, '#fecfef');    // 薄紫
+        gradient.addColorStop(1, '#a8e6cf');      // 薄緑（地面）
         
         this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
+        // 虹を描画
+        this.drawRainbow();
+        
         // 雲を描画
         this.drawClouds();
+        
+        // 花を描画
+        this.drawFlowers();
+        
+        // キラキラ星を描画
+        this.drawBackgroundStars();
+        
+        // 地面の草を描画
+        this.drawGrass();
     }
     
     // 雲描画
@@ -119,6 +133,80 @@ class PixelArtRenderer {
                 if(cloud[y][x]) {
                     this.drawPixel(startX + x, startY + y, this.colors.cloudWhite);
                 }
+            }
+        }
+    }
+    
+    // 虹描画
+    drawRainbow() {
+        const rainbowColors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
+        const centerX = 50;
+        const centerY = 20;
+        
+        for (let i = 0; i < rainbowColors.length; i++) {
+            const radius = 15 + i;
+            for (let angle = 0; angle < Math.PI; angle += 0.1) {
+                const x = Math.floor(centerX + radius * Math.cos(angle));
+                const y = Math.floor(centerY + radius * Math.sin(angle));
+                if (x >= 0 && x < 100 && y >= 0 && y < 75) {
+                    this.drawPixel(x, y, rainbowColors[i]);
+                }
+            }
+        }
+    }
+    
+    // 花描画
+    drawFlowers() {
+        const flowerPositions = [
+            {x: 10, y: 65, color: '#ff69b4'},
+            {x: 25, y: 68, color: '#ffd700'},
+            {x: 75, y: 67, color: '#ff1493'},
+            {x: 90, y: 70, color: '#ff8c00'},
+            {x: 15, y: 72, color: '#ff69b4'}
+        ];
+        
+        flowerPositions.forEach(flower => {
+            this.drawFlower(flower.x, flower.y, flower.color);
+        });
+    }
+    
+    // 個別の花描画
+    drawFlower(x, y, color) {
+        // 花びら（十字形）
+        this.drawPixel(x, y - 1, color);
+        this.drawPixel(x - 1, y, color);
+        this.drawPixel(x + 1, y, color);
+        this.drawPixel(x, y + 1, color);
+        this.drawPixel(x, y, '#ffff00'); // 中心は黄色
+    }
+    
+    // 背景の星描画
+    drawBackgroundStars() {
+        const starPositions = [
+            {x: 15, y: 5}, {x: 85, y: 8}, {x: 95, y: 12},
+            {x: 25, y: 15}, {x: 70, y: 6}, {x: 40, y: 10}
+        ];
+        
+        starPositions.forEach(star => {
+            this.drawStar(star.x, star.y);
+        });
+    }
+    
+    // 個別の星描画
+    drawStar(x, y) {
+        this.drawPixel(x, y, this.colors.sparkle);
+        this.drawPixel(x - 1, y, this.colors.sparkle);
+        this.drawPixel(x + 1, y, this.colors.sparkle);
+        this.drawPixel(x, y - 1, this.colors.sparkle);
+        this.drawPixel(x, y + 1, this.colors.sparkle);
+    }
+    
+    // 草描画
+    drawGrass() {
+        for (let x = 0; x < 100; x += 3) {
+            const height = Math.floor(Math.random() * 3) + 1;
+            for (let h = 0; h < height; h++) {
+                this.drawPixel(x, 72 + h, this.colors.grassGreen);
             }
         }
     }
@@ -644,24 +732,107 @@ class PixelArtRenderer {
         }
     }
     
-    // 「GO!」テキスト描画
+    // 派手で分かりやすい合図描画（大きな「スタート！」）
     drawGoText(x, y) {
-        // シンプルな「GO!」
+        // 大きく分かりやすい「スタート！」の文字
+        this.drawStartSignal(x, y);
+        
+        // 周りに派手なエフェクト
+        this.drawSignalEffects(x, y);
+    }
+    
+    // 「スタート！」文字描画
+    drawStartSignal(x, y) {
+        // 「スタート！」を大きく（日本語なので分かりやすいアイコンで代替）
+        // 大きな矢印 + びっくりマーク + 光るエフェクト
+        
+        // 大きな右向き矢印（10x6）
+        const arrowPattern = [
+            [1,0,0,0,0,0,0,0,0,0],
+            [1,1,0,0,0,0,0,0,0,0],
+            [1,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0,0,0,0],
+            [1,0,0,0,0,0,0,0,0,0]
+        ];
+        
+        // 矢印を緑色で描画
+        for(let row = 0; row < arrowPattern.length; row++) {
+            for(let col = 0; col < arrowPattern[row].length; col++) {
+                if(arrowPattern[row][col]) {
+                    this.drawPixel(x + col - 5, y + row - 3, this.colors.signalGreen);
+                }
+            }
+        }
+        
+        // びっくりマーク（右側）
+        const exclamationPattern = [
+            [0,1,1,0],
+            [0,1,1,0],
+            [0,1,1,0],
+            [0,1,1,0],
+            [0,0,0,0],
+            [0,1,1,0]
+        ];
+        
+        for(let row = 0; row < exclamationPattern.length; row++) {
+            for(let col = 0; col < exclamationPattern[row].length; col++) {
+                if(exclamationPattern[row][col]) {
+                    this.drawPixel(x + col + 6, y + row - 3, this.colors.signalRed);
+                }
+            }
+        }
+        
+        // 「GO」テキスト（中央）
         const goPattern = [
-            [1,1,1,0,1,1,1,0,1],
-            [1,0,0,0,1,0,1,0,1],
-            [1,0,1,0,1,1,1,0,1],
-            [1,0,1,0,1,0,1,0,0],
-            [1,1,1,0,1,0,1,0,1]
+            [1,1,1,0,1,1,1],
+            [1,0,0,0,1,0,1],
+            [1,0,1,0,1,1,1],
+            [1,0,1,0,1,0,1],
+            [1,1,1,0,1,0,1]
         ];
         
         for(let row = 0; row < goPattern.length; row++) {
             for(let col = 0; col < goPattern[row].length; col++) {
                 if(goPattern[row][col]) {
-                    this.drawPixel(x + col, y + row, this.colors.signalGreen);
+                    this.drawPixel(x + col - 2, y + row - 2, this.colors.signalYellow);
                 }
             }
         }
+    }
+    
+    // 合図エフェクト描画
+    drawSignalEffects(x, y) {
+        // 周りに光るエフェクト（4つ角）
+        const sparklePositions = [
+            {dx: -8, dy: -5}, {dx: 12, dy: -5},
+            {dx: -8, dy: 5}, {dx: 12, dy: 5},
+            {dx: 0, dy: -8}, {dx: 0, dy: 8},
+            {dx: -12, dy: 0}, {dx: 15, dy: 0}
+        ];
+        
+        sparklePositions.forEach(pos => {
+            this.drawStar(x + pos.dx, y + pos.dy);
+        });
+        
+        // 光る境界線
+        const frame = [
+            // 上
+            [-10, -6], [-9, -6], [-8, -6], [8, -6], [9, -6], [10, -6], [11, -6], [12, -6], [13, -6],
+            // 下
+            [-10, 6], [-9, 6], [-8, 6], [8, 6], [9, 6], [10, 6], [11, 6], [12, 6], [13, 6],
+            // 左
+            [-10, -5], [-10, -4], [-10, -3], [-10, -2], [-10, -1], [-10, 0], [-10, 1], [-10, 2], [-10, 3], [-10, 4], [-10, 5],
+            // 右
+            [13, -5], [13, -4], [13, -3], [13, -2], [13, -1], [13, 0], [13, 1], [13, 2], [13, 3], [13, 4], [13, 5]
+        ];
+        
+        frame.forEach(pos => {
+            // アニメーションに応じて色を変える
+            const colors = [this.colors.sparkle, this.colors.signalRed, this.colors.signalYellow];
+            const colorIndex = Math.floor(this.animationFrame / 10) % colors.length;
+            this.drawPixel(x + pos[0], y + pos[1], colors[colorIndex]);
+        });
     }
     
     // エフェクト更新
