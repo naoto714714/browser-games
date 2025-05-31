@@ -41,12 +41,12 @@ class ReactionGame {
         
         // キャラクター状態
         this.catExpression = 'normal';
-        this.catPosition = { x: 20, y: 30 }; // 左側に配置
+        this.catPosition = { x: 30, y: 40 }; // 中央寄り左側に配置
         this.signalLight = 'red';
         
         // 敵システム
         this.currentEnemy = null;
-        this.enemyPosition = { x: 70, y: 30 }; // 右側に配置
+        this.enemyPosition = { x: 60, y: 40 }; // 中央寄り右側に配置
         this.enemyReactionTime = 0;
         this.battlePhase = 'ready'; // ready, countdown, signal, result
         
@@ -441,24 +441,24 @@ class ReactionGame {
         
         // VS表示
         if (this.battlePhase === 'countdown' || this.battlePhase === 'ready') {
-            this.renderer.drawVSText(45, 25);
+            this.renderer.drawVSText(47, 30);
         }
         
         // 信号機描画
-        this.renderer.drawTrafficLight(45, 50, this.signalLight);
+        this.renderer.drawTrafficLight(47, 60, this.signalLight);
         
         // ゲーム状態に応じた描画
         switch (this.gameState) {
             case 'countdown':
                 if (this.countdownValue > 0) {
                     this.renderer.drawCountdownNumber(
-                        48, 35, this.countdownValue
+                        49, 50, this.countdownValue
                     );
                 }
                 break;
                 
             case 'signal':
-                this.renderer.drawGoText(45, 35);
+                this.renderer.drawGoText(47, 50);
                 break;
         }
         
