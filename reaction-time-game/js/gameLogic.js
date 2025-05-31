@@ -48,6 +48,7 @@ class ReactionGame {
         this.currentEnemy = null;
         this.enemyPosition = { x: 52, y: 40 }; // 中央右側に配置
         this.enemyReactionTime = 0;
+        this.enemyReactionTimer = null; // 敵の自動反応タイマー
         this.battlePhase = 'ready'; // ready, countdown, signal, result
         
         // 敵の種類とAI（世界観に合った可愛い名前で段階的難易度）
@@ -163,6 +164,12 @@ class ReactionGame {
                 
             case 'signal':
                 // 正常な反応
+                // 敵の反応タイマーをクリア
+                if (this.enemyReactionTimer) {
+                    clearTimeout(this.enemyReactionTimer);
+                    this.enemyReactionTimer = null;
+                }
+                
                 this.reactionTime = currentTime - this.signalStartTime;
                 this.gameState = 'result';
                 this.processReaction();
@@ -257,10 +264,35 @@ class ReactionGame {
                 );
             }, i * 50);
         }
+        
+        // 敵の自動反応タイマー設定
+        this.enemyReactionTimer = setTimeout(() => {
+            if (this.gameState === 'signal') {
+                // 敵が先に反応した（プレイヤーの負け）
+                this.handleEnemyReaction();
+            }
+        }, this.enemyReactionTime);
+    }
+    
+    // 敵の自動反応処理（プレイヤーが遅すぎた場合）
+    handleEnemyReaction() {
+        // プレイヤーは最大反応時間として処理
+        this.reactionTime = this.enemyReactionTime + 1000; // 敵より1秒遅い
+        this.gameState = 'result';
+        this.catExpression = 'normal';
+        
+        this.playErrorSound();
+        this.processReaction();
     }
     
     // フライング処理
     handleFalseStart() {
+        // 敵の反応タイマーをクリア
+        if (this.enemyReactionTimer) {
+            clearTimeout(this.enemyReactionTimer);
+            this.enemyReactionTimer = null;
+        }
+        
         this.gameState = 'result';
         this.reactionTime = -1; // フライングマーク
         this.catExpression = 'surprised';
@@ -318,8 +350,8 @@ class ReactionGame {
                 this.handleGameOver();
             }
             
-            // ベストタイム更新
-            if (!this.bestTime || this.reactionTime < this.bestTime) {
+            // ベストタイム更新（フライング以外の正常な反応時のみ）
+            if (this.reactionTime > 0 && (!this.bestTime || this.reactionTime < this.bestTime)) {
                 this.bestTime = this.reactionTime;
                 localStorage.setItem('bestReactionTime', this.bestTime);
                 
@@ -341,12 +373,7 @@ class ReactionGame {
         this.updateResultUI(message, battleResult);
         this.updateUI();
         
-        // 敗北時は自動でリトライ画面に移行
-        if (battleResult === 'defeat') {
-            setTimeout(() => {
-                this.autoShowRetryScreen();
-            }, 2000); // 2秒後に自動表示
-        }
+        // 敗北時の自動リトライは削除（ユーザーが自分でリトライボタンを押す）
     }
     
     // ゲームオーバー処理
