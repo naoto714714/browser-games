@@ -45,6 +45,17 @@
 
 [➤ ゲームを開始](./reaction-time-game/)
 
+### [Piano Player](./piano-player/)
+**高品質音響合成によるリアルなブラウザピアノ**
+
+- 🎹 **特徴**: 3オクターブ（C3-E5）の本格的なピアノ、リアルタイムサウンド生成
+- 🎵 **オリジナル要素**: Web Audio APIによる倍音合成、リバーブエフェクト、ADSRエンベロープ
+- 🛠️ **技術**: Web Audio API、HTML5、Vanilla JavaScript、レスポンシブデザイン
+- 🎮 **操作**: キーボード/マウス/タッチ対応、複数キー同時演奏可能
+- 🎨 **デザイン**: リアルな鍵盤デザイン、押下時の影と動きのアニメーション
+
+[➤ ゲームを開始](./piano-player/)
+
 ## 🚀 プロジェクト概要
 
 ### 公開設定
@@ -71,6 +82,11 @@ browser-games/
 │   ├── js/                  # JavaScript モジュール
 │   └── README.md            # ゲーム説明
 ├── reaction-time-game/      # 刹那の見切り（反射神経ゲーム）
+│   ├── index.html           # ゲームエントリーポイント
+│   ├── css/style.css        # スタイルシート
+│   ├── js/                  # JavaScript モジュール
+│   └── README.md            # ゲーム説明
+├── piano-player/            # ピアノプレイヤー
 │   ├── index.html           # ゲームエントリーポイント
 │   ├── css/style.css        # スタイルシート
 │   ├── js/                  # JavaScript モジュール
@@ -114,6 +130,6 @@ MIT License - 学習・改良・再配布自由
 
 ---
 
-**Updated**: 2025年5月
-**Games Count**: 4
+**Updated**: 2025年6月
+**Games Count**: 5
 **Status**: 🟢 Active Development
