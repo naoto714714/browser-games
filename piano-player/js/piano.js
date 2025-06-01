@@ -1,7 +1,6 @@
-class Piano {
-    constructor(containerId) {
-        this.container = document.getElementById(containerId);
-        this.audio = new PianoAudio();
+class Piano extends Instrument {
+    constructor(container, audio) {
+        super(container, audio);
         this.keys = [];
         this.keyMap = {};
         
@@ -15,7 +14,7 @@ class Piano {
         };
         
         this.createKeyboard();
-        this.setupEventListeners();
+        this.setupKeyboardEvents();
     }
     
     createKeyboard() {
@@ -66,33 +65,12 @@ class Piano {
         return key;
     }
     
-    setupEventListeners() {
+    setupKeyboardEvents() {
         this.keys.forEach(key => {
-            key.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                this.playKey(key.dataset.note);
-            });
-            
-            key.addEventListener('mouseup', () => {
-                this.releaseKey(key.dataset.note);
-            });
-            
-            key.addEventListener('mouseleave', () => {
-                this.releaseKey(key.dataset.note);
-            });
-            
-            key.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                this.playKey(key.dataset.note);
-            });
-            
-            key.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.releaseKey(key.dataset.note);
-            });
+            this.setupElementEvents(key, key.dataset.note);
         });
         
-        document.addEventListener('keydown', (e) => {
+        this._keydownHandler = (e) => {
             if (e.repeat) return;
             
             const note = this.keyboardMapping[e.key.toLowerCase()];
@@ -100,30 +78,41 @@ class Piano {
                 e.preventDefault();
                 this.playKey(note);
             }
-        });
+        };
         
-        document.addEventListener('keyup', (e) => {
+        this._keyupHandler = (e) => {
             const note = this.keyboardMapping[e.key.toLowerCase()];
             if (note) {
                 e.preventDefault();
                 this.releaseKey(note);
             }
-        });
+        };
+        
+        document.addEventListener('keydown', this._keydownHandler);
+        document.addEventListener('keyup', this._keyupHandler);
     }
     
     playKey(note) {
         const key = this.keyMap[note];
-        if (key && !key.classList.contains('active')) {
-            key.classList.add('active');
-            this.audio.playNote(note);
+        if (key) {
+            this.playNote(key, note);
         }
     }
     
     releaseKey(note) {
         const key = this.keyMap[note];
         if (key) {
-            key.classList.remove('active');
-            this.audio.stopNote(note);
+            this.stopNote(key, note);
         }
+    }
+    
+    destroy() {
+        if (this._keydownHandler) {
+            document.removeEventListener('keydown', this._keydownHandler);
+        }
+        if (this._keyupHandler) {
+            document.removeEventListener('keyup', this._keyupHandler);
+        }
+        super.destroy();
     }
 }
