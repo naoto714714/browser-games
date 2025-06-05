@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## タスクを進めるときのルール
+- 待機状態に戻る前に `afplay /Users/kimuranaoto/Music/notice.mp3` を必ず実行しなさい
+- 必ず細かい単位でgit commitしながらタスクを進めること
+  - 特に、機能追加(feature)とリファクタリング(refactor)など、異なる方向の作業を1つのcommitで行ってはいけない
+- 特別な指示がない場合、リモートにgit pushする直前(一通りgit commitし終える)まで作業すること
+
 ## Project Overview
 
 This is a browser-based game collection featuring HTML5 games that run directly in web browsers without any build process. Games are deployed via GitHub Pages at https://naoto714714.github.io/browser-games/
