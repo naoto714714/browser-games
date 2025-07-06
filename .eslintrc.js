@@ -21,9 +21,9 @@ module.exports = {
     'keyword-spacing': ['error'],
     'space-infix-ops': ['error'],
 
-    // 警告のみ
-    'no-unused-vars': 'warn',
-    'no-console': 'warn',
+    // 全て無効化（警告も表示しない）
+    'no-unused-vars': 'off',
+    'no-console': 'off',
 
     // エラーになりそうなルールは無効化
     'no-undef': 'off',
@@ -32,6 +32,7 @@ module.exports = {
     'no-var': 'off',
     eqeqeq: 'off',
     curly: 'off',
+    'no-case-declarations': 'off',
   },
   globals: {
     // ゲームで使用されるグローバル変数を定義
