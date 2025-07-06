@@ -32,7 +32,9 @@ class Resources {
 
   // 放置収益計算（秒あたり）
   getIdleValue() {
-    if (this.baseIdle === 0) {return 0;}
+    if (this.baseIdle === 0) {
+      return 0;
+    }
     const baseValue =
       this.baseIdle * this.singularityLevel * this.idleMultiplier;
     return baseValue * this.getBlackHoleCoreMultiplier();
@@ -150,22 +152,39 @@ class Resources {
 
   // セーブデータ読み込み
   loadSaveData(data) {
-    if (data.graviCoin !== undefined) {this.graviCoin = data.graviCoin;}
-    if (data.singularityLevel !== undefined)
-    {this.singularityLevel = data.singularityLevel;}
-    if (data.quantumYarn !== undefined) {this.quantumYarn = data.quantumYarn;}
-    if (data.baseClick !== undefined) {this.baseClick = data.baseClick;}
-    if (data.baseIdle !== undefined) {this.baseIdle = data.baseIdle;}
-    if (data.clickMultiplier !== undefined)
-    {this.clickMultiplier = data.clickMultiplier;}
-    if (data.idleMultiplier !== undefined)
-    {this.idleMultiplier = data.idleMultiplier;}
-    if (data.totalGraviCoinEarned !== undefined)
-    {this.totalGraviCoinEarned = data.totalGraviCoinEarned;}
-    if (data.totalClicks !== undefined) {this.totalClicks = data.totalClicks;}
-    if (data.totalPrestige !== undefined)
-    {this.totalPrestige = data.totalPrestige;}
-    if (data.lastSaveTime !== undefined) {this.lastSaveTime = data.lastSaveTime;}
+    if (data.graviCoin !== undefined) {
+      this.graviCoin = data.graviCoin;
+    }
+    if (data.singularityLevel !== undefined) {
+      this.singularityLevel = data.singularityLevel;
+    }
+    if (data.quantumYarn !== undefined) {
+      this.quantumYarn = data.quantumYarn;
+    }
+    if (data.baseClick !== undefined) {
+      this.baseClick = data.baseClick;
+    }
+    if (data.baseIdle !== undefined) {
+      this.baseIdle = data.baseIdle;
+    }
+    if (data.clickMultiplier !== undefined) {
+      this.clickMultiplier = data.clickMultiplier;
+    }
+    if (data.idleMultiplier !== undefined) {
+      this.idleMultiplier = data.idleMultiplier;
+    }
+    if (data.totalGraviCoinEarned !== undefined) {
+      this.totalGraviCoinEarned = data.totalGraviCoinEarned;
+    }
+    if (data.totalClicks !== undefined) {
+      this.totalClicks = data.totalClicks;
+    }
+    if (data.totalPrestige !== undefined) {
+      this.totalPrestige = data.totalPrestige;
+    }
+    if (data.lastSaveTime !== undefined) {
+      this.lastSaveTime = data.lastSaveTime;
+    }
   }
 }
 

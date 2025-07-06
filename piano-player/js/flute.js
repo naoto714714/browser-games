@@ -85,7 +85,9 @@ class FluteAudio extends PianoAudio {
     envelope.connect(this.reverb);
 
     oscillators.forEach(osc => {
-      if (osc !== vibrato) {osc.start(now);}
+      if (osc !== vibrato) {
+        osc.start(now);
+      }
     });
     noise.start(now);
 
@@ -94,7 +96,9 @@ class FluteAudio extends PianoAudio {
 
   stopNote(note) {
     const noteData = this.activeNotes.get(note);
-    if (!noteData) {return;}
+    if (!noteData) {
+      return;
+    }
 
     const now = this.audioContext.currentTime;
     const { oscillators, envelope, noise } = noteData;
@@ -188,7 +192,9 @@ class Flute extends Instrument {
 
   setupKeyboardEvents() {
     this._keydownHandler = e => {
-      if (e.repeat) {return;}
+      if (e.repeat) {
+        return;
+      }
 
       const note = this.keyboardMapping[e.key.toLowerCase()];
       if (note) {

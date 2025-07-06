@@ -20,7 +20,9 @@ class Entity {
 
   // 更新処理
   update(deltaTime) {
-    if (!this.active) {return;}
+    if (!this.active) {
+      return;
+    }
 
     this.updateAnimation();
     this.updatePhysics();
@@ -43,7 +45,9 @@ class Entity {
 
   // 描画処理
   render(ctx, camera) {
-    if (!this.visible || !this.active) {return;}
+    if (!this.visible || !this.active) {
+      return;
+    }
 
     const sprite = SpriteLoader.getSprite(this.spriteKey);
     if (sprite) {
@@ -154,7 +158,9 @@ class Block extends Entity {
 
   // ブロックが叩かれた時の処理
   onHit(player) {
-    if (this.hit) {return null;}
+    if (this.hit) {
+      return null;
+    }
 
     this.hit = true;
     this.bumpAnimation = 10; // バンプアニメーション開始
@@ -185,7 +191,9 @@ class Block extends Entity {
 
   // アイテムを生成
   spawnItem() {
-    if (!this.item) {return null;}
+    if (!this.item) {
+      return null;
+    }
 
     const item = {
       type: this.item,
@@ -292,7 +300,9 @@ class Item extends Entity {
 
   // 更新処理
   update(deltaTime) {
-    if (this.collected) {return;}
+    if (this.collected) {
+      return;
+    }
 
     super.update(deltaTime);
 
@@ -333,7 +343,9 @@ class Item extends Entity {
 
   // アイテム取得処理
   collect(player) {
-    if (this.collected) {return null;}
+    if (this.collected) {
+      return null;
+    }
 
     this.collected = true;
     this.destroy();

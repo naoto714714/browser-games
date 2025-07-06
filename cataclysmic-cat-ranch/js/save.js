@@ -50,13 +50,24 @@ class SaveManager {
       }
 
       // 各システムにデータを読み込み
-      if (saveData.resources) {resourceManager.loadSaveData(saveData.resources);}
-      if (saveData.upgrades) {upgradeManager.loadSaveData(saveData.upgrades);}
-      if (saveData.passives) {passiveManager.loadSaveData(saveData.passives);}
-      if (saveData.prestige) {prestigeManager.loadSaveData(saveData.prestige);}
-      if (saveData.events) {eventManager.loadSaveData(saveData.events);}
-      if (saveData.achievements)
-      {achievementManager.loadSaveData(saveData.achievements);}
+      if (saveData.resources) {
+        resourceManager.loadSaveData(saveData.resources);
+      }
+      if (saveData.upgrades) {
+        upgradeManager.loadSaveData(saveData.upgrades);
+      }
+      if (saveData.passives) {
+        passiveManager.loadSaveData(saveData.passives);
+      }
+      if (saveData.prestige) {
+        prestigeManager.loadSaveData(saveData.prestige);
+      }
+      if (saveData.events) {
+        eventManager.loadSaveData(saveData.events);
+      }
+      if (saveData.achievements) {
+        achievementManager.loadSaveData(saveData.achievements);
+      }
 
       // オフライン進行の計算
       if (saveData.timestamp) {
@@ -186,7 +197,9 @@ class SaveManager {
   // セーブ統計の取得
   getSaveStats() {
     const saveString = localStorage.getItem(this.saveKey);
-    if (!saveString) {return null;}
+    if (!saveString) {
+      return null;
+    }
 
     try {
       const saveData = JSON.parse(atob(saveString));

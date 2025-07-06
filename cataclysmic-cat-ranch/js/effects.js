@@ -30,7 +30,9 @@ class EffectsManager {
 
   // クリック時のフローティング数字
   showFloatingNumber(value, x, y) {
-    if (!this.floatingNumbersContainer) {return;}
+    if (!this.floatingNumbersContainer) {
+      return;
+    }
 
     const floatingNumber = document.createElement('div');
     floatingNumber.className = 'floating-number';
@@ -66,7 +68,9 @@ class EffectsManager {
 
   // 購入エフェクト
   showPurchaseEffect(element) {
-    if (!element) {return;}
+    if (!element) {
+      return;
+    }
 
     // 光るエフェクト
     element.style.transition = 'all 0.3s ease';
@@ -171,7 +175,9 @@ class EffectsManager {
   // 次元跳躍時の波紋
   createPrestigeWaves() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -284,7 +290,9 @@ class EffectsManager {
   // ネコのアニメーション
   animateCatClick() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     // ランダムな表情アニメーション
     this.playRandomCatExpression();
@@ -309,7 +317,9 @@ class EffectsManager {
   // ハートパーティクル
   createHeartParticle() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const heart = document.createElement('div');
@@ -358,7 +368,9 @@ class EffectsManager {
 
   // 総アップグレード数を計算
   calculateTotalUpgrades() {
-    if (!window.upgradeManager) {return 0;}
+    if (!window.upgradeManager) {
+      return 0;
+    }
 
     return upgradeManager.getAllUpgrades().reduce((total, upgrade) => {
       return total + upgrade.level;
@@ -683,7 +695,9 @@ class EffectsManager {
   // クリック時の波紋エフェクト
   createClickRipple() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -730,7 +744,9 @@ class EffectsManager {
   // クリック時のスパークエフェクト
   createClickSparks() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -777,7 +793,9 @@ class EffectsManager {
   // クリック時の衝撃波エフェクト
   createClickShockwave() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -820,7 +838,9 @@ class EffectsManager {
   // サウンドウェーブエフェクト（視覚的表現）
   createSoundWaves() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -912,7 +932,9 @@ class EffectsManager {
   // クリックバーストエフェクト
   createClickBurst() {
     const catElement = document.getElementById('catBlackhole');
-    if (!catElement) {return;}
+    if (!catElement) {
+      return;
+    }
 
     const rect = catElement.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -1053,7 +1075,9 @@ class EffectsManager {
   // 耳のアニメーション
   animateEars() {
     const ears = document.querySelector('.cat-ears');
-    if (!ears) {return;}
+    if (!ears) {
+      return;
+    }
 
     const animations = [
       () => {
@@ -1088,7 +1112,9 @@ class EffectsManager {
   // ひげのアニメーション
   animateWhiskers() {
     const whiskers = document.querySelectorAll('.whisker');
-    if (!whiskers.length) {return;}
+    if (!whiskers.length) {
+      return;
+    }
 
     if (Math.random() < 0.3) {
       // 30%の確率でひげが動く
@@ -1135,7 +1161,9 @@ class EffectsManager {
   // 興奮状態の表情
   excitedExpression() {
     const catFace = document.querySelector('.cat-face');
-    if (!catFace) {return;}
+    if (!catFace) {
+      return;
+    }
 
     // 顔全体を振動させる
     catFace.style.animation = 'catExcitement 0.3s ease-in-out infinite';

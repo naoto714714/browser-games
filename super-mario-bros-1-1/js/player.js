@@ -43,7 +43,9 @@ class Player extends Entity {
 
   // プレイヤーの更新処理
   update(deltaTime) {
-    if (!this.active) {return;}
+    if (!this.active) {
+      return;
+    }
 
     this.handleInput();
     this.updateMovement();
@@ -197,7 +199,9 @@ class Player extends Entity {
 
   // ダメージを受ける
   takeDamage() {
-    if (this.invincible) {return false;}
+    if (this.invincible) {
+      return false;
+    }
 
     if (this.powerState === GAME_CONSTANTS.PLAYER_STATE.SMALL) {
       // 小さいマリオは死亡

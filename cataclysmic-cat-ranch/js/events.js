@@ -33,7 +33,9 @@ class GameEvent {
   }
 
   getRemainingTime() {
-    if (!this.active) {return 0;}
+    if (!this.active) {
+      return 0;
+    }
     return Math.max(0, Math.floor((this.endTime - Date.now()) / 1000));
   }
 }
@@ -155,11 +157,15 @@ class EventManager {
 
   checkForNewEvents() {
     // アクティブなイベントが多すぎる場合はスキップ
-    if (this.activeEvents.length >= 2) {return;}
+    if (this.activeEvents.length >= 2) {
+      return;
+    }
 
     this.events.forEach(event => {
       // すでにアクティブなイベントはスキップ
-      if (this.activeEvents.some(e => e.id === event.id)) {return;}
+      if (this.activeEvents.some(e => e.id === event.id)) {
+        return;
+      }
 
       // 確率チェック
       if (Math.random() < event.chance) {

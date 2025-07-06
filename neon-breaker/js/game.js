@@ -372,7 +372,9 @@ class GameState {
   }
 
   update() {
-    if (!this.gameStarted || this.isPaused || !this.isPlaying) {return;}
+    if (!this.gameStarted || this.isPaused || !this.isPlaying) {
+      return;
+    }
 
     // Update multiplier timer
     if (this.multiplierTimer > 0) {
@@ -532,7 +534,9 @@ class GameState {
 
   // 🆕 ボス衝突判定
   checkBossCollisionWithBall(ball) {
-    if (!this.bossBlock) {return false;}
+    if (!this.bossBlock) {
+      return false;
+    }
 
     return (
       ball.x + ball.radius >= this.bossBlock.x &&
@@ -965,7 +969,9 @@ class GameState {
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
 
-      if (!block.vy) {block.vy = 0;}
+      if (!block.vy) {
+        block.vy = 0;
+      }
 
       // 重力加速度
       block.vy += 0.3;
@@ -1607,7 +1613,9 @@ class BossBlock {
   }
 
   update(canvasWidth) {
-    if (this.frozen) {return;}
+    if (this.frozen) {
+      return;
+    }
 
     // 横移動
     this.x += this.vx;
@@ -1633,7 +1641,9 @@ class BossBlock {
 
   takeDamage(damage) {
     this.hp -= damage;
-    if (this.hp < 0) {this.hp = 0;}
+    if (this.hp < 0) {
+      this.hp = 0;
+    }
   }
 
   isDefeated() {

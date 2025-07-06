@@ -85,7 +85,9 @@ class Game {
 
   // ゲームループ
   gameLoop() {
-    if (this.state !== GAME_CONSTANTS.GAME_STATE.PLAYING) {return;}
+    if (this.state !== GAME_CONSTANTS.GAME_STATE.PLAYING) {
+      return;
+    }
 
     const currentTime = performance.now();
     this.deltaTime = (currentTime - this.lastFrameTime) / 1000;

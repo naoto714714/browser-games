@@ -40,7 +40,9 @@ class Enemy extends Entity {
 
   // 踏まれた時の処理
   onStomp(player) {
-    if (this.defeated) {return null;}
+    if (this.defeated) {
+      return null;
+    }
 
     this.defeated = true;
     this.velocityX = 0;
@@ -54,7 +56,9 @@ class Enemy extends Entity {
 
   // プレイヤーとの衝突処理
   onPlayerCollision(player) {
-    if (this.defeated) {return null;}
+    if (this.defeated) {
+      return null;
+    }
 
     // プレイヤーが上から踏んだ場合
     if (
@@ -112,7 +116,9 @@ class Goomba extends Enemy {
 
   // 踏まれた時の処理（グンバ特有）
   onStomp(player) {
-    if (this.defeated) {return null;}
+    if (this.defeated) {
+      return null;
+    }
 
     this.defeated = true;
     this.velocityX = 0;
@@ -206,7 +212,9 @@ class KoopaTroopa extends Enemy {
 
   // 踏まれた時の処理（ノコノコ特有）
   onStomp(player) {
-    if (this.defeated) {return null;}
+    if (this.defeated) {
+      return null;
+    }
 
     if (!this.shellMode) {
       // 通常モードから甲羅モードへ
@@ -238,7 +246,9 @@ class KoopaTroopa extends Enemy {
 
   // プレイヤーとの衝突処理（ノコノコ特有）
   onPlayerCollision(player) {
-    if (this.defeated) {return null;}
+    if (this.defeated) {
+      return null;
+    }
 
     // 甲羅モードで横から触れた場合
     if (this.shellMode && Math.abs(this.shellVelocity) < 0.1) {

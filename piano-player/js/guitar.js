@@ -118,7 +118,8 @@ class Guitar extends Instrument {
     let noteIndex = notes.indexOf(baseNote);
     noteIndex = (noteIndex + fret) % 12;
 
-    const octave = baseOctave + Math.floor((notes.indexOf(baseNote) + fret) / 12);
+    const octave =
+      baseOctave + Math.floor((notes.indexOf(baseNote) + fret) / 12);
 
     return notes[noteIndex] + octave;
   }

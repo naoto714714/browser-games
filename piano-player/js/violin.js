@@ -76,7 +76,9 @@ class ViolinAudio extends PianoAudio {
     envelope.connect(this.reverb);
 
     oscillators.forEach(osc => {
-      if (osc !== vibrato) {osc.start(now);}
+      if (osc !== vibrato) {
+        osc.start(now);
+      }
     });
 
     this.activeNotes.set(note, { oscillators, envelope, gains });
@@ -182,7 +184,9 @@ class Violin extends Instrument {
 
   setupKeyboardEvents() {
     this._keydownHandler = e => {
-      if (e.repeat) {return;}
+      if (e.repeat) {
+        return;
+      }
 
       const note = this.keyboardMapping[e.key.toLowerCase()];
       if (note) {

@@ -73,8 +73,12 @@ class Passive {
   }
 
   loadSaveData(data) {
-    if (data.level !== undefined) {this.level = data.level;}
-    if (data.unlocked !== undefined) {this.unlocked = data.unlocked;}
+    if (data.level !== undefined) {
+      this.level = data.level;
+    }
+    if (data.unlocked !== undefined) {
+      this.unlocked = data.unlocked;
+    }
   }
 }
 
@@ -235,7 +239,9 @@ class PassiveManager {
 
   updateUI() {
     const container = document.getElementById('passivesList');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     container.innerHTML = '';
 
@@ -256,7 +262,9 @@ class PassiveManager {
     }
 
     this.passives.forEach(passive => {
-      if (!passive.unlocked) {return;}
+      if (!passive.unlocked) {
+        return;
+      }
 
       const div = document.createElement('div');
       div.className = 'passive-item';
@@ -330,7 +338,9 @@ class PassiveManager {
   }
 
   loadSaveData(data) {
-    if (!Array.isArray(data)) {return;}
+    if (!Array.isArray(data)) {
+      return;
+    }
 
     data.forEach(passiveData => {
       const passive = this.getPassive(passiveData.id);

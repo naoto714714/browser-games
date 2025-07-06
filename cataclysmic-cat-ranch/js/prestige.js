@@ -14,7 +14,9 @@ class PrestigeManager {
 
   // 獲得できる量子毛玉の計算
   calculateQuantumYarnGain() {
-    if (!this.canPrestige()) {return 0;}
+    if (!this.canPrestige()) {
+      return 0;
+    }
 
     // 基本計算: (GC / 100万) ^ 0.5
     const baseGain = Math.floor(
@@ -35,7 +37,9 @@ class PrestigeManager {
 
   // 次元跳躍実行
   performPrestige() {
-    if (!this.canPrestige()) {return false;}
+    if (!this.canPrestige()) {
+      return false;
+    }
 
     const quantumYarnGain = this.calculateQuantumYarnGain();
 
@@ -76,7 +80,9 @@ class PrestigeManager {
     const button = document.getElementById('prestigeButton');
     const rewardSpan = document.getElementById('prestigeReward');
 
-    if (!button || !rewardSpan) {return;}
+    if (!button || !rewardSpan) {
+      return;
+    }
 
     const canPrestige = this.canPrestige();
     const quantumYarnGain = this.calculateQuantumYarnGain();

@@ -110,9 +110,15 @@ const Utils = {
 
   // 深いオブジェクトコピー
   deepClone(obj) {
-    if (obj === null || typeof obj !== 'object') {return obj;}
-    if (obj instanceof Date) {return new Date(obj.getTime());}
-    if (obj instanceof Array) {return obj.map(item => this.deepClone(item));}
+    if (obj === null || typeof obj !== 'object') {
+      return obj;
+    }
+    if (obj instanceof Date) {
+      return new Date(obj.getTime());
+    }
+    if (obj instanceof Array) {
+      return obj.map(item => this.deepClone(item));
+    }
     if (typeof obj === 'object') {
       const clonedObj = {};
       for (const key in obj) {

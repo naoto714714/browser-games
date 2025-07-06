@@ -101,7 +101,9 @@ class InputManager {
 
   // ゲームパッドの入力をキー入力にマッピング
   mapGamepadToKeys() {
-    if (!this.gamepad) {return;}
+    if (!this.gamepad) {
+      return;
+    }
 
     // 方向キー・スティック
     const leftPressed =

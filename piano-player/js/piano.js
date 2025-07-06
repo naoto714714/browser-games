@@ -97,7 +97,9 @@ class Piano extends Instrument {
     });
 
     this._keydownHandler = e => {
-      if (e.repeat) {return;}
+      if (e.repeat) {
+        return;
+      }
 
       const note = this.keyboardMapping[e.key.toLowerCase()];
       if (note) {

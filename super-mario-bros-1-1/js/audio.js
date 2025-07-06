@@ -24,7 +24,9 @@ class AudioManager {
 
   // 音源を作成（プロシージャル生成）
   createSounds() {
-    if (!this.enabled) {return;}
+    if (!this.enabled) {
+      return;
+    }
 
     // ジャンプ音
     this.sounds.jump = this.createTone(440, 0.1, 'square');
@@ -51,7 +53,9 @@ class AudioManager {
   // トーン音を生成
   createTone(frequency, duration, waveType = 'sine') {
     return () => {
-      if (!this.enabled || !this.audioContext) {return;}
+      if (!this.enabled || !this.audioContext) {
+        return;
+      }
 
       const oscillator = this.audioContext.createOscillator();
       const gainNode = this.audioContext.createGain();
@@ -82,7 +86,9 @@ class AudioManager {
   // ノイズ音を生成
   createNoise(duration) {
     return () => {
-      if (!this.enabled || !this.audioContext) {return;}
+      if (!this.enabled || !this.audioContext) {
+        return;
+      }
 
       const bufferSize = this.audioContext.sampleRate * duration;
       const buffer = this.audioContext.createBuffer(
@@ -119,7 +125,9 @@ class AudioManager {
   // パワーアップ音を生成
   createPowerUpSound() {
     return () => {
-      if (!this.enabled || !this.audioContext) {return;}
+      if (!this.enabled || !this.audioContext) {
+        return;
+      }
 
       const frequencies = [523, 659, 784, 1047]; // C, E, G, C
       const duration = 0.15;
@@ -135,7 +143,9 @@ class AudioManager {
   // 死亡音を生成
   createDieSound() {
     return () => {
-      if (!this.enabled || !this.audioContext) {return;}
+      if (!this.enabled || !this.audioContext) {
+        return;
+      }
 
       const oscillator = this.audioContext.createOscillator();
       const gainNode = this.audioContext.createGain();
@@ -167,7 +177,9 @@ class AudioManager {
   // 1UP音を生成
   createOneUpSound() {
     return () => {
-      if (!this.enabled || !this.audioContext) {return;}
+      if (!this.enabled || !this.audioContext) {
+        return;
+      }
 
       const frequencies = [523, 659, 784, 1047, 1319]; // C, E, G, C, E
       const duration = 0.12;
@@ -182,7 +194,9 @@ class AudioManager {
 
   // 音を再生
   playSound(soundName) {
-    if (!this.enabled || !this.sounds[soundName]) {return;}
+    if (!this.enabled || !this.sounds[soundName]) {
+      return;
+    }
 
     // AudioContextがサスペンド状態の場合は再開
     if (this.audioContext.state === 'suspended') {
@@ -194,7 +208,9 @@ class AudioManager {
 
   // BGM（簡易版）
   playBGM() {
-    if (!this.enabled || !this.audioContext) {return;}
+    if (!this.enabled || !this.audioContext) {
+      return;
+    }
 
     // マリオのメインテーマの一部（プロシージャル）
     const melody = [

@@ -149,7 +149,9 @@ class ComboManager {
     const multiplierDisplay = document.getElementById('multiplierDisplay');
     const comboTitle = document.getElementById('comboTitle');
 
-    if (!comboDisplay || !multiplierDisplay || !comboTitle) {return;}
+    if (!comboDisplay || !multiplierDisplay || !comboTitle) {
+      return;
+    }
 
     // コンボ数表示
     comboDisplay.textContent = `COMBO: ${this.combo}`;
@@ -194,7 +196,9 @@ class ComboManager {
 
   // コンボエフェクト
   showComboEffect() {
-    if (this.combo <= 1) {return;}
+    if (this.combo <= 1) {
+      return;
+    }
 
     // コンボ数に応じたエフェクトの強度
     const intensity = Math.min(this.combo / 50, 1);

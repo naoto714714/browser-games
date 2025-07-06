@@ -119,7 +119,9 @@ class PianoAudio {
 
   stopNote(note) {
     const noteData = this.activeNotes.get(note);
-    if (!noteData) {return;}
+    if (!noteData) {
+      return;
+    }
 
     const now = this.audioContext.currentTime;
     const { oscillators, envelope } = noteData;

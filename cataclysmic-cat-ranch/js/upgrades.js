@@ -229,7 +229,9 @@ class UpgradeManager {
 
   updateUI() {
     const container = document.getElementById('upgradesList');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     container.innerHTML = '';
 
@@ -307,7 +309,9 @@ class UpgradeManager {
   }
 
   loadSaveData(data) {
-    if (!Array.isArray(data)) {return;}
+    if (!Array.isArray(data)) {
+      return;
+    }
 
     data.forEach(upgradeData => {
       const upgrade = this.getUpgrade(upgradeData.id);

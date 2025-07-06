@@ -97,7 +97,9 @@ class GameController {
       switch (e.key) {
       case 'r':
       case 'R':
-        if (e.ctrlKey || e.metaKey) {return;} // Ctrl+R (reload) は無視
+        if (e.ctrlKey || e.metaKey) {
+          return;
+        } // Ctrl+R (reload) は無視
         this.restartGame();
         break;
       case 'n':
@@ -229,7 +231,9 @@ class GameController {
 
   // メインゲームループ
   gameLoop(currentTime = 0) {
-    if (!this.isRunning) {return;}
+    if (!this.isRunning) {
+      return;
+    }
 
     // FPS計算
     if (currentTime - this.lastFpsUpdate >= 1000) {

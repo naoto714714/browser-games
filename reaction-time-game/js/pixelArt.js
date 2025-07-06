@@ -527,7 +527,9 @@ class PixelArtRenderer {
     };
 
     const pattern = numbers[number];
-    if (!pattern) {return;}
+    if (!pattern) {
+      return;
+    }
 
     for (let row = 0; row < pattern.length; row++) {
       for (let col = 0; col < pattern[row].length; col++) {

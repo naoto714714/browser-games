@@ -36,8 +36,12 @@ class Achievement {
   }
 
   loadSaveData(data) {
-    if (data.unlocked !== undefined) {this.unlocked = data.unlocked;}
-    if (data.unlockedAt !== undefined) {this.unlockedAt = data.unlockedAt;}
+    if (data.unlocked !== undefined) {
+      this.unlocked = data.unlocked;
+    }
+    if (data.unlockedAt !== undefined) {
+      this.unlockedAt = data.unlockedAt;
+    }
   }
 }
 
@@ -262,7 +266,9 @@ class AchievementManager {
 
   updateUI() {
     const container = document.getElementById('achievementsList');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     container.innerHTML = '';
 
@@ -335,7 +341,9 @@ class AchievementManager {
   }
 
   loadSaveData(data) {
-    if (!Array.isArray(data)) {return;}
+    if (!Array.isArray(data)) {
+      return;
+    }
 
     data.forEach(achievementData => {
       const achievement = this.achievementMap[achievementData.id];

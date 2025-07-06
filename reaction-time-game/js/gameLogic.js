@@ -136,7 +136,9 @@ class ReactionGame {
 
   // ビープ音生成
   playBeep(frequency = 800, duration = 200, type = 'sine') {
-    if (!this.audioContext) {return;}
+    if (!this.audioContext) {
+      return;
+    }
 
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();

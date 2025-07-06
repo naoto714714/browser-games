@@ -253,7 +253,9 @@ class Drums extends Instrument {
 
   setupKeyboardEvents() {
     this._keydownHandler = e => {
-      if (e.repeat) {return;}
+      if (e.repeat) {
+        return;
+      }
 
       const key = e.key.toLowerCase();
       const drum = this.drumConfig.find(
