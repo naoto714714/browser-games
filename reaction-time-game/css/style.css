@@ -22,7 +22,7 @@ body {
     background: #fff;
     border: 8px solid #2c3e50;
     border-radius: 0;
-    box-shadow: 
+    box-shadow:
         0 0 0 4px #fff,
         0 0 0 8px #2c3e50,
         8px 8px 0 8px rgba(44, 62, 80, 0.3);
@@ -208,37 +208,37 @@ footer {
 @media (max-width: 768px) {
     .game-container {
         border-width: 4px;
-        box-shadow: 
+        box-shadow:
             0 0 0 2px #fff,
             0 0 0 4px #2c3e50,
             4px 4px 0 4px rgba(44, 62, 80, 0.3);
     }
-    
+
     header h1 {
         font-size: 18px;
     }
-    
+
     .score-board {
         font-size: 10px;
         flex-direction: column;
         gap: 5px;
     }
-    
+
     #gameCanvas {
         border-width: 2px;
     }
-    
+
     .status-panel, .result-panel {
         padding: 20px;
         min-width: 250px;
         border-width: 2px;
     }
-    
+
     .pixel-btn {
         font-size: 10px;
         padding: 10px 15px;
     }
-    
+
     .controls-info p {
         font-size: 8px;
     }
@@ -250,7 +250,7 @@ footer {
         padding: 15px 25px;
         font-size: 14px;
     }
-    
+
     #gameCanvas {
         cursor: pointer;
     }

@@ -8,11 +8,11 @@ class EffectsManager {
         this.backgroundEffects = [];
         this.init();
     }
-    
+
     init() {
         // フローティング数字用コンテナ
         this.floatingNumbersContainer = document.getElementById('floatingNumbers');
-        
+
         // パーティクル用コンテナを作成
         this.particleContainer = document.createElement('div');
         this.particleContainer.className = 'particle-container';
@@ -27,19 +27,19 @@ class EffectsManager {
         `;
         document.body.appendChild(this.particleContainer);
     }
-    
+
     // クリック時のフローティング数字
     showFloatingNumber(value, x, y) {
         if (!this.floatingNumbersContainer) return;
-        
+
         const floatingNumber = document.createElement('div');
         floatingNumber.className = 'floating-number';
         floatingNumber.textContent = '+' + formatNumber(value);
-        
+
         // クリック位置からランダムにずらす
         const offsetX = (Math.random() - 0.5) * 50;
         const offsetY = (Math.random() - 0.5) * 20;
-        
+
         // 位置が指定されていない場合はネコの位置を使用
         if (x === undefined || y === undefined) {
             const catElement = document.getElementById('catBlackhole');
@@ -52,42 +52,42 @@ class EffectsManager {
                 y = window.innerHeight / 2;
             }
         }
-        
+
         floatingNumber.style.left = (x + offsetX) + 'px';
         floatingNumber.style.top = (y + offsetY) + 'px';
-        
+
         this.floatingNumbersContainer.appendChild(floatingNumber);
-        
+
         // アニメーション終了後に削除
         setTimeout(() => {
             floatingNumber.remove();
         }, 2000);
     }
-    
+
     // 購入エフェクト
     showPurchaseEffect(element) {
         if (!element) return;
-        
+
         // 光るエフェクト
         element.style.transition = 'all 0.3s ease';
         element.style.boxShadow = '0 0 20px rgba(102, 126, 234, 0.8)';
         element.style.transform = 'scale(1.05)';
-        
+
         setTimeout(() => {
             element.style.boxShadow = '';
             element.style.transform = '';
         }, 300);
-        
+
         // パーティクル生成
         this.createPurchaseParticles(element);
     }
-    
+
     // 購入時のパーティクル
     createPurchaseParticles(element) {
         const rect = element.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         for (let i = 0; i < 10; i++) {
             const particle = document.createElement('div');
             particle.style.cssText = `
@@ -100,14 +100,14 @@ class EffectsManager {
                 top: ${centerY}px;
                 pointer-events: none;
             `;
-            
+
             this.particleContainer.appendChild(particle);
-            
+
             // ランダムな方向に飛ばす
             const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.5;
             const distance = 50 + Math.random() * 50;
             const duration = 500 + Math.random() * 500;
-            
+
             particle.animate([
                 {
                     transform: 'translate(0, 0) scale(1)',
@@ -123,7 +123,7 @@ class EffectsManager {
             }).onfinish = () => particle.remove();
         }
     }
-    
+
     // 次元跳躍エフェクト
     showPrestigeEffect() {
         // 画面全体のフラッシュ
@@ -139,9 +139,9 @@ class EffectsManager {
             pointer-events: none;
             animation: prestigeFlash 1s ease-out forwards;
         `;
-        
+
         document.body.appendChild(flash);
-        
+
         // アニメーション定義
         const style = document.createElement('style');
         style.textContent = `
@@ -152,26 +152,26 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         // エフェクト終了後に削除
         setTimeout(() => {
             flash.remove();
             style.remove();
         }, 1000);
-        
+
         // 波紋エフェクト
         this.createPrestigeWaves();
     }
-    
+
     // 次元跳躍時の波紋
     createPrestigeWaves() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         for (let i = 0; i < 3; i++) {
             setTimeout(() => {
                 const wave = document.createElement('div');
@@ -187,9 +187,9 @@ class EffectsManager {
                     border-radius: 50%;
                     pointer-events: none;
                 `;
-                
+
                 this.particleContainer.appendChild(wave);
-                
+
                 wave.animate([
                     {
                         transform: 'scale(1)',
@@ -206,7 +206,7 @@ class EffectsManager {
             }, i * 200);
         }
     }
-    
+
     // イベント終了通知
     showEventEndNotification(message) {
         const notification = document.createElement('div');
@@ -223,7 +223,7 @@ class EffectsManager {
             animation: slideInRight 0.5s ease-out;
         `;
         notification.textContent = message;
-        
+
         // アニメーション定義
         const style = document.createElement('style');
         style.textContent = `
@@ -233,9 +233,9 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.animation = 'slideOutRight 0.5s ease-in forwards';
             setTimeout(() => {
@@ -244,7 +244,7 @@ class EffectsManager {
             }, 500);
         }, 3000);
     }
-    
+
     // 汎用通知
     showNotification(message, isError = false) {
         const notification = document.createElement('div');
@@ -262,45 +262,45 @@ class EffectsManager {
             animation: fadeInUp 0.3s ease-out;
         `;
         notification.textContent = message;
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.animation = 'fadeOutDown 0.3s ease-in forwards';
             setTimeout(() => notification.remove(), 300);
         }, 2000);
     }
-    
+
     // ネコのアニメーション
     animateCatClick() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         // ランダムな表情アニメーション
         this.playRandomCatExpression();
-        
+
         // ハートパーティクル
         this.createHeartParticle();
-        
+
         // 新しいクリックエフェクト
         this.createClickRipple();
         this.createClickSparks();
         this.createClickShockwave();
         this.createSoundWaves();
         this.createClickBurst();
-        
+
         // 耳の動きアニメーション
         this.animateEars();
-        
+
         // ひげの動きアニメーション
         this.animateWhiskers();
     }
-    
+
     // ハートパーティクル
     createHeartParticle() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const heart = document.createElement('div');
         heart.style.cssText = `
@@ -311,9 +311,9 @@ class EffectsManager {
             pointer-events: none;
         `;
         heart.textContent = '💕';
-        
+
         this.particleContainer.appendChild(heart);
-        
+
         heart.animate([
             {
                 transform: 'translateY(0) scale(1)',
@@ -328,67 +328,67 @@ class EffectsManager {
             easing: 'ease-out'
         }).onfinish = () => heart.remove();
     }
-    
+
     // アップグレード進行度に応じた画面変化
     updateEnvironmentEffects() {
         const totalUpgrades = this.calculateTotalUpgrades();
-        
+
         // レベル段階を計算（5レベルごとに変化）
         const upgradeStage = Math.floor(totalUpgrades / 5);
-        
+
         if (upgradeStage !== this.currentUpgradeLevel) {
             this.currentUpgradeLevel = upgradeStage;
             this.applyEnvironmentStage(upgradeStage);
             this.showUpgradeStageTransition(upgradeStage);
         }
     }
-    
+
     // 総アップグレード数を計算
     calculateTotalUpgrades() {
         if (!window.upgradeManager) return 0;
-        
+
         return upgradeManager.getAllUpgrades().reduce((total, upgrade) => {
             return total + upgrade.level;
         }, 0);
     }
-    
+
     // 環境段階を適用
     applyEnvironmentStage(stage) {
         // 既存の背景エフェクトをクリア
         this.clearBackgroundEffects();
-        
+
         const body = document.body;
         const starsContainer = [
             document.getElementById('stars'),
-            document.getElementById('stars2'), 
+            document.getElementById('stars2'),
             document.getElementById('stars3')
         ];
-        
+
         switch(stage) {
             case 0: // 初期状態
                 body.style.background = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)';
                 break;
-                
+
             case 1: // レベル5-9: 星雲が見え始める
                 body.style.background = 'radial-gradient(ellipse at bottom, #1b2735 0%, #0f1b2e 50%, #090a0f 100%)';
                 this.addNebulaEffect();
                 break;
-                
+
             case 2: // レベル10-14: 銀河の渦が現れる
                 body.style.background = 'radial-gradient(ellipse at bottom, #2d1b69 0%, #1b2735 50%, #090a0f 100%)';
                 this.addGalaxyEffect();
                 break;
-                
+
             case 3: // レベル15-19: 時空の歪みエフェクト
                 body.style.background = 'radial-gradient(ellipse at bottom, #4c1d95 0%, #2d1b69 50%, #090a0f 100%)';
                 this.addSpaceDistortionEffect();
                 break;
-                
+
             case 4: // レベル20-24: 多次元空間
                 body.style.background = 'radial-gradient(ellipse at bottom, #7c3aed 0%, #4c1d95 50%, #1e1b4b 100%)';
                 this.addMultidimensionalEffect();
                 break;
-                
+
             default: // レベル25+: 宇宙の終焉
                 if (stage >= 5) {
                     body.style.background = 'radial-gradient(ellipse at bottom, #ec4899 0%, #7c3aed 30%, #1e1b4b 100%)';
@@ -396,7 +396,7 @@ class EffectsManager {
                 }
                 break;
         }
-        
+
         // 星の速度を段階に応じて加速
         starsContainer.forEach((star, index) => {
             if (star) {
@@ -406,7 +406,7 @@ class EffectsManager {
             }
         });
     }
-    
+
     // 背景エフェクトをクリア
     clearBackgroundEffects() {
         this.backgroundEffects.forEach(effect => {
@@ -416,7 +416,7 @@ class EffectsManager {
         });
         this.backgroundEffects = [];
     }
-    
+
     // 星雲エフェクト
     addNebulaEffect() {
         const nebula = document.createElement('div');
@@ -431,7 +431,7 @@ class EffectsManager {
             z-index: -1;
             animation: nebulaFloat 20s ease-in-out infinite;
         `;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes nebulaFloat {
@@ -440,11 +440,11 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(nebula);
         this.backgroundEffects.push(nebula, style);
     }
-    
+
     // 銀河エフェクト
     addGalaxyEffect() {
         const galaxy = document.createElement('div');
@@ -460,7 +460,7 @@ class EffectsManager {
             z-index: -1;
             animation: galaxyRotate 30s linear infinite;
         `;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes galaxyRotate {
@@ -469,11 +469,11 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(galaxy);
         this.backgroundEffects.push(galaxy, style);
     }
-    
+
     // 時空歪みエフェクト
     addSpaceDistortionEffect() {
         const distortion = document.createElement('div');
@@ -483,12 +483,12 @@ class EffectsManager {
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-conic-gradient(from 0deg at 50% 50%, 
+            background: repeating-conic-gradient(from 0deg at 50% 50%,
                 transparent 0deg, rgba(236, 72, 153, 0.05) 45deg, transparent 90deg);
             z-index: -1;
             animation: spaceDistort 15s ease-in-out infinite;
         `;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes spaceDistort {
@@ -497,11 +497,11 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(distortion);
         this.backgroundEffects.push(distortion, style);
     }
-    
+
     // 多次元エフェクト
     addMultidimensionalEffect() {
         for (let i = 0; i < 3; i++) {
@@ -512,12 +512,12 @@ class EffectsManager {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: radial-gradient(circle at ${30 + i * 20}% ${40 + i * 15}%, 
+                background: radial-gradient(circle at ${30 + i * 20}% ${40 + i * 15}%,
                     rgba(${180 + i * 30}, ${100 + i * 50}, 255, 0.1) 0%, transparent 40%);
                 z-index: -1;
                 animation: dimensionShift${i} ${20 + i * 5}s ease-in-out infinite;
             `;
-            
+
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes dimensionShift${i} {
@@ -527,12 +527,12 @@ class EffectsManager {
                 }
             `;
             document.head.appendChild(style);
-            
+
             document.body.appendChild(dimension);
             this.backgroundEffects.push(dimension, style);
         }
     }
-    
+
     // 宇宙終焉エフェクト
     addCosmicEndEffect() {
         const cosmicEnd = document.createElement('div');
@@ -542,15 +542,15 @@ class EffectsManager {
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, 
-                rgba(236, 72, 153, 0.2) 0%, 
+            background: radial-gradient(circle at 50% 50%,
+                rgba(236, 72, 153, 0.2) 0%,
                 rgba(124, 58, 237, 0.1) 30%,
                 rgba(30, 27, 75, 0.8) 70%,
                 #000 100%);
             z-index: -1;
             animation: cosmicPulse 10s ease-in-out infinite;
         `;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes cosmicPulse {
@@ -559,26 +559,26 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(cosmicEnd);
         this.backgroundEffects.push(cosmicEnd, style);
     }
-    
+
     // アップグレード段階移行エフェクト
     showUpgradeStageTransition(stage) {
         const messages = [
             "🌌 宇宙の深淵が見え始めた...",
-            "✨ 星雲が渦巻いている...", 
+            "✨ 星雲が渦巻いている...",
             "🌀 銀河の中心が見えてきた...",
             "⚡ 時空に歪みが生じている...",
             "🔮 多次元空間が開かれた...",
             "💫 宇宙の終焉が近づいている..."
         ];
-        
+
         if (stage < messages.length) {
             this.showStageUpgradeNotification(messages[stage]);
         }
-        
+
         // 画面フラッシュエフェクト
         const flash = document.createElement('div');
         flash.style.cssText = `
@@ -592,7 +592,7 @@ class EffectsManager {
             pointer-events: none;
             animation: stageTransitionFlash 2s ease-out forwards;
         `;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes stageTransitionFlash {
@@ -602,15 +602,15 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(flash);
-        
+
         setTimeout(() => {
             flash.remove();
             style.remove();
         }, 2000);
     }
-    
+
     // 段階アップグレード通知
     showStageUpgradeNotification(message) {
         const notification = document.createElement('div');
@@ -631,7 +631,7 @@ class EffectsManager {
             box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
         `;
         notification.textContent = message;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes stageNotificationSlide {
@@ -642,24 +642,24 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.remove();
             style.remove();
         }, 3000);
     }
-    
+
     // クリック時の波紋エフェクト
     createClickRipple() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         for (let i = 0; i < 3; i++) {
             setTimeout(() => {
                 const ripple = document.createElement('div');
@@ -675,9 +675,9 @@ class EffectsManager {
                     border-radius: 50%;
                     pointer-events: none;
                 `;
-                
+
                 this.particleContainer.appendChild(ripple);
-                
+
                 ripple.animate([
                     {
                         transform: 'scale(1)',
@@ -694,16 +694,16 @@ class EffectsManager {
             }, i * 100);
         }
     }
-    
+
     // クリック時のスパークエフェクト
     createClickSparks() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         for (let i = 0; i < 8; i++) {
             const spark = document.createElement('div');
             spark.style.cssText = `
@@ -717,12 +717,12 @@ class EffectsManager {
                 pointer-events: none;
                 transform-origin: 50% 100%;
             `;
-            
+
             this.particleContainer.appendChild(spark);
-            
+
             const angle = (Math.PI * 2 * i) / 8;
             const distance = 60 + Math.random() * 40;
-            
+
             spark.animate([
                 {
                     transform: `rotate(${angle}rad) translate(0, 0) scale(1)`,
@@ -738,16 +738,16 @@ class EffectsManager {
             }).onfinish = () => spark.remove();
         }
     }
-    
+
     // クリック時の衝撃波エフェクト
     createClickShockwave() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         const shockwave = document.createElement('div');
         shockwave.style.cssText = `
             position: absolute;
@@ -761,9 +761,9 @@ class EffectsManager {
             border-radius: 50%;
             pointer-events: none;
         `;
-        
+
         this.particleContainer.appendChild(shockwave);
-        
+
         shockwave.animate([
             {
                 transform: 'scale(0.3)',
@@ -778,16 +778,16 @@ class EffectsManager {
             easing: 'ease-out'
         }).onfinish = () => shockwave.remove();
     }
-    
+
     // サウンドウェーブエフェクト（視覚的表現）
     createSoundWaves() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         // 音波を表現する複数の円
         for (let i = 0; i < 4; i++) {
             setTimeout(() => {
@@ -802,9 +802,9 @@ class EffectsManager {
                     border-radius: 50%;
                     pointer-events: none;
                 `;
-                
+
                 this.particleContainer.appendChild(soundWave);
-                
+
                 soundWave.animate([
                     {
                         transform: 'scale(1)',
@@ -820,15 +820,15 @@ class EffectsManager {
                 }).onfinish = () => soundWave.remove();
             }, i * 150);
         }
-        
+
         // 音符エフェクト
         this.createMusicNotes(centerX, centerY);
     }
-    
+
     // 音符パーティクル
     createMusicNotes(centerX, centerY) {
         const notes = ['♪', '♫', '♬', '♩'];
-        
+
         for (let i = 0; i < 3; i++) {
             setTimeout(() => {
                 const note = document.createElement('div');
@@ -843,9 +843,9 @@ class EffectsManager {
                     text-shadow: 0 0 8px #ffd32a;
                 `;
                 note.textContent = notes[Math.floor(Math.random() * notes.length)];
-                
+
                 this.particleContainer.appendChild(note);
-                
+
                 note.animate([
                     {
                         transform: 'translateY(0) rotate(0deg) scale(1)',
@@ -862,16 +862,16 @@ class EffectsManager {
             }, i * 200);
         }
     }
-    
+
     // クリックバーストエフェクト
     createClickBurst() {
         const catElement = document.getElementById('catBlackhole');
         if (!catElement) return;
-        
+
         const rect = catElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
+
         // エネルギーバースト
         for (let i = 0; i < 12; i++) {
             const burst = document.createElement('div');
@@ -881,20 +881,20 @@ class EffectsManager {
                 top: ${centerY}px;
                 width: 4px;
                 height: 20px;
-                background: linear-gradient(to bottom, 
-                    rgba(255, 255, 255, 0.9) 0%, 
-                    rgba(104, 211, 145, 0.8) 50%, 
+                background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0.9) 0%,
+                    rgba(104, 211, 145, 0.8) 50%,
                     transparent 100%);
                 border-radius: 2px;
                 pointer-events: none;
                 transform-origin: 50% 100%;
             `;
-            
+
             this.particleContainer.appendChild(burst);
-            
+
             const angle = (Math.PI * 2 * i) / 12;
             const distance = 40 + Math.random() * 20;
-            
+
             burst.animate([
                 {
                     transform: `rotate(${angle}rad) translate(0, 0) scale(1)`,
@@ -910,7 +910,7 @@ class EffectsManager {
             }).onfinish = () => burst.remove();
         }
     }
-    
+
     // ランダムな猫の表情アニメーション
     playRandomCatExpression() {
         const expressions = [
@@ -920,11 +920,11 @@ class EffectsManager {
             this.sleepyExpression.bind(this),
             this.surprisedExpression.bind(this)
         ];
-        
+
         const randomExpression = expressions[Math.floor(Math.random() * expressions.length)];
         randomExpression();
     }
-    
+
     // まばたき表情
     blinkExpression() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -936,7 +936,7 @@ class EffectsManager {
             }, 120);
         });
     }
-    
+
     // ウィンク表情
     winkExpression() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -949,7 +949,7 @@ class EffectsManager {
             }, 300);
         }
     }
-    
+
     // 幸せ表情（目が細くなる）
     happyExpression() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -962,7 +962,7 @@ class EffectsManager {
                 eye.style.borderRadius = '50%';
             }, 400);
         });
-        
+
         // ほっぺの色を一時的に強くする
         const cheeks = document.querySelectorAll('.cat-cheek');
         cheeks.forEach(cheek => {
@@ -973,7 +973,7 @@ class EffectsManager {
             }, 400);
         });
     }
-    
+
     // 眠そうな表情
     sleepyExpression() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -985,7 +985,7 @@ class EffectsManager {
             }, 600);
         });
     }
-    
+
     // 驚き表情（目が大きくなる）
     surprisedExpression() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -999,12 +999,12 @@ class EffectsManager {
             }, 200);
         });
     }
-    
+
     // 耳のアニメーション
     animateEars() {
         const ears = document.querySelector('.cat-ears');
         if (!ears) return;
-        
+
         const animations = [
             () => {
                 // 耳をぴくっと動かす
@@ -1026,30 +1026,30 @@ class EffectsManager {
                 }, 300);
             }
         ];
-        
+
         if (Math.random() < 0.4) { // 40%の確率で耳が動く
             const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
             randomAnimation();
         }
     }
-    
+
     // ひげのアニメーション
     animateWhiskers() {
         const whiskers = document.querySelectorAll('.whisker');
         if (!whiskers.length) return;
-        
+
         if (Math.random() < 0.3) { // 30%の確率でひげが動く
             whiskers.forEach((whisker, index) => {
                 setTimeout(() => {
                     whisker.style.transition = 'transform 0.2s ease';
                     const isLeft = whisker.classList.contains('whisker-left-1') || whisker.classList.contains('whisker-left-2');
                     const direction = isLeft ? 1 : -1;
-                    const currentRotation = isLeft ? 
+                    const currentRotation = isLeft ?
                         (whisker.classList.contains('whisker-left-1') ? -10 : -5) :
                         (whisker.classList.contains('whisker-right-1') ? 10 : 5);
-                    
+
                     whisker.style.transform = `rotate(${currentRotation + direction * 3}deg)${!isLeft ? ' scaleX(-1)' : ''}`;
-                    
+
                     setTimeout(() => {
                         whisker.style.transform = `rotate(${currentRotation}deg)${!isLeft ? ' scaleX(-1)' : ''}`;
                     }, 200);
@@ -1057,7 +1057,7 @@ class EffectsManager {
             });
         }
     }
-    
+
     // 特別なコンボ表情（高コンボ時）
     playComboExpression(comboLevel) {
         if (comboLevel >= 50) {
@@ -1068,15 +1068,15 @@ class EffectsManager {
             this.concentratedExpression();
         }
     }
-    
+
     // 興奮状態の表情
     excitedExpression() {
         const catFace = document.querySelector('.cat-face');
         if (!catFace) return;
-        
+
         // 顔全体を振動させる
         catFace.style.animation = 'catExcitement 0.3s ease-in-out infinite';
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes catExcitement {
@@ -1086,16 +1086,16 @@ class EffectsManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         setTimeout(() => {
             catFace.style.animation = '';
             style.remove();
         }, 1000);
-        
+
         // 目をキラキラさせる
         this.addEyeSparkles();
     }
-    
+
     // 集中状態の表情
     focusedExpression() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -1107,7 +1107,7 @@ class EffectsManager {
             }, 400);
         });
     }
-    
+
     // 真剣な表情
     concentratedExpression() {
         const eyeShines = document.querySelectorAll('.eye-shine');
@@ -1121,7 +1121,7 @@ class EffectsManager {
             }, 500);
         });
     }
-    
+
     // 目のキラキラエフェクト
     addEyeSparkles() {
         const eyes = document.querySelectorAll('.cat-eye');
@@ -1140,7 +1140,7 @@ class EffectsManager {
                         pointer-events: none;
                         animation: eyeSparkle 0.8s ease-out forwards;
                     `;
-                    
+
                     const style = document.createElement('style');
                     style.textContent = `
                         @keyframes eyeSparkle {
@@ -1150,9 +1150,9 @@ class EffectsManager {
                         }
                     `;
                     document.head.appendChild(style);
-                    
+
                     eye.appendChild(sparkle);
-                    
+
                     setTimeout(() => {
                         sparkle.remove();
                         style.remove();

@@ -10,7 +10,7 @@ class Achievement {
         this.unlocked = false;
         this.unlockedAt = null;
     }
-    
+
     check() {
         if (!this.unlocked && this.checkCondition()) {
             this.unlock();
@@ -18,7 +18,7 @@ class Achievement {
         }
         return false;
     }
-    
+
     unlock() {
         this.unlocked = true;
         this.unlockedAt = Date.now();
@@ -26,7 +26,7 @@ class Achievement {
             this.reward();
         }
     }
-    
+
     getSaveData() {
         return {
             id: this.id,
@@ -34,7 +34,7 @@ class Achievement {
             unlockedAt: this.unlockedAt
         };
     }
-    
+
     loadSaveData(data) {
         if (data.unlocked !== undefined) this.unlocked = data.unlocked;
         if (data.unlockedAt !== undefined) this.unlockedAt = data.unlockedAt;
@@ -73,7 +73,7 @@ class AchievementManager {
                 () => resourceManager.graviCoin >= 1e24,
                 () => { resourceManager.idleMultiplier *= 1.2; }
             ),
-            
+
             // クリック関連
             new Achievement(
                 'click_100',
@@ -96,7 +96,7 @@ class AchievementManager {
                 () => resourceManager.totalClicks >= 10000,
                 () => { resourceManager.clickMultiplier *= 1.15; }
             ),
-            
+
             // 放置収益関連
             new Achievement(
                 'idle_100',
@@ -112,7 +112,7 @@ class AchievementManager {
                 () => resourceManager.getIdleValue() >= 1e12,
                 () => { resourceManager.idleMultiplier *= 1.25; }
             ),
-            
+
             // Singularity Level関連
             new Achievement(
                 'slv_10',
@@ -133,12 +133,12 @@ class AchievementManager {
                 '事象の地平線',
                 'Singularity Level 100 達成',
                 () => resourceManager.singularityLevel >= 100,
-                () => { 
+                () => {
                     resourceManager.clickMultiplier *= 1.2;
                     resourceManager.idleMultiplier *= 1.2;
                 }
             ),
-            
+
             // 次元跳躍関連
             new Achievement(
                 'first_prestige',
@@ -161,7 +161,7 @@ class AchievementManager {
                 () => resourceManager.quantumYarn >= 100,
                 () => { /* 特別な報酬なし */ }
             ),
-            
+
             // イベント関連
             new Achievement(
                 'first_event',
@@ -170,29 +170,29 @@ class AchievementManager {
                 () => eventManager.activeEvents.length > 0,
                 () => { /* 特別な報酬なし */ }
             ),
-            
+
             // 総合
             new Achievement(
                 'total_earned_1e50',
                 '宇宙の支配者',
                 '累計 1e50 GC 獲得',
                 () => resourceManager.totalGraviCoinEarned >= 1e50,
-                () => { 
+                () => {
                     resourceManager.clickMultiplier *= 1.5;
                     resourceManager.idleMultiplier *= 1.5;
                 }
             )
         ];
-        
+
         this.achievementMap = {};
         this.achievements.forEach(achievement => {
             this.achievementMap[achievement.id] = achievement;
         });
-        
+
         this.lastCheckTime = Date.now();
         this.checkInterval = 1000; // 1秒ごとにチェック
     }
-    
+
     update() {
         const now = Date.now();
         if (now - this.lastCheckTime >= this.checkInterval) {
@@ -200,22 +200,22 @@ class AchievementManager {
             this.lastCheckTime = now;
         }
     }
-    
+
     checkAchievements() {
         let newUnlocks = [];
-        
+
         this.achievements.forEach(achievement => {
             if (achievement.check()) {
                 newUnlocks.push(achievement);
             }
         });
-        
+
         if (newUnlocks.length > 0) {
             this.showUnlockedAchievements(newUnlocks);
             this.updateUI();
         }
     }
-    
+
     showUnlockedAchievements(achievements) {
         achievements.forEach((achievement, index) => {
             setTimeout(() => {
@@ -229,44 +229,44 @@ class AchievementManager {
             }, index * 1000); // 1秒ずつずらして表示
         });
     }
-    
+
     updateUI() {
         const container = document.getElementById('achievementsList');
         if (!container) return;
-        
+
         container.innerHTML = '';
-        
+
         // 解除済みと未解除を分けて表示
         const unlocked = this.achievements.filter(a => a.unlocked);
         const locked = this.achievements.filter(a => !a.unlocked);
-        
+
         // 解除済み実績
         unlocked.forEach(achievement => {
             const div = document.createElement('div');
             div.className = 'achievement-item unlocked';
-            
+
             div.innerHTML = `
                 <div class="item-name">✨ ${achievement.name}</div>
                 <div class="item-effect">${achievement.description}</div>
             `;
-            
+
             container.appendChild(div);
         });
-        
+
         // 未解除実績（ヒント表示）
         locked.forEach(achievement => {
             const div = document.createElement('div');
             div.className = 'achievement-item locked';
-            
+
             div.innerHTML = `
                 <div class="item-name">? ? ?</div>
                 <div class="item-effect">${this.getHint(achievement)}</div>
             `;
-            
+
             container.appendChild(div);
         });
     }
-    
+
     getHint(achievement) {
         // 実績のヒントを返す
         const hints = {
@@ -288,25 +288,25 @@ class AchievementManager {
             'first_event': '運を味方に',
             'total_earned_1e50': '究極の支配者'
         };
-        
+
         return hints[achievement.id] || '???';
     }
-    
+
     getUnlockedCount() {
         return this.achievements.filter(a => a.unlocked).length;
     }
-    
+
     getTotalCount() {
         return this.achievements.length;
     }
-    
+
     getSaveData() {
         return this.achievements.map(achievement => achievement.getSaveData());
     }
-    
+
     loadSaveData(data) {
         if (!Array.isArray(data)) return;
-        
+
         data.forEach(achievementData => {
             const achievement = this.achievementMap[achievementData.id];
             if (achievement) {

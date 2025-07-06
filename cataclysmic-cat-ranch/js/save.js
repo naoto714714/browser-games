@@ -7,7 +7,7 @@ class SaveManager {
         this.lastSaveTime = Date.now();
         this.version = '1.0.0';
     }
-    
+
     // ゲームデータを保存
     save() {
         const saveData = {
@@ -20,7 +20,7 @@ class SaveManager {
             events: eventManager.getSaveData(),
             achievements: achievementManager.getSaveData()
         };
-        
+
         try {
             const saveString = btoa(JSON.stringify(saveData));
             localStorage.setItem(this.saveKey, saveString);
@@ -33,7 +33,7 @@ class SaveManager {
             return false;
         }
     }
-    
+
     // ゲームデータを読み込み
     load() {
         try {
@@ -41,14 +41,14 @@ class SaveManager {
             if (!saveString) {
                 return false;
             }
-            
+
             const saveData = JSON.parse(atob(saveString));
-            
+
             // バージョンチェック（将来の互換性のため）
             if (saveData.version !== this.version) {
                 this.migrateSaveData(saveData);
             }
-            
+
             // 各システムにデータを読み込み
             if (saveData.resources) resourceManager.loadSaveData(saveData.resources);
             if (saveData.upgrades) upgradeManager.loadSaveData(saveData.upgrades);
@@ -56,13 +56,13 @@ class SaveManager {
             if (saveData.prestige) prestigeManager.loadSaveData(saveData.prestige);
             if (saveData.events) eventManager.loadSaveData(saveData.events);
             if (saveData.achievements) achievementManager.loadSaveData(saveData.achievements);
-            
+
             // オフライン進行の計算
             if (saveData.timestamp) {
                 const offlineTime = Date.now() - saveData.timestamp;
                 this.calculateOfflineProgress(offlineTime);
             }
-            
+
             this.showSaveNotification('ゲームを読み込みました');
             return true;
         } catch (e) {
@@ -71,19 +71,19 @@ class SaveManager {
             return false;
         }
     }
-    
+
     // オフライン進行の計算と適用
     calculateOfflineProgress(offlineTime) {
         // 最大72時間までのオフライン進行
         const maxOfflineTime = 72 * 60 * 60 * 1000;
         const cappedOfflineTime = Math.min(offlineTime, maxOfflineTime);
-        
+
         if (cappedOfflineTime > 60000) { // 1分以上オフラインだった場合
             const offlineEarnings = resourceManager.calculateOfflineProgress(cappedOfflineTime);
-            
+
             if (offlineEarnings > 0) {
                 resourceManager.addGraviCoin(offlineEarnings);
-                
+
                 // オフライン報酬の通知
                 const timeText = formatTime(cappedOfflineTime / 1000);
                 if (window.eventManager) {
@@ -96,7 +96,7 @@ class SaveManager {
             }
         }
     }
-    
+
     // セーブデータの削除
     deleteSave() {
         if (confirm('本当にセーブデータを削除しますか？\nこの操作は取り消せません。')) {
@@ -107,7 +107,7 @@ class SaveManager {
             }, 1000);
         }
     }
-    
+
     // セーブデータのエクスポート
     exportSave() {
         const saveString = localStorage.getItem(this.saveKey);
@@ -125,7 +125,7 @@ class SaveManager {
             this.showSaveNotification('エクスポートするデータがありません', true);
         }
     }
-    
+
     // セーブデータのインポート
     importSave() {
         const input = prompt('セーブデータを貼り付けてください:');
@@ -147,35 +147,35 @@ class SaveManager {
             }
         }
     }
-    
+
     // 自動セーブの開始
     startAutoSave() {
         setInterval(() => {
             this.save();
         }, this.autoSaveInterval);
     }
-    
+
     // セーブ通知の表示
     showSaveNotification(message, isError = false) {
         // 簡易的な通知（effectsManagerが実装されたら置き換え）
         console.log(isError ? '[ERROR]' : '[SAVE]', message);
-        
+
         if (window.effectsManager) {
             window.effectsManager.showNotification(message, isError);
         }
     }
-    
+
     // セーブデータの移行（将来のバージョンアップ用）
     migrateSaveData(saveData) {
         // 将来のバージョンアップでセーブデータの構造が変わった場合の処理
         console.log('Migrating save data from version', saveData.version, 'to', this.version);
     }
-    
+
     // セーブ統計の取得
     getSaveStats() {
         const saveString = localStorage.getItem(this.saveKey);
         if (!saveString) return null;
-        
+
         try {
             const saveData = JSON.parse(atob(saveString));
             return {
@@ -190,7 +190,7 @@ class SaveManager {
             return null;
         }
     }
-    
+
     calculatePlayTime(saveData) {
         // 簡易的なプレイ時間計算
         const firstSaveTime = saveData.firstSaveTime || saveData.timestamp;

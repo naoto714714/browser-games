@@ -8,21 +8,21 @@ class PixelArtRenderer {
         this.canvas = canvas;
         this.ctx = ctx;
         this.pixelSize = 8; // ピクセルサイズ倍率（大きくした）
-        
+
         // キャンバスの実際のサイズを取得（CSSサイズを使用）
         const rect = this.canvas.getBoundingClientRect();
-        
+
         // キャンバスの論理サイズ（ピクセル単位）
         this.logicalWidth = Math.floor(rect.width / this.pixelSize);
         this.logicalHeight = Math.floor(rect.height / this.pixelSize);
-        
+
         // 中央配置用の計算ヘルパー
         this.center = {
             x: Math.floor(this.logicalWidth / 2),
             y: Math.floor(this.logicalHeight / 2)
         };
-        
-        
+
+
         // カラーパレット（超可愛い新色合い）
         this.colors = {
             // プレイヤーキャラクター色（コントラストを重視したピンクの猫）
@@ -33,55 +33,55 @@ class PixelArtRenderer {
             playerWhite: '#ffffff',     // 白
             playerBlack: '#000000',     // 純黒（目、鼻）- コントラスト強化
             playerBelly: '#ffe4e1',     // お腹の薄いピンク
-            
+
             // 敵キャラクター色（コントラスト強化）
             // ひなたちゃん（黄色系 - より鮮やか）
             hinataBg: '#fff8dc',        // クリーム色
             hinataMain: '#ffdd00',      // 鮮やかな黄色
             hinataAccent: '#ff6600',    // 鮮やかなオレンジ
-            
+
             // さくらちゃん（桜色系 - より明確）
             sakuraBg: '#ffe4e1',        // 薄桜色
             sakuraMain: '#ff91a4',      // 鮮やかな桜色
             sakuraAccent: '#e91e63',    // 深いピンク
-            
+
             // そらくん（水色系 - より鮮やか）
             soraBg: '#e0f6ff',          // 薄水色
             soraMain: '#00bfff',        // ディープスカイブルー
             soraAccent: '#0066cc',      // 鮮やかなブルー
-            
+
             // ほしちゃん（紫色系 - より鮮やか）
             hoshiBg: '#f0e6ff',         // 薄紫
             hoshiMain: '#ba55d3',       // ミディアムオーキッド
             hoshiAccent: '#6a0dad',     // 濃い紫
-            
+
             // かげまる（グレー系 - より濃く）
             kageBg: '#f0f0f0',          // 薄グレー
             kageMain: '#555555',        // ダークグレー
             kageAccent: '#2c2c2c',      // 濃いグレー
-            
+
             // UI色
             signalGreen: '#32cd32',     // ライムグリーン
             signalRed: '#ff4500',       // オレンジレッド
             signalYellow: '#ffd700',    // ゴールド
-            
+
             // エフェクト色
             sparkle: '#fff700',         // きらきら
             heart: '#ff1744',           // ハート
             star: '#9370db',            // 紫の星
-            
+
             // 背景色
             skyBlue: '#87ceeb',         // スカイブルー
             cloudWhite: '#ffffff',      // 雲白
             grassGreen: '#90ee90',      // ライトグリーン
         };
-        
+
         // アニメーション用の状態
         this.animationFrame = 0;
         this.sparkles = [];
         this.hearts = [];
     }
-    
+
     // キャンバスサイズ更新時の再計算
     updateCanvasSize() {
         const rect = this.canvas.getBoundingClientRect();
@@ -91,20 +91,20 @@ class PixelArtRenderer {
             x: Math.floor(this.logicalWidth / 2),
             y: Math.floor(this.logicalHeight / 2)
         };
-        
+
     }
-    
+
     // ピクセル描画（基本単位）
     drawPixel(x, y, color) {
         this.ctx.fillStyle = color;
         this.ctx.fillRect(
-            x * this.pixelSize, 
-            y * this.pixelSize, 
-            this.pixelSize, 
+            x * this.pixelSize,
+            y * this.pixelSize,
+            this.pixelSize,
             this.pixelSize
         );
     }
-    
+
     // 見やすく美しい背景描画（コントラストを重視）
     drawBackground() {
         // 空のグラデーション（キャラクターが見やすい色合い）
@@ -113,38 +113,38 @@ class PixelArtRenderer {
         gradient.addColorStop(0.4, '#b6d7ff');   // 薄いブルー
         gradient.addColorStop(0.7, '#e6f3ff');   // とても薄いブルー
         gradient.addColorStop(1, '#f0fff0');     // ハニーデュー（薄い緑）
-        
+
         this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
+
         // 雲を描画（虹は削除）
         this.drawClouds();
-        
+
         // 花を描画（控えめに）
         this.drawFlowers();
-        
+
         // キラキラ星を描画（少なめに）
         this.drawBackgroundStars();
-        
+
         // 地面の草を描画
         this.drawGrass();
     }
-    
+
     // 雲描画
     drawClouds() {
         // 中央配置の雲
         const cloudPositions = [
-            {x: 10, y: 10}, 
-            {x: 40, y: 15}, 
-            {x: 60, y: 8}, 
+            {x: 10, y: 10},
+            {x: 40, y: 15},
+            {x: 60, y: 8},
             {x: 85, y: 12}
         ];
-        
+
         cloudPositions.forEach(pos => {
             this.drawCloud(pos.x, pos.y);
         });
     }
-    
+
     // 個別の雲描画
     drawCloud(startX, startY) {
         const cloud = [
@@ -154,7 +154,7 @@ class PixelArtRenderer {
             [1,1,1,1,1,1],
             [0,1,1,1,1,0]
         ];
-        
+
         for(let y = 0; y < cloud.length; y++) {
             for(let x = 0; x < cloud[y].length; x++) {
                 if(cloud[y][x]) {
@@ -163,13 +163,13 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // 虹描画（削除 - 使わない）
     drawRainbow() {
         // 虹は削除
         return;
     }
-    
+
     // 花描画（控えめに）
     drawFlowers() {
         // 下部に配置
@@ -178,12 +178,12 @@ class PixelArtRenderer {
             {x: 50, y: 67, color: '#ffd700'},
             {x: 80, y: 66, color: '#ff8c00'}
         ];
-        
+
         flowerPositions.forEach(flower => {
             this.drawFlower(flower.x, flower.y, flower.color);
         });
     }
-    
+
     // 個別の花描画
     drawFlower(x, y, color) {
         // 花びら（十字形）
@@ -193,20 +193,20 @@ class PixelArtRenderer {
         this.drawPixel(x, y + 1, color);
         this.drawPixel(x, y, '#ffff00'); // 中心は黄色
     }
-    
+
     // 背景の星描画（控えめに）
     drawBackgroundStars() {
         const starPositions = [
-            {x: 25, y: 8}, 
-            {x: 75, y: 12}, 
+            {x: 25, y: 8},
+            {x: 75, y: 12},
             {x: 50, y: 6}
         ];
-        
+
         starPositions.forEach(star => {
             this.drawStar(star.x, star.y);
         });
     }
-    
+
     // 個別の星描画
     drawStar(x, y) {
         this.drawPixel(x, y, this.colors.sparkle);
@@ -215,7 +215,7 @@ class PixelArtRenderer {
         this.drawPixel(x, y - 1, this.colors.sparkle);
         this.drawPixel(x, y + 1, this.colors.sparkle);
     }
-    
+
     // 草描画
     drawGrass() {
         const grassY = 70;
@@ -226,7 +226,7 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // 超可愛いプレイヤー猫キャラクター描画（完全新設計）
     drawCat(x, y, expression = 'normal') {
         // 16x16の大きくて詳細な猫（ぷっくりした丸い形）
@@ -248,7 +248,7 @@ class PixelArtRenderer {
             [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0],  // 前足
             [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0]   // 前足先
         ];
-        
+
         // 表情パターン
         const expressions = {
             normal: { eyeType: 'normal', mouthType: 'normal', special: null },
@@ -256,9 +256,9 @@ class PixelArtRenderer {
             surprised: { eyeType: 'wide', mouthType: 'o', special: null },
             focused: { eyeType: 'determined', mouthType: 'serious', special: 'sparkle' }
         };
-        
+
         const currentExpr = expressions[expression] || expressions.normal;
-        
+
         const baseColors = [
             null,                        // 0: 透明
             this.colors.playerBody,      // 1: 体（ミルキーピンク）
@@ -268,7 +268,7 @@ class PixelArtRenderer {
             this.colors.playerBlack,     // 5: 口
             this.colors.playerBelly,     // 6: お腹（白）
         ];
-        
+
         // 基本形状を描画
         for(let row = 0; row < catBody.length; row++) {
             for(let col = 0; col < catBody[row].length; col++) {
@@ -278,27 +278,27 @@ class PixelArtRenderer {
                 }
             }
         }
-        
+
         // 表情の詳細描画
         this.drawPlayerExpression(x, y, currentExpr);
-        
+
         // 特殊効果
         if (currentExpr.special === 'blush') {
             // 頬赤
             this.drawPixel(x + 2, y + 5, this.colors.playerBlush);
             this.drawPixel(x + 13, y + 5, this.colors.playerBlush);
         }
-        
+
         if (currentExpr.special === 'sparkle') {
             // きらめく目のエフェクト
             this.drawPixel(x + 2, y + 4, this.colors.sparkle);
             this.drawPixel(x + 13, y + 4, this.colors.sparkle);
         }
-        
+
         // 可愛いリボン（頭上に大きめ）
         this.drawPlayerRibbon(x, y);
     }
-    
+
     // プレイヤー猫の表情詳細描画
     drawPlayerExpression(x, y, expression) {
         // 目の描画（16x16スケール）
@@ -342,7 +342,7 @@ class PixelArtRenderer {
                 this.drawPixel(x + 13, y + 5, this.colors.playerBlack);
                 break;
         }
-        
+
         // 口の描画
         switch(expression.mouthType) {
             case 'normal':
@@ -372,13 +372,13 @@ class PixelArtRenderer {
                 this.drawPixel(x + 9, y + 6, this.colors.playerBlack);
                 break;
         }
-        
+
         // 鼻は共通（ハート型）
         this.drawPixel(x + 7, y + 5, this.colors.playerBlack);
         this.drawPixel(x + 8, y + 5, this.colors.playerBlack);
         this.drawPixel(x + 8, y + 6, this.colors.playerBlack);
     }
-    
+
     // プレイヤーのリボン描画
     drawPlayerRibbon(x, y) {
         // 大きなリボン（頭上）
@@ -388,7 +388,7 @@ class PixelArtRenderer {
             [0,1,1,1,1,1,1,0],
             [0,0,1,1,1,1,0,0]
         ];
-        
+
         for(let row = 0; row < ribbonPattern.length; row++) {
             for(let col = 0; col < ribbonPattern[row].length; col++) {
                 if(ribbonPattern[row][col]) {
@@ -397,7 +397,7 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // 信号機描画
     drawTrafficLight(x, y, currentSignal) {
         // 信号機の枠
@@ -412,7 +412,7 @@ class PixelArtRenderer {
             [1,0,0,0,1],
             [1,1,1,1,1]
         ];
-        
+
         const colors = [
             null,                      // 0: 透明
             this.colors.playerBlack,   // 1: 枠
@@ -420,7 +420,7 @@ class PixelArtRenderer {
             currentSignal === 'yellow' ? this.colors.signalYellow : '#555', // 3: 黄
             currentSignal === 'green' ? this.colors.signalGreen : '#555'   // 4: 緑
         ];
-        
+
         for(let row = 0; row < frame.length; row++) {
             for(let col = 0; col < frame[row].length; col++) {
                 const colorIndex = frame[row][col];
@@ -430,7 +430,7 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // きらきらエフェクト追加
     addSparkle(x, y) {
         this.sparkles.push({
@@ -441,7 +441,7 @@ class PixelArtRenderer {
             size: Math.random() * 2 + 1
         });
     }
-    
+
     // ハートエフェクト追加
     addHeart(x, y) {
         this.hearts.push({
@@ -454,12 +454,12 @@ class PixelArtRenderer {
             size: Math.random() * 1.5 + 1
         });
     }
-    
+
     // きらきら描画
     drawSparkle(sparkle) {
         const alpha = sparkle.life / sparkle.maxLife;
         const size = Math.floor(sparkle.size);
-        
+
         // 十字形のきらきら
         this.ctx.globalAlpha = alpha;
         this.drawPixel(sparkle.x, sparkle.y, this.colors.sparkle);
@@ -469,11 +469,11 @@ class PixelArtRenderer {
         this.drawPixel(sparkle.x, sparkle.y + 1, this.colors.sparkle);
         this.ctx.globalAlpha = 1;
     }
-    
+
     // ハート描画
     drawHeart(heart) {
         const alpha = heart.life / heart.maxLife;
-        
+
         // シンプルなハート形状
         const heartShape = [
             [0,1,0,1,0],
@@ -482,14 +482,14 @@ class PixelArtRenderer {
             [0,1,1,1,0],
             [0,0,1,0,0]
         ];
-        
+
         this.ctx.globalAlpha = alpha;
         for(let row = 0; row < heartShape.length; row++) {
             for(let col = 0; col < heartShape[row].length; col++) {
                 if(heartShape[row][col]) {
                     this.drawPixel(
-                        Math.floor(heart.x) + col - 2, 
-                        Math.floor(heart.y) + row - 2, 
+                        Math.floor(heart.x) + col - 2,
+                        Math.floor(heart.y) + row - 2,
                         this.colors.heart
                     );
                 }
@@ -497,7 +497,7 @@ class PixelArtRenderer {
         }
         this.ctx.globalAlpha = 1;
     }
-    
+
     // カウントダウン数字描画
     drawCountdownNumber(x, y, number) {
         const numbers = {
@@ -523,10 +523,10 @@ class PixelArtRenderer {
                 [0,1,1,1]
             ]
         };
-        
+
         const pattern = numbers[number];
         if(!pattern) return;
-        
+
         for(let row = 0; row < pattern.length; row++) {
             for(let col = 0; col < pattern[row].length; col++) {
                 if(pattern[row][col]) {
@@ -535,12 +535,12 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // 超魅力的な敵キャラクター描画（完全新設計）
     drawEnemy(x, y, enemyType = 'basic', expression = 'normal') {
         // 敵の種類に応じた形状とキャラクター性を決定
         const enemyData = this.getEnemyData(enemyType);
-        
+
         // 16x16の大きくて個性的な敵キャラクター
         const enemyBody = [
             [0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0],  // 耳の輪郭
@@ -560,7 +560,7 @@ class PixelArtRenderer {
             [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0],  // 前足
             [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0]   // 前足先
         ];
-        
+
         const baseColors = [
             null,                    // 0: 透明
             enemyData.mainColor,     // 1: 体のメイン色
@@ -570,7 +570,7 @@ class PixelArtRenderer {
             '#000000',               // 5: 口（純黒でコントラスト強化）
             enemyData.bellyColor,    // 6: お腹の色
         ];
-        
+
         // 基本形状を描画
         for(let row = 0; row < enemyBody.length; row++) {
             for(let col = 0; col < enemyBody[row].length; col++) {
@@ -580,14 +580,14 @@ class PixelArtRenderer {
                 }
             }
         }
-        
+
         // 敵の個性的な表情
         this.drawEnemyExpression(x, y, enemyType, enemyData);
-        
+
         // タイプ別の特徴装飾
         this.drawEnemyAccessories(x, y, enemyType, enemyData);
     }
-    
+
     // 敵のデータ取得
     getEnemyData(enemyType) {
         const enemyDatabase = {
@@ -616,10 +616,10 @@ class PixelArtRenderer {
                 personality: 'mysterious'
             }
         };
-        
+
         return enemyDatabase[enemyType] || enemyDatabase.basic;
     }
-    
+
     // 敵の表情描画（16x16スケール対応）
     drawEnemyExpression(x, y, enemyType, enemyData) {
         switch(enemyData.personality) {
@@ -635,7 +635,7 @@ class PixelArtRenderer {
                 this.drawPixel(x + 8, y + 6, '#000000');
                 this.drawPixel(x + 9, y + 7, '#000000');
                 break;
-                
+
             case 'energetic':
                 // キラキラした目（そらくん・ほしちゃん）
                 this.drawPixel(x + 2, y + 4, enemyData.accentColor);
@@ -652,7 +652,7 @@ class PixelArtRenderer {
                 this.drawPixel(x + 7, y + 7, '#000000');
                 this.drawPixel(x + 8, y + 7, '#000000');
                 break;
-                
+
             case 'mysterious':
                 // 神秘的な目（かげまる）
                 this.drawPixel(x + 2, y + 4, enemyData.accentColor);
@@ -670,13 +670,13 @@ class PixelArtRenderer {
                 this.drawPixel(x + 9, y + 6, '#000000');
                 break;
         }
-        
+
         // 共通の鼻（ハート型）
         this.drawPixel(x + 7, y + 5, '#000000');
         this.drawPixel(x + 8, y + 5, '#000000');
         this.drawPixel(x + 8, y + 6, '#000000');
     }
-    
+
     // 敵のアクセサリー描画（16x16スケール対応）
     drawEnemyAccessories(x, y, enemyType, enemyData) {
         switch(enemyData.personality) {
@@ -696,7 +696,7 @@ class PixelArtRenderer {
                     this.drawPixel(x + 13, y + 1, this.colors.sakuraAccent);
                 }
                 break;
-                
+
             case 'energetic':
                 // エネルギッシュな装飾（そらくん・ほしちゃん）
                 if (enemyType === 'fast') {
@@ -713,7 +713,7 @@ class PixelArtRenderer {
                     this.drawPixel(x + 14, y + 1, this.colors.star);
                 }
                 break;
-                
+
             case 'mysterious':
                 // かげまる：影のオーラ
                 this.drawPixel(x + 0, y + 1, enemyData.accentColor);
@@ -728,7 +728,7 @@ class PixelArtRenderer {
                 break;
         }
     }
-    
+
     // VS表示
     drawVSText(x, y) {
         const vsPattern = [
@@ -738,7 +738,7 @@ class PixelArtRenderer {
             [0,0,1,0,0,0,0,0,1],
             [0,0,1,0,0,0,1,1,1]
         ];
-        
+
         for(let row = 0; row < vsPattern.length; row++) {
             for(let col = 0; col < vsPattern[row].length; col++) {
                 if(vsPattern[row][col]) {
@@ -747,21 +747,21 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // 派手で分かりやすい合図描画（大きな「スタート！」）
     drawGoText(x, y) {
         // 大きく分かりやすい「スタート！」の文字
         this.drawStartSignal(x, y);
-        
+
         // 周りに派手なエフェクト
         this.drawSignalEffects(x, y);
     }
-    
+
     // 「スタート！」文字描画
     drawStartSignal(x, y) {
         // 「スタート！」を大きく（日本語なので分かりやすいアイコンで代替）
         // 大きな矢印 + びっくりマーク + 光るエフェクト
-        
+
         // 大きな右向き矢印（10x6）
         const arrowPattern = [
             [1,0,0,0,0,0,0,0,0,0],
@@ -771,7 +771,7 @@ class PixelArtRenderer {
             [1,1,0,0,0,0,0,0,0,0],
             [1,0,0,0,0,0,0,0,0,0]
         ];
-        
+
         // 矢印を緑色で描画
         for(let row = 0; row < arrowPattern.length; row++) {
             for(let col = 0; col < arrowPattern[row].length; col++) {
@@ -780,7 +780,7 @@ class PixelArtRenderer {
                 }
             }
         }
-        
+
         // びっくりマーク（右側）
         const exclamationPattern = [
             [0,1,1,0],
@@ -790,7 +790,7 @@ class PixelArtRenderer {
             [0,0,0,0],
             [0,1,1,0]
         ];
-        
+
         for(let row = 0; row < exclamationPattern.length; row++) {
             for(let col = 0; col < exclamationPattern[row].length; col++) {
                 if(exclamationPattern[row][col]) {
@@ -798,7 +798,7 @@ class PixelArtRenderer {
                 }
             }
         }
-        
+
         // 「GO」テキスト（中央）
         const goPattern = [
             [1,1,1,0,1,1,1],
@@ -807,7 +807,7 @@ class PixelArtRenderer {
             [1,0,1,0,1,0,1],
             [1,1,1,0,1,0,1]
         ];
-        
+
         for(let row = 0; row < goPattern.length; row++) {
             for(let col = 0; col < goPattern[row].length; col++) {
                 if(goPattern[row][col]) {
@@ -816,7 +816,7 @@ class PixelArtRenderer {
             }
         }
     }
-    
+
     // 合図エフェクト描画
     drawSignalEffects(x, y) {
         // 周りに光るエフェクト（4つ角）
@@ -826,11 +826,11 @@ class PixelArtRenderer {
             {dx: 0, dy: -8}, {dx: 0, dy: 8},
             {dx: -12, dy: 0}, {dx: 15, dy: 0}
         ];
-        
+
         sparklePositions.forEach(pos => {
             this.drawStar(x + pos.dx, y + pos.dy);
         });
-        
+
         // 光る境界線
         const frame = [
             // 上
@@ -842,7 +842,7 @@ class PixelArtRenderer {
             // 右
             [13, -5], [13, -4], [13, -3], [13, -2], [13, -1], [13, 0], [13, 1], [13, 2], [13, 3], [13, 4], [13, 5]
         ];
-        
+
         frame.forEach(pos => {
             // アニメーションに応じて色を変える
             const colors = [this.colors.sparkle, this.colors.signalRed, this.colors.signalYellow];
@@ -850,7 +850,7 @@ class PixelArtRenderer {
             this.drawPixel(x + pos[0], y + pos[1], colors[colorIndex]);
         });
     }
-    
+
     // エフェクト更新
     updateEffects() {
         // きらきら更新
@@ -858,7 +858,7 @@ class PixelArtRenderer {
             sparkle.life--;
             return sparkle.life > 0;
         });
-        
+
         // ハート更新
         this.hearts = this.hearts.filter(heart => {
             heart.x += heart.vx;
@@ -867,18 +867,18 @@ class PixelArtRenderer {
             return heart.life > 0;
         });
     }
-    
+
     // 全エフェクト描画
     drawEffects() {
         this.sparkles.forEach(sparkle => this.drawSparkle(sparkle));
         this.hearts.forEach(heart => this.drawHeart(heart));
     }
-    
+
     // 画面クリア
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-    
+
     // アニメーションフレーム更新
     nextFrame() {
         this.animationFrame++;

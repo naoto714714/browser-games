@@ -8,7 +8,7 @@ class ComboManager {
         this.comboTimeWindow = 1500; // 1.5秒以内にクリックしないとコンボ終了
         this.comboMultiplier = 1;
         this.comboDecayTimer = null;
-        
+
         // コンボレベルごとの設定
         this.comboThresholds = [
             { count: 5, multiplier: 1.2, name: "リズム感", color: "#68d391" },
@@ -19,15 +19,15 @@ class ComboManager {
             { count: 75, multiplier: 4.0, name: "超越", color: "#a55eea" },
             { count: 100, multiplier: 5.0, name: "究極", color: "#ffd32a" }
         ];
-        
+
         this.init();
     }
-    
+
     init() {
         // コンボ表示用UI要素を作成
         this.createComboUI();
     }
-    
+
     createComboUI() {
         // コンボ表示コンテナ
         const comboContainer = document.createElement('div');
@@ -40,7 +40,7 @@ class ComboManager {
             pointer-events: none;
             font-family: 'Orbitron', monospace;
         `;
-        
+
         // コンボ数表示
         const comboDisplay = document.createElement('div');
         comboDisplay.id = 'comboDisplay';
@@ -58,7 +58,7 @@ class ComboManager {
             border: 2px solid transparent;
         `;
         comboDisplay.textContent = 'COMBO: 0';
-        
+
         // コンボマルチプライヤー表示
         const multiplierDisplay = document.createElement('div');
         multiplierDisplay.id = 'multiplierDisplay';
@@ -75,7 +75,7 @@ class ComboManager {
             margin-bottom: 10px;
         `;
         multiplierDisplay.textContent = '×1.0';
-        
+
         // コンボタイトル表示
         const comboTitle = document.createElement('div');
         comboTitle.id = 'comboTitle';
@@ -91,49 +91,49 @@ class ComboManager {
             transition: all 0.3s ease;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         `;
-        
+
         comboContainer.appendChild(comboDisplay);
         comboContainer.appendChild(multiplierDisplay);
         comboContainer.appendChild(comboTitle);
         document.body.appendChild(comboContainer);
     }
-    
+
     // クリック時にコンボを更新
     onClick() {
         const currentTime = Date.now();
-        
+
         // 前回のクリックから時間が経ちすぎている場合はコンボリセット
         if (currentTime - this.lastClickTime > this.comboTimeWindow) {
             this.combo = 0;
         }
-        
+
         this.combo++;
         this.lastClickTime = currentTime;
-        
+
         // 最大コンボ更新
         if (this.combo > this.maxCombo) {
             this.maxCombo = this.combo;
         }
-        
+
         // コンボマルチプライヤーを計算
         this.updateComboMultiplier();
-        
+
         // UI更新
         this.updateComboUI();
-        
+
         // コンボエフェクト
         this.showComboEffect();
-        
+
         // コンボ終了タイマーを設定
         this.resetComboTimer();
-        
+
         return this.comboMultiplier;
     }
-    
+
     // コンボマルチプライヤーを計算
     updateComboMultiplier() {
         this.comboMultiplier = 1;
-        
+
         // コンボ数に応じてマルチプライヤーを設定
         for (let i = this.comboThresholds.length - 1; i >= 0; i--) {
             if (this.combo >= this.comboThresholds[i].count) {
@@ -142,21 +142,21 @@ class ComboManager {
             }
         }
     }
-    
+
     // コンボUI更新
     updateComboUI() {
         const comboDisplay = document.getElementById('comboDisplay');
         const multiplierDisplay = document.getElementById('multiplierDisplay');
         const comboTitle = document.getElementById('comboTitle');
-        
+
         if (!comboDisplay || !multiplierDisplay || !comboTitle) return;
-        
+
         // コンボ数表示
         comboDisplay.textContent = `COMBO: ${this.combo}`;
-        
+
         // マルチプライヤー表示
         multiplierDisplay.textContent = `×${this.comboMultiplier.toFixed(1)}`;
-        
+
         // コンボが0の場合は非表示
         if (this.combo === 0) {
             comboDisplay.style.transform = 'scale(0)';
@@ -164,7 +164,7 @@ class ComboManager {
             comboTitle.style.transform = 'scale(0)';
             return;
         }
-        
+
         // コンボレベルに応じた色とタイトルを設定
         let currentThreshold = null;
         for (let i = this.comboThresholds.length - 1; i >= 0; i--) {
@@ -173,15 +173,15 @@ class ComboManager {
                 break;
             }
         }
-        
+
         // 表示
         comboDisplay.style.transform = 'scale(1)';
         multiplierDisplay.style.transform = 'scale(1)';
-        
+
         if (currentThreshold) {
             comboDisplay.style.borderColor = currentThreshold.color;
             comboDisplay.style.boxShadow = `0 0 20px ${currentThreshold.color}`;
-            
+
             comboTitle.textContent = currentThreshold.name;
             comboTitle.style.background = `linear-gradient(45deg, ${currentThreshold.color}, #764ba2)`;
             comboTitle.style.transform = 'scale(1)';
@@ -191,14 +191,14 @@ class ComboManager {
             comboTitle.style.transform = 'scale(0)';
         }
     }
-    
+
     // コンボエフェクト
     showComboEffect() {
         if (this.combo <= 1) return;
-        
+
         // コンボ数に応じたエフェクトの強度
         const intensity = Math.min(this.combo / 50, 1);
-        
+
         // 数字が大きくなるアニメーション
         const comboDisplay = document.getElementById('comboDisplay');
         if (comboDisplay) {
@@ -207,24 +207,24 @@ class ComboManager {
                 comboDisplay.style.transform = 'scale(1)';
             }, 150);
         }
-        
+
         // 特定のコンボ数での特別エフェクト
         const milestone = this.comboThresholds.find(threshold => threshold.count === this.combo);
         if (milestone) {
             this.showComboMilestoneEffect(milestone);
         }
-        
+
         // 高コンボ時の画面エフェクト
         if (this.combo >= 20) {
             this.showHighComboEffect(intensity);
         }
-        
+
         // コンボレベルに応じた猫の表情
         if (window.effectsManager && this.combo >= 10) {
             effectsManager.playComboExpression(this.combo);
         }
     }
-    
+
     // コンボマイルストーンエフェクト
     showComboMilestoneEffect(milestone) {
         // 画面フラッシュ
@@ -240,7 +240,7 @@ class ComboManager {
             pointer-events: none;
             animation: comboFlash 0.8s ease-out forwards;
         `;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes comboFlash {
@@ -250,18 +250,18 @@ class ComboManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(flash);
-        
+
         setTimeout(() => {
             flash.remove();
             style.remove();
         }, 800);
-        
+
         // マイルストーン通知
         this.showComboNotification(`${milestone.name}コンボ達成！ ×${milestone.multiplier}`, milestone.color);
     }
-    
+
     // 高コンボエフェクト
     showHighComboEffect(intensity) {
         if (Math.random() < 0.3 * intensity) { // 強度に応じた確率で発動
@@ -269,7 +269,7 @@ class ComboManager {
             const gameContainer = document.querySelector('.game-container');
             if (gameContainer) {
                 gameContainer.style.animation = `comboShake 0.2s ease-in-out`;
-                
+
                 const shakeStyle = document.createElement('style');
                 shakeStyle.textContent = `
                     @keyframes comboShake {
@@ -279,7 +279,7 @@ class ComboManager {
                     }
                 `;
                 document.head.appendChild(shakeStyle);
-                
+
                 setTimeout(() => {
                     gameContainer.style.animation = '';
                     shakeStyle.remove();
@@ -287,7 +287,7 @@ class ComboManager {
             }
         }
     }
-    
+
     // コンボ通知
     showComboNotification(message, color) {
         const notification = document.createElement('div');
@@ -309,7 +309,7 @@ class ComboManager {
             font-family: 'Orbitron', monospace;
         `;
         notification.textContent = message;
-        
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes comboNotificationBounce {
@@ -320,26 +320,26 @@ class ComboManager {
             }
         `;
         document.head.appendChild(style);
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.remove();
             style.remove();
         }, 1500);
     }
-    
+
     // コンボタイマーリセット
     resetComboTimer() {
         if (this.comboDecayTimer) {
             clearTimeout(this.comboDecayTimer);
         }
-        
+
         this.comboDecayTimer = setTimeout(() => {
             this.endCombo();
         }, this.comboTimeWindow);
     }
-    
+
     // コンボ終了
     endCombo() {
         if (this.combo > 0) {
@@ -347,26 +347,26 @@ class ComboManager {
             this.combo = 0;
             this.comboMultiplier = 1;
             this.updateComboUI();
-            
+
             // コンボ終了通知（5コンボ以上の場合）
             if (finalCombo >= 5) {
                 this.showComboEndNotification(finalCombo);
             }
         }
     }
-    
+
     // コンボ終了通知
     showComboEndNotification(finalCombo) {
         if (window.effectsManager) {
             effectsManager.showNotification(`${finalCombo}コンボ終了！お疲れ様でした`, false);
         }
     }
-    
+
     // 現在のコンボマルチプライヤーを取得
     getMultiplier() {
         return this.comboMultiplier;
     }
-    
+
     // コンボ統計を取得
     getStats() {
         return {
@@ -375,14 +375,14 @@ class ComboManager {
             multiplier: this.comboMultiplier
         };
     }
-    
+
     // セーブデータ
     getSaveData() {
         return {
             maxCombo: this.maxCombo
         };
     }
-    
+
     // セーブデータ読み込み
     loadSaveData(data) {
         if (data.maxCombo !== undefined) {

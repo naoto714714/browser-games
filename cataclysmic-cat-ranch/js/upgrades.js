@@ -11,42 +11,42 @@ class Upgrade {
         this.maxLevel = maxLevel;
         this.level = 0;
     }
-    
+
     getCost() {
         return Math.floor(this.baseCost * Math.pow(this.costMultiplier, this.level));
     }
-    
+
     getEffectValue() {
         return this.effect(this.level);
     }
-    
+
     getNextEffectValue() {
         return this.effect(this.level + 1);
     }
-    
+
     canAfford() {
         return resourceManager.graviCoin >= this.getCost();
     }
-    
+
     canUpgrade() {
         return this.canAfford() && (this.maxLevel === -1 || this.level < this.maxLevel);
     }
-    
+
     purchase() {
         if (this.canUpgrade() && resourceManager.spendGraviCoin(this.getCost())) {
             this.level++;
             this.applyEffect();
-            
+
             // 環境エフェクトを更新
             if (window.effectsManager) {
                 effectsManager.updateEnvironmentEffects();
             }
-            
+
             return true;
         }
         return false;
     }
-    
+
     applyEffect() {
         // 各アップグレードの効果を適用
         switch(this.id) {
@@ -77,32 +77,32 @@ class Upgrade {
                 break;
         }
     }
-    
+
     updateClickMultiplier() {
         const catToyLevel = upgradeManager.getUpgrade('catToy').level;
         const catnipLevel = upgradeManager.getUpgrade('catnip').level;
         resourceManager.clickMultiplier = 1 + (catToyLevel * 0.2) + (catnipLevel * 0.5);
     }
-    
+
     updateIdleMultiplier() {
         const telescopeLevel = upgradeManager.getUpgrade('telescope').level;
         const quantumLevel = upgradeManager.getUpgrade('quantumTunnel').level;
         resourceManager.idleMultiplier = 1 + (telescopeLevel * 0.3) + (quantumLevel * 1.0);
     }
-    
+
     updateBaseClick() {
         const laserLevel = upgradeManager.getUpgrade('laser').level;
         const siphonLevel = upgradeManager.getUpgrade('gravitySiphon').level;
         resourceManager.baseClick = 1 + (laserLevel * 2) + (siphonLevel * 10);
     }
-    
+
     getSaveData() {
         return {
             id: this.id,
             level: this.level
         };
     }
-    
+
     loadSaveData(data) {
         if (data.level !== undefined) {
             this.level = data.level;
@@ -190,21 +190,21 @@ class UpgradeManager {
                 (level) => level * 10
             )
         ];
-        
+
         this.upgradeMap = {};
         this.upgrades.forEach(upgrade => {
             this.upgradeMap[upgrade.id] = upgrade;
         });
     }
-    
+
     getUpgrade(id) {
         return this.upgradeMap[id];
     }
-    
+
     getAllUpgrades() {
         return this.upgrades;
     }
-    
+
     purchaseUpgrade(id) {
         const upgrade = this.getUpgrade(id);
         if (upgrade && upgrade.purchase()) {
@@ -213,33 +213,33 @@ class UpgradeManager {
         }
         return false;
     }
-    
+
     updateUI() {
         const container = document.getElementById('upgradesList');
         if (!container) return;
-        
+
         container.innerHTML = '';
-        
+
         this.upgrades.forEach(upgrade => {
             const div = document.createElement('div');
             div.className = 'upgrade-item';
             if (!upgrade.canUpgrade()) {
                 div.classList.add('disabled');
             }
-            
-            const effectText = upgrade.id === 'treats' 
+
+            const effectText = upgrade.id === 'treats'
                 ? `SLv: ${resourceManager.singularityLevel} → ${resourceManager.singularityLevel + 1}`
                 : upgrade.level === 0
                     ? `効果: ${this.formatEffect(upgrade.id, upgrade.getNextEffectValue())}`
                     : `効果: ${this.formatEffect(upgrade.id, upgrade.getEffectValue())} → ${this.formatEffect(upgrade.id, upgrade.getNextEffectValue())}`;
-            
+
             div.innerHTML = `
                 <div class="item-name">${upgrade.name}</div>
                 <div class="item-effect">${effectText}</div>
                 <div class="item-cost">コスト: ${formatNumber(upgrade.getCost())} GC</div>
                 ${upgrade.level > 0 ? `<div class="item-level">Lv.${upgrade.level}</div>` : ''}
             `;
-            
+
             div.addEventListener('click', () => {
                 if (this.purchaseUpgrade(upgrade.id)) {
                     // 購入成功時のエフェクト
@@ -248,11 +248,11 @@ class UpgradeManager {
                     }
                 }
             });
-            
+
             container.appendChild(div);
         });
     }
-    
+
     formatEffect(id, value) {
         switch(id) {
             case 'catToy':
@@ -270,14 +270,14 @@ class UpgradeManager {
                 return `+${formatNumber(value)}`;
         }
     }
-    
+
     getSaveData() {
         return this.upgrades.map(upgrade => upgrade.getSaveData());
     }
-    
+
     loadSaveData(data) {
         if (!Array.isArray(data)) return;
-        
+
         data.forEach(upgradeData => {
             const upgrade = this.getUpgrade(upgradeData.id);
             if (upgrade) {
@@ -285,13 +285,13 @@ class UpgradeManager {
             }
         });
     }
-    
+
     // 次元跳躍時のリセット
     reset() {
         this.upgrades.forEach(upgrade => {
             upgrade.level = 0;
         });
-        
+
         // リソースマネージャーの値もリセット
         resourceManager.baseClick = 1;
         resourceManager.baseIdle = 0;

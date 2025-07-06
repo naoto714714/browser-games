@@ -34,7 +34,7 @@ A realistic browser-based music player featuring multiple instruments with high-
 
 **Flute**: Keys A-; for different holes
 
-**Drums**: 
+**Drums**:
 - Q: Hi-Hat
 - W: Snare
 - E: Tom 1

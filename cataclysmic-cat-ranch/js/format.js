@@ -111,12 +111,12 @@ function formatNumber(num, decimals = 2) {
     if (num < 1000) {
         return Math.floor(num).toString();
     }
-    
+
     // 科学的記数法の閾値
     if (num >= 1e309) {
         return num.toExponential(decimals);
     }
-    
+
     // 適切な単位を見つける
     for (let i = FORMAT_UNITS.length - 1; i >= 0; i--) {
         const unit = FORMAT_UNITS[i];
@@ -130,7 +130,7 @@ function formatNumber(num, decimals = 2) {
             return formatted + unit.suffix;
         }
     }
-    
+
     return Math.floor(num).toString();
 }
 
