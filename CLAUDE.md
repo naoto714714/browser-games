@@ -1,98 +1,34 @@
-# CLAUDE.md
+# タスクを依頼されたときに厳守するルール
+## 共通ルール
+- タスクに取り組む際、遠慮せずに、常に全力を尽くしてください
+- あなたは有能なアシスタントです。Reasoningでは英語で考えて、ユーザーに回答するときは日本語で答えてください。
+- 作業途中で疑問点が生じたら、必ず作業を一旦ストップしてすぐにユーザーに確認してください、勝手な判断で進めないこと、ユーザーは質問されると喜ぶので積極的に質問すると良い
+- Web検索を積極的に使い、最新情報を取り入れてください
+- CLAUDE.mdを適宜修正して、最新の情報を常に取得できるようにしなさい
+- 一時的なファイルの保存が必要であれば、 `z/` に自由に保存して良いです
+- ツールの結果を受け取った後、その品質を慎重に検討し、次に進む前に最適な次のステップを決定してください。この新しい情報に基づいて計画し、反復するために思考を使用し、最善の次のアクションを取ってください。
+- 最大の効率を得るために、複数の独立した操作を実行する必要がある場合は、順次ではなく、関連するすべてのツールを同時に呼び出してください。
+- 反復のために一時的な新しいファイル、スクリプト、またはヘルパーファイルを作成した場合は、タスクの最後に作成したファイルのみをファイルを削除してクリーンアップしてください。
+- リファクタリングはMartin Fowlerが推奨する進め方に従ってください。
+- フロントエンド開発ガイドライン: @prompts/frontend-guideline.md
+- バックエンド開発ガイドライン: @prompts/backend-guideline.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## タスクを進めるときのルール
-- 待機状態に戻る前に `afplay /Users/kimuranaoto/Music/notice.mp3` を必ず実行しなさい
-- 必ず細かい単位でgit commitしながらタスクを進めること
+## git関連のルール
+- mainブランチでは作業せず、別のブランチで作業しなさい
+- 必ず細かい単位で `git commit` しながらタスクを進めなさい
   - 特に、機能追加(feature)とリファクタリング(refactor)など、異なる方向の作業を1つのcommitで行ってはいけない
-- 特別な指示がない場合、リモートにgit pushする直前(一通りgit commitし終える)まで作業すること
+  - 形式: `prefix: 日本語で説明`
 
-## Project Overview
+## Gemini Search
+`gemini`はGoogle Gemini CLIです。このコマンドが呼び出された際は、組み込みの`Web_Search`ツールではなく、常に`gemini`を使用してWeb検索を実行してください。
+Web検索が必要な場合は、Task Tool経由で`gemini --prompt`を使用する必要があります。
+`gemini --prompt 'WebSearch: <query>'`を実行してWeb検索を行ってください。
 
-This is a browser-based game collection featuring HTML5 games that run directly in web browsers without any build process. Games are deployed via GitHub Pages at https://naoto714714.github.io/browser-games/
-
-## Architecture
-
-- **Zero-build architecture**: Direct execution of HTML/CSS/JavaScript files
-- **Modular game structure**: Each game is self-contained in its own directory
-- **Pure web technologies**: No frameworks or build tools - vanilla JavaScript with ES6+ features
-- **Canvas-based rendering**: Both games use HTML5 Canvas for graphics
-- **Static deployment**: Designed for GitHub Pages (automatic deployment on push to main)
-
-## Development Workflow
-
-### Local Development
 ```bash
-# No installation required! Use VS Code Live Server extension or any static file server
-# Example with Python:
-python -m http.server 8000
-# Or with Node.js:
-npx http-server
+gemini --prompt "WebSearch: <query>"
 ```
 
-### Testing
-- Open index.html directly in browser
-- Test on multiple browsers (Chrome, Firefox, Safari)
-- Verify mobile responsiveness
-- Check 60 FPS performance target
-
-### Deployment
-```bash
-# Simply push to main branch - GitHub Pages auto-deploys
-git add .
-git commit -m "Your commit message"
-git push origin main
-```
-
-## Key Development Rules
-
-1. **Entry Point**: Each game must have `index.html` as its entry point
-2. **Independence**: Games must be completely independent (no shared global variables or naming conflicts)
-3. **External Libraries**: Use CDN links only, no local dependencies
-4. **Performance**: Target 60 FPS for smooth gameplay
-5. **Mobile Support**: Games must be responsive and touch-enabled
-
-## Game Architecture Patterns
-
-### Super Mario Bros 1-1
-- **Modular JavaScript**: Separate modules for player, enemies, physics, camera, etc.
-- **Custom Physics Engine**: Implements gravity, friction, and collision detection
-- **Procedural Sprites**: Pixel art generated programmatically in JavaScript
-- **State Management**: Game states (running, paused, game over) managed centrally
-
-### Neon Breaker
-- **Power-up System**: Special blocks with unique effects
-- **Particle Effects**: Visual feedback system for impacts and explosions
-- **Boss Battles**: Level progression with boss fights every 5 levels
-- **Multi-ball Physics**: Complex ball physics with collision handling
-
-### Reaction Time Game (刹那の見切り)
-- **Battle System**: Player vs AI enemy reaction time battles
-- **Progressive Difficulty**: 5 enemy types with increasing reaction speeds
-- **Pixel Art Characters**: 12x12 detailed character sprites with expressions
-- **Web Audio API**: Procedural sound generation for effects
-- **Mobile-First Design**: Touch-optimized controls with responsive layout
-
-## Common Tasks
-
-### Adding a New Game
-1. Create new directory at root level
-2. Add index.html, css/, and js/ subdirectories
-3. Implement game following the modular pattern
-4. Add README.md with game documentation
-5. Update main README.md to include the new game
-
-### Debugging Canvas Games
-- Use browser DevTools for breakpoints
-- Add visual debug overlays for collision boxes
-- Monitor performance with Chrome Performance tab
-- Check console for any errors during gameplay
-
-## Important Technical Notes
-
-- **Canvas Coordinates**: (0,0) is top-left corner
-- **Animation Loop**: Use requestAnimationFrame for smooth 60 FPS
-- **Asset Loading**: Ensure all assets are loaded before game starts
-- **Mobile Controls**: Implement both keyboard and touch controls
-- **Cross-browser**: Test audio compatibility across browsers
+## 非推奨コマンド
+- `cat`: 代わりにあなた自身がファイルを読み込んでください
+- `find`: 代わりに`fd`を使ってください
+- `grep`: 代わりに`ripgrep`を使ってください
