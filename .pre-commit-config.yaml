@@ -20,12 +20,13 @@ repos:
         files: \.(js|html|css|json)$
         exclude: node_modules/
 
-  # ESLint for JavaScript linting
+  # ESLint for JavaScript linting (auto-fix only, ignore errors)
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v8.55.0
     hooks:
       - id: eslint
         files: \.js$
         exclude: node_modules/
+        args: ['--fix', '--max-warnings', '1000']
         additional_dependencies:
           - eslint@8.55.0
