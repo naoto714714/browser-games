@@ -1,94 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Neon Breaker - 近未来ブロック崩し</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="game-container">
-        <div class="game-header">
-            <h1 class="game-title">NEON BREAKER</h1>
-            <div class="game-stats">
-                <div class="stat-item">
-                    <span class="stat-label">SCORE</span>
-                    <span class="stat-value" id="score">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">LEVEL</span>
-                    <span class="stat-value" id="level">1</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">LIVES</span>
-                    <span class="stat-value" id="lives">3</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">MULTIPLIER</span>
-                    <span class="stat-value" id="multiplier">×1</span>
-                </div>
-            </div>
+      <div class="game-header">
+        <h1 class="game-title">NEON BREAKER</h1>
+        <div class="game-stats">
+          <div class="stat-item">
+            <span class="stat-label">SCORE</span>
+            <span class="stat-value" id="score">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">LEVEL</span>
+            <span class="stat-value" id="level">1</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">LIVES</span>
+            <span class="stat-value" id="lives">3</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">MULTIPLIER</span>
+            <span class="stat-value" id="multiplier">×1</span>
+          </div>
         </div>
+      </div>
 
-        <div class="game-area">
-            <canvas id="gameCanvas" width="800" height="600"></canvas>
+      <div class="game-area">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-            <!-- 🆕 コンボ表示 -->
-            <div class="combo-display" id="combo" style="display: none;">
-                COMBO!
+        <!-- 🆕 コンボ表示 -->
+        <div class="combo-display" id="combo" style="display: none">COMBO!</div>
+
+        <div class="game-overlay" id="gameOverlay">
+          <div class="overlay-content">
+            <h2 id="overlayTitle">NEON BREAKER</h2>
+            <p id="overlayText">未来のブロック崩しへようこそ</p>
+
+            <!-- 🆕 操作方法選択 -->
+            <div class="control-selection" id="controlSelection">
+              <h3 class="control-title">操作方法を選択してください</h3>
+              <div class="control-buttons">
+                <button class="neon-button control-btn" id="keyboardButton">
+                  <span class="control-icon">⌨️</span>
+                  <span class="control-text">キーボード</span>
+                  <span class="control-desc">矢印キー / WASD</span>
+                </button>
+                <button class="neon-button control-btn" id="mouseButton">
+                  <span class="control-icon">🖱️</span>
+                  <span class="control-text">マウス</span>
+                  <span class="control-desc">マウス移動</span>
+                </button>
+              </div>
             </div>
 
-            <div class="game-overlay" id="gameOverlay">
-                <div class="overlay-content">
-                    <h2 id="overlayTitle">NEON BREAKER</h2>
-                    <p id="overlayText">未来のブロック崩しへようこそ</p>
-
-                    <!-- 🆕 操作方法選択 -->
-                    <div class="control-selection" id="controlSelection">
-                        <h3 class="control-title">操作方法を選択してください</h3>
-                        <div class="control-buttons">
-                            <button class="neon-button control-btn" id="keyboardButton">
-                                <span class="control-icon">⌨️</span>
-                                <span class="control-text">キーボード</span>
-                                <span class="control-desc">矢印キー / WASD</span>
-                            </button>
-                            <button class="neon-button control-btn" id="mouseButton">
-                                <span class="control-icon">🖱️</span>
-                                <span class="control-text">マウス</span>
-                                <span class="control-desc">マウス移動</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- スタートボタンコンテナ -->
-                    <div id="startButtonContainer" style="display: none;">
-                        <button class="neon-button" id="startButton">START GAME</button>
-                    </div>
-
-                    <!-- 🆕 ゲームオーバー時のボタンコンテナ -->
-                    <div id="gameOverButtons" style="display: none;">
-                        <button class="neon-button" id="restartButton">RESTART</button>
-                        <button class="neon-button home-button" id="homeButton">HOME</button>
-                    </div>
-                </div>
+            <!-- スタートボタンコンテナ -->
+            <div id="startButtonContainer" style="display: none">
+              <button class="neon-button" id="startButton">START GAME</button>
             </div>
+
+            <!-- 🆕 ゲームオーバー時のボタンコンテナ -->
+            <div id="gameOverButtons" style="display: none">
+              <button class="neon-button" id="restartButton">RESTART</button>
+              <button class="neon-button home-button" id="homeButton">
+                HOME
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="controls-info">
-            <div class="control-item">
-                <span class="control-key">←→</span>
-                <span class="control-desc">パドル移動</span>
-            </div>
-            <div class="control-item">
-                <span class="control-key">SPACE</span>
-                <span class="control-desc">ボール発射</span>
-            </div>
-            <div class="control-item">
-                <span class="control-key">P</span>
-                <span class="control-desc">ポーズ</span>
-            </div>
+      <div class="controls-info">
+        <div class="control-item">
+          <span class="control-key">←→</span>
+          <span class="control-desc">パドル移動</span>
         </div>
+        <div class="control-item">
+          <span class="control-key">SPACE</span>
+          <span class="control-desc">ボール発射</span>
+        </div>
+        <div class="control-item">
+          <span class="control-key">P</span>
+          <span class="control-desc">ポーズ</span>
+        </div>
+      </div>
     </div>
 
     <div class="particle-container" id="particleContainer"></div>
@@ -96,5 +99,5 @@
     <script src="js/game.js"></script>
     <script src="js/particles.js"></script>
     <script src="js/powerups.js"></script>
-</body>
+  </body>
 </html>

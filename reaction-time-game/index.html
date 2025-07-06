@@ -1,53 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>刹那の見切り - Reaction Time Game</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div class="game-container">
-        <header>
-            <h1>刹那の見切り</h1>
-            <div class="score-board">
-                <span>スコア: <span id="score">0</span></span>
-                <span>レベル: <span id="level">1</span></span>
-                <span>最高記録: <span id="best-time">---</span></span>
-            </div>
-        </header>
+      <header>
+        <h1>刹那の見切り</h1>
+        <div class="score-board">
+          <span>スコア: <span id="score">0</span></span>
+          <span>レベル: <span id="level">1</span></span>
+          <span>最高記録: <span id="best-time">---</span></span>
+        </div>
+      </header>
 
-        <main>
-            <canvas id="gameCanvas" width="800" height="600"></canvas>
+      <main>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-            <div class="game-ui">
-                <div id="game-status" class="status-panel">
-                    <h2>バトル開始！</h2>
-                    <p>敵より早く反応して勝利しよう！</p>
-                    <p>合図と同時に素早くクリック（またはタップ）</p>
-                    <button id="start-btn" class="pixel-btn">バトル開始</button>
-                </div>
+        <div class="game-ui">
+          <div id="game-status" class="status-panel">
+            <h2>バトル開始！</h2>
+            <p>敵より早く反応して勝利しよう！</p>
+            <p>合図と同時に素早くクリック（またはタップ）</p>
+            <button id="start-btn" class="pixel-btn">バトル開始</button>
+          </div>
 
-                <div id="result-panel" class="result-panel hidden">
-                    <h3>バトル結果</h3>
-                    <p id="reaction-time">---</p>
-                    <p id="result-message">---</p>
-                    <button id="next-btn" class="pixel-btn">次の敵へ</button>
-                    <button id="restart-btn" class="pixel-btn">最初から</button>
-                </div>
-            </div>
-        </main>
+          <div id="result-panel" class="result-panel hidden">
+            <h3>バトル結果</h3>
+            <p id="reaction-time">---</p>
+            <p id="result-message">---</p>
+            <button id="next-btn" class="pixel-btn">次の敵へ</button>
+            <button id="restart-btn" class="pixel-btn">最初から</button>
+          </div>
+        </div>
+      </main>
 
-        <footer>
-            <div class="controls-info">
-                <p>💻 クリック または 📱 タップで反応してください</p>
-                <p>⚔️ 敵より早く反応して勝利しよう！</p>
-            </div>
-        </footer>
+      <footer>
+        <div class="controls-info">
+          <p>💻 クリック または 📱 タップで反応してください</p>
+          <p>⚔️ 敵より早く反応して勝利しよう！</p>
+        </div>
+      </footer>
     </div>
 
     <script src="js/pixelArt.js"></script>
     <script src="js/gameLogic.js"></script>
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>

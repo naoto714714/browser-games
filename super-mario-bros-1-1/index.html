@@ -1,36 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Super Mario Bros 1-1 - Complete Recreation</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div id="gameContainer">
-        <div id="hud">
-            <div id="score">MARIO<br><span id="scoreValue">000000</span></div>
-            <div id="coins">×<span id="coinCount">00</span></div>
-            <div id="world">WORLD<br>1-1</div>
-            <div id="time">TIME<br><span id="timeValue">400</span></div>
-            <div id="lives">×<span id="livesCount">03</span></div>
+      <div id="hud">
+        <div id="score">MARIO<br /><span id="scoreValue">000000</span></div>
+        <div id="coins">×<span id="coinCount">00</span></div>
+        <div id="world">WORLD<br />1-1</div>
+        <div id="time">TIME<br /><span id="timeValue">400</span></div>
+        <div id="lives">×<span id="livesCount">03</span></div>
+      </div>
+      <canvas id="gameCanvas" width="1024" height="448"></canvas>
+      <div id="gameOverScreen" class="hidden">
+        <h2>GAME OVER</h2>
+        <p>Press SPACE to restart</p>
+      </div>
+      <div id="startScreen">
+        <h1>SUPER MARIO BROS</h1>
+        <h2>World 1-1</h2>
+        <p>Press SPACE to start</p>
+        <div class="controls">
+          <p>Controls:</p>
+          <p>← → Arrow keys: Move</p>
+          <p>SPACE: Jump</p>
+          <p>X: Run / Fire (when powered up)</p>
         </div>
-        <canvas id="gameCanvas" width="1024" height="448"></canvas>
-        <div id="gameOverScreen" class="hidden">
-            <h2>GAME OVER</h2>
-            <p>Press SPACE to restart</p>
-        </div>
-        <div id="startScreen">
-            <h1>SUPER MARIO BROS</h1>
-            <h2>World 1-1</h2>
-            <p>Press SPACE to start</p>
-            <div class="controls">
-                <p>Controls:</p>
-                <p>← → Arrow keys: Move</p>
-                <p>SPACE: Jump</p>
-                <p>X: Run / Fire (when powered up)</p>
-            </div>
-        </div>
+      </div>
     </div>
 
     <script src="js/constants.js"></script>
@@ -46,5 +46,5 @@
     <script src="js/audio.js"></script>
     <script src="js/game.js"></script>
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>

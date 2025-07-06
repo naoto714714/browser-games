@@ -1,35 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multi-Instrument Player</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div class="hamburger-menu" id="hamburgerMenu">
-        <div class="hamburger-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+      <div class="hamburger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
 
     <nav class="sidebar" id="sidebar">
-        <h2>楽器を選択</h2>
-        <ul class="instrument-list">
-            <li><button class="instrument-btn active" data-instrument="piano">🎹 ピアノ</button></li>
-            <li><button class="instrument-btn" data-instrument="guitar">🎸 ギター</button></li>
-            <li><button class="instrument-btn" data-instrument="violin">🎻 バイオリン</button></li>
-            <li><button class="instrument-btn" data-instrument="flute">🎺 フルート</button></li>
-            <li><button class="instrument-btn" data-instrument="drums">🥁 ドラム</button></li>
-        </ul>
+      <h2>楽器を選択</h2>
+      <ul class="instrument-list">
+        <li>
+          <button class="instrument-btn active" data-instrument="piano">
+            🎹 ピアノ
+          </button>
+        </li>
+        <li>
+          <button class="instrument-btn" data-instrument="guitar">
+            🎸 ギター
+          </button>
+        </li>
+        <li>
+          <button class="instrument-btn" data-instrument="violin">
+            🎻 バイオリン
+          </button>
+        </li>
+        <li>
+          <button class="instrument-btn" data-instrument="flute">
+            🎺 フルート
+          </button>
+        </li>
+        <li>
+          <button class="instrument-btn" data-instrument="drums">
+            🥁 ドラム
+          </button>
+        </li>
+      </ul>
     </nav>
 
     <div class="instrument-name" id="instrumentName">ピアノ</div>
 
     <div class="instrument-container">
-        <div class="instrument" id="instrument"></div>
+      <div class="instrument" id="instrument"></div>
     </div>
 
     <script src="js/audio.js"></script>
@@ -40,5 +60,5 @@
     <script src="js/flute.js"></script>
     <script src="js/drums.js"></script>
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>
