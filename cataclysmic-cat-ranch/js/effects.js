@@ -128,7 +128,7 @@ class EffectsManager {
         {
           duration: duration,
           easing: 'ease-out',
-        }
+        },
       ).onfinish = () => particle.remove();
     }
   }
@@ -215,7 +215,7 @@ class EffectsManager {
           {
             duration: 2000,
             easing: 'ease-out',
-          }
+          },
         ).onfinish = () => wave.remove();
       }, i * 200);
     }
@@ -348,7 +348,7 @@ class EffectsManager {
       {
         duration: 1000,
         easing: 'ease-out',
-      }
+      },
     ).onfinish = () => heart.remove();
   }
 
@@ -735,7 +735,7 @@ class EffectsManager {
           {
             duration: 800,
             easing: 'ease-out',
-          }
+          },
         ).onfinish = () => ripple.remove();
       }, i * 100);
     }
@@ -785,7 +785,7 @@ class EffectsManager {
         {
           duration: 600,
           easing: 'ease-out',
-        }
+        },
       ).onfinish = () => spark.remove();
     }
   }
@@ -831,7 +831,7 @@ class EffectsManager {
       {
         duration: 400,
         easing: 'ease-out',
-      }
+      },
     ).onfinish = () => shockwave.remove();
   }
 
@@ -877,7 +877,7 @@ class EffectsManager {
           {
             duration: 600 + i * 100,
             easing: 'ease-out',
-          }
+          },
         ).onfinish = () => soundWave.remove();
       }, i * 150);
     }
@@ -923,7 +923,7 @@ class EffectsManager {
           {
             duration: 1200,
             easing: 'ease-out',
-          }
+          },
         ).onfinish = () => note.remove();
       }, i * 200);
     }
@@ -977,7 +977,7 @@ class EffectsManager {
         {
           duration: 500,
           easing: 'ease-out',
-        }
+        },
       ).onfinish = () => burst.remove();
     }
   }

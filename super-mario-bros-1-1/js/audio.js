@@ -65,17 +65,17 @@ class AudioManager {
 
       oscillator.frequency.setValueAtTime(
         frequency,
-        this.audioContext.currentTime
+        this.audioContext.currentTime,
       );
       oscillator.type = waveType;
 
       gainNode.gain.setValueAtTime(
         this.sfxVolume,
-        this.audioContext.currentTime
+        this.audioContext.currentTime,
       );
       gainNode.gain.exponentialRampToValueAtTime(
         0.001,
-        this.audioContext.currentTime + duration
+        this.audioContext.currentTime + duration,
       );
 
       oscillator.start();
@@ -94,7 +94,7 @@ class AudioManager {
       const buffer = this.audioContext.createBuffer(
         1,
         bufferSize,
-        this.audioContext.sampleRate
+        this.audioContext.sampleRate,
       );
       const output = buffer.getChannelData(0);
 
@@ -111,11 +111,11 @@ class AudioManager {
 
       gainNode.gain.setValueAtTime(
         this.sfxVolume * 0.3,
-        this.audioContext.currentTime
+        this.audioContext.currentTime,
       );
       gainNode.gain.exponentialRampToValueAtTime(
         0.001,
-        this.audioContext.currentTime + duration
+        this.audioContext.currentTime + duration,
       );
 
       source.start();
@@ -156,17 +156,17 @@ class AudioManager {
       oscillator.frequency.setValueAtTime(440, this.audioContext.currentTime);
       oscillator.frequency.exponentialRampToValueAtTime(
         110,
-        this.audioContext.currentTime + 1
+        this.audioContext.currentTime + 1,
       );
       oscillator.type = 'sawtooth';
 
       gainNode.gain.setValueAtTime(
         this.sfxVolume,
-        this.audioContext.currentTime
+        this.audioContext.currentTime,
       );
       gainNode.gain.exponentialRampToValueAtTime(
         0.001,
-        this.audioContext.currentTime + 1
+        this.audioContext.currentTime + 1,
       );
 
       oscillator.start();

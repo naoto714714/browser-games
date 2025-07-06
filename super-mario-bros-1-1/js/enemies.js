@@ -92,7 +92,7 @@ class Goomba extends Enemy {
       y,
       GAME_CONSTANTS.ENEMY.GOOMBA.WIDTH,
       GAME_CONSTANTS.ENEMY.GOOMBA.HEIGHT,
-      ENEMY_TYPES.GOOMBA
+      ENEMY_TYPES.GOOMBA,
     );
     this.velocityX = -GAME_CONSTANTS.ENEMY.GOOMBA.SPEED;
     this.spriteKey = 'goomba';
@@ -160,7 +160,7 @@ class Goomba extends Enemy {
       if (
         Physics.checkRectCollision(
           { x: nextX, y: this.y, width: this.width, height: this.height },
-          tile
+          tile,
         )
       ) {
         hasWallAhead = true;
@@ -183,7 +183,7 @@ class KoopaTroopa extends Enemy {
       y,
       GAME_CONSTANTS.ENEMY.KOOPA.WIDTH,
       GAME_CONSTANTS.ENEMY.KOOPA.HEIGHT,
-      ENEMY_TYPES.KOOPA_TROOPA
+      ENEMY_TYPES.KOOPA_TROOPA,
     );
     this.velocityX = -GAME_CONSTANTS.ENEMY.KOOPA.SPEED;
     this.spriteKey = 'koopa';

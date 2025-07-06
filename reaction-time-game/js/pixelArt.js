@@ -99,7 +99,7 @@ class PixelArtRenderer {
       x * this.pixelSize,
       y * this.pixelSize,
       this.pixelSize,
-      this.pixelSize
+      this.pixelSize,
     );
   }
 
@@ -492,7 +492,7 @@ class PixelArtRenderer {
           this.drawPixel(
             Math.floor(heart.x) + col - 2,
             Math.floor(heart.y) + row - 2,
-            this.colors.heart
+            this.colors.heart,
           );
         }
       }

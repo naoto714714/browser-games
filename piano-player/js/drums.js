@@ -33,7 +33,7 @@ class DrumsAudio {
     const noiseBuffer = this.audioContext.createBuffer(
       1,
       this.audioContext.sampleRate * 0.2,
-      this.audioContext.sampleRate
+      this.audioContext.sampleRate,
     );
     const noiseData = noiseBuffer.getChannelData(0);
     for (let i = 0; i < noiseData.length; i++) {
@@ -78,7 +78,7 @@ class DrumsAudio {
     const noiseBuffer = this.audioContext.createBuffer(
       1,
       this.audioContext.sampleRate * duration,
-      this.audioContext.sampleRate
+      this.audioContext.sampleRate,
     );
     const noiseData = noiseBuffer.getChannelData(0);
     for (let i = 0; i < noiseData.length; i++) {
@@ -131,7 +131,7 @@ class DrumsAudio {
     const clickBuffer = this.audioContext.createBuffer(
       1,
       this.audioContext.sampleRate * 0.005,
-      this.audioContext.sampleRate
+      this.audioContext.sampleRate,
     );
     const clickData = clickBuffer.getChannelData(0);
     for (let i = 0; i < clickData.length; i++) {
@@ -259,7 +259,7 @@ class Drums extends Instrument {
 
       const key = e.key.toLowerCase();
       const drum = this.drumConfig.find(
-        d => d.key === key || (key === ' ' && d.key === 'space')
+        d => d.key === key || (key === ' ' && d.key === 'space'),
       );
 
       if (drum) {
@@ -274,7 +274,7 @@ class Drums extends Instrument {
     this._keyupHandler = e => {
       const key = e.key.toLowerCase();
       const drum = this.drumConfig.find(
-        d => d.key === key || (key === ' ' && d.key === 'space')
+        d => d.key === key || (key === ' ' && d.key === 'space'),
       );
 
       if (drum) {

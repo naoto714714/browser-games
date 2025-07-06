@@ -64,7 +64,7 @@ class Entity {
           -screenX - this.width,
           screenY,
           this.width,
-          this.height
+          this.height,
         );
       } else {
         ctx.drawImage(sprite, screenX, screenY, this.width, this.height);

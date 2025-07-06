@@ -214,7 +214,7 @@ class ComboManager {
 
     // 特定のコンボ数での特別エフェクト
     const milestone = this.comboThresholds.find(
-      threshold => threshold.count === this.combo
+      threshold => threshold.count === this.combo,
     );
     if (milestone) {
       this.showComboMilestoneEffect(milestone);
@@ -267,7 +267,7 @@ class ComboManager {
     // マイルストーン通知
     this.showComboNotification(
       `${milestone.name}コンボ達成！ ×${milestone.multiplier}`,
-      milestone.color
+      milestone.color,
     );
   }
 
@@ -370,7 +370,7 @@ class ComboManager {
     if (window.effectsManager) {
       effectsManager.showNotification(
         `${finalCombo}コンボ終了！お疲れ様でした`,
-        false
+        false,
       );
     }
   }

@@ -8,7 +8,7 @@ class Passive {
     baseCost,
     costMultiplier,
     effect,
-    maxLevel = -1
+    maxLevel = -1,
   ) {
     this.id = id;
     this.name = name;
@@ -23,7 +23,7 @@ class Passive {
 
   getCost() {
     return Math.floor(
-      this.baseCost * Math.pow(this.costMultiplier, this.level)
+      this.baseCost * Math.pow(this.costMultiplier, this.level),
     );
   }
 
@@ -91,7 +91,7 @@ class PassiveManager {
         '放置収益 +25% (永続)',
         10,
         1.3,
-        level => level * 0.25
+        level => level * 0.25,
       ),
       new Passive(
         'gravityLock',
@@ -99,7 +99,7 @@ class PassiveManager {
         'クリック効果 +50% (永続)',
         15,
         1.35,
-        level => level * 0.5
+        level => level * 0.5,
       ),
       new Passive(
         'schrodingerCat',
@@ -107,7 +107,7 @@ class PassiveManager {
         '全収益 +10% (永続・累積)',
         25,
         1.4,
-        level => level * 0.1
+        level => level * 0.1,
       ),
       new Passive(
         'timeReverse',
@@ -116,7 +116,7 @@ class PassiveManager {
         50,
         2.0,
         level => (level > 0 ? 1 : 0),
-        1 // 最大レベル1
+        1, // 最大レベル1
       ),
       new Passive(
         'quantumLeap',
@@ -124,7 +124,7 @@ class PassiveManager {
         '次元跳躍時の量子毛玉獲得量 +100%',
         100,
         1.5,
-        level => level * 1.0
+        level => level * 1.0,
       ),
       new Passive(
         'singularityBoost',
@@ -132,7 +132,7 @@ class PassiveManager {
         '初期Singularity Level +1',
         200,
         1.6,
-        level => level
+        level => level,
       ),
     ];
 
@@ -276,23 +276,23 @@ class PassiveManager {
         passive.level === 0
           ? `効果: ${this.formatEffect(
             passive.id,
-            passive.getNextEffectValue()
+            passive.getNextEffectValue(),
           )}`
           : passive.maxLevel === 1 && passive.level === 1
             ? '効果: 有効'
             : `効果: ${this.formatEffect(
               passive.id,
-              passive.getEffectValue()
+              passive.getEffectValue(),
             )} → ${this.formatEffect(
               passive.id,
-              passive.getNextEffectValue()
+              passive.getNextEffectValue(),
             )}`;
 
       div.innerHTML = `
                 <div class="item-name">${passive.name}</div>
                 <div class="item-effect">${effectText}</div>
                 <div class="item-cost">コスト: ${formatNumber(
-    passive.getCost()
+    passive.getCost(),
   )} QY</div>
                 ${
   passive.level > 0

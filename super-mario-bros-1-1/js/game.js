@@ -192,7 +192,7 @@ class Game {
     const boundResult = Physics.checkWorldBounds(
       this.player,
       this.level.width,
-      this.level.height
+      this.level.height,
     );
     if (boundResult.fellOffWorld) {
       this.playerDie();
@@ -226,7 +226,7 @@ class Game {
             if (
               Physics.checkRectCollision(
                 { x: nextX, y: item.y, width: item.width, height: item.height },
-                block
+                block,
               )
             ) {
               shouldTurn = true;
@@ -453,20 +453,20 @@ class Game {
     this.ctx.fillText(
       `Player: (${Math.floor(this.player.x)}, ${Math.floor(this.player.y)})`,
       10,
-      20
+      20,
     );
     this.ctx.fillText(
       `Velocity: (${this.player.velocityX.toFixed(
-        2
+        2,
       )}, ${this.player.velocityY.toFixed(2)})`,
       10,
-      35
+      35,
     );
     this.ctx.fillText(`Grounded: ${this.player.grounded}`, 10, 50);
     this.ctx.fillText(
       `Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`,
       10,
-      65
+      65,
     );
     this.ctx.fillText(`FPS: ${Math.floor(1 / this.deltaTime)}`, 10, 80);
     this.ctx.restore();

@@ -649,12 +649,12 @@ const SpriteLoader = {
     this.sprites.marioSmallStanding = this.createCanvas(
       16,
       16,
-      smallMarioStanding
+      smallMarioStanding,
     );
     this.sprites.marioSmallWalking = this.createCanvas(
       16,
       16,
-      smallMarioWalking
+      smallMarioWalking,
     );
   },
 

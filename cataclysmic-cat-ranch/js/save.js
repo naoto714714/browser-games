@@ -104,9 +104,9 @@ class SaveManager {
           window.eventManager.showCustomEvent(
             'おかえりニャ！',
             `${timeText}の間に ${formatNumber(
-              offlineEarnings
+              offlineEarnings,
             )} GC を獲得したニャ！`,
-            5000
+            5000,
           );
         }
       }
@@ -190,7 +190,7 @@ class SaveManager {
       'Migrating save data from version',
       saveData.version,
       'to',
-      this.version
+      this.version,
     );
   }
 

@@ -56,7 +56,7 @@ class EventManager {
           },
         },
         30,
-        0.05 // 5%の確率
+        0.05, // 5%の確率
       ),
       new GameEvent(
         'catnipFestival',
@@ -71,7 +71,7 @@ class EventManager {
           },
         },
         60,
-        0.03 // 3%の確率
+        0.03, // 3%の確率
       ),
       new GameEvent(
         'gravityStorm',
@@ -86,7 +86,7 @@ class EventManager {
           },
         },
         45,
-        0.04 // 4%の確率
+        0.04, // 4%の確率
       ),
       new GameEvent(
         'quantumFluctuation',
@@ -103,7 +103,7 @@ class EventManager {
           },
         },
         20,
-        0.02 // 2%の確率
+        0.02, // 2%の確率
       ),
       new GameEvent(
         'blackHoleBurp',
@@ -122,7 +122,7 @@ class EventManager {
           },
         },
         0.1, // 即座に終了
-        0.03 // 3%の確率
+        0.03, // 3%の確率
       ),
     ];
 

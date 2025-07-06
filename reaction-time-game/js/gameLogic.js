@@ -148,14 +148,14 @@ class ReactionGame {
 
     oscillator.frequency.setValueAtTime(
       frequency,
-      this.audioContext.currentTime
+      this.audioContext.currentTime,
     );
     oscillator.type = type;
 
     gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(
       0.01,
-      this.audioContext.currentTime + duration / 1000
+      this.audioContext.currentTime + duration / 1000,
     );
 
     oscillator.start(this.audioContext.currentTime);
@@ -258,7 +258,7 @@ class ReactionGame {
     const enemyIndex = Math.min(this.level - 1, this.enemies.length - 1);
     this.currentEnemy = this.enemies[enemyIndex];
     console.log(
-      `🎯 Battle vs ${this.currentEnemy.name}: ${this.currentEnemy.description}`
+      `🎯 Battle vs ${this.currentEnemy.name}: ${this.currentEnemy.description}`,
     );
   }
 
@@ -267,7 +267,7 @@ class ReactionGame {
     const range = this.currentEnemy.reactionRange;
     this.enemyReactionTime = Math.random() * (range[1] - range[0]) + range[0];
     console.log(
-      `🤖 Enemy reaction time: ${Math.round(this.enemyReactionTime)}ms`
+      `🤖 Enemy reaction time: ${Math.round(this.enemyReactionTime)}ms`,
     );
   }
 
@@ -330,7 +330,7 @@ class ReactionGame {
       setTimeout(() => {
         this.renderer.addSparkle(
           20 + Math.random() * 60,
-          10 + Math.random() * 50
+          10 + Math.random() * 50,
         );
       }, i * 50);
     }
@@ -393,7 +393,7 @@ class ReactionGame {
         for (let i = 0; i < 8; i++) {
           this.renderer.addSparkle(
             this.catPosition.x + Math.random() * 64,
-            this.catPosition.y + Math.random() * 64
+            this.catPosition.y + Math.random() * 64,
           );
         }
 
@@ -430,7 +430,7 @@ class ReactionGame {
         for (let i = 0; i < 5; i++) {
           this.renderer.addHeart(
             this.catPosition.x + Math.random() * 64,
-            this.catPosition.y + Math.random() * 64
+            this.catPosition.y + Math.random() * 64,
           );
         }
       }
@@ -451,7 +451,7 @@ class ReactionGame {
   handleGameOver() {
     this.battlePhase = 'gameOver';
     console.log(
-      `💀 Game Over! Reached level ${this.level}, Score: ${this.score}`
+      `💀 Game Over! Reached level ${this.level}, Score: ${this.score}`,
     );
   }
 
@@ -501,7 +501,7 @@ class ReactionGame {
     } else if (battleResult === 'defeat') {
       // プレイヤーが敗北の場合は敵の時間を表示
       reactionTimeElement.textContent = `${Math.round(
-        this.enemyReactionTime
+        this.enemyReactionTime,
       )}ms`;
     }
 
@@ -557,7 +557,7 @@ class ReactionGame {
     this.renderer.drawCat(
       this.catPosition.x,
       this.catPosition.y,
-      this.catExpression
+      this.catExpression,
     );
 
     // 敵キャラクター描画
@@ -565,7 +565,7 @@ class ReactionGame {
       this.renderer.drawEnemy(
         this.enemyPosition.x,
         this.enemyPosition.y,
-        this.currentEnemy.type
+        this.currentEnemy.type,
       );
     }
 
@@ -590,7 +590,7 @@ class ReactionGame {
         this.renderer.drawCountdownNumber(
           countX,
           countY,
-          this.countdownValue
+          this.countdownValue,
         );
       }
       break;

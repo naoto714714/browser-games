@@ -56,7 +56,7 @@ class GameController {
     this.canvas.style.touchAction = 'none';
 
     console.log(
-      `📱 Canvas initialized: ${this.canvas.width}x${this.canvas.height}`
+      `📱 Canvas initialized: ${this.canvas.width}x${this.canvas.height}`,
     );
   }
 
@@ -225,7 +225,7 @@ class GameController {
     }
 
     console.log(
-      `📐 Canvas resized: ${this.canvas.width}x${this.canvas.height}`
+      `📐 Canvas resized: ${this.canvas.width}x${this.canvas.height}`,
     );
   }
 
@@ -238,7 +238,7 @@ class GameController {
     // FPS計算
     if (currentTime - this.lastFpsUpdate >= 1000) {
       this.fps = Math.round(
-        (this.frameCount * 1000) / (currentTime - this.lastFpsUpdate)
+        (this.frameCount * 1000) / (currentTime - this.lastFpsUpdate),
       );
       this.frameCount = 0;
       this.lastFpsUpdate = currentTime;

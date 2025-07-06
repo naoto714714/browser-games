@@ -18,10 +18,10 @@ class InputManager {
 
     // ゲームパッドイベント
     window.addEventListener('gamepadconnected', e =>
-      this.onGamepadConnected(e)
+      this.onGamepadConnected(e),
     );
     window.addEventListener('gamepaddisconnected', e =>
-      this.onGamepadDisconnected(e)
+      this.onGamepadDisconnected(e),
     );
 
     // フォーカス時の処理

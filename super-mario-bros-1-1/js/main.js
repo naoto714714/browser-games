@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   SpriteLoader.init();
   console.log(
     'Sprite loader initialized. Available sprites:',
-    Object.keys(SpriteLoader.sprites)
+    Object.keys(SpriteLoader.sprites),
   );
 
   // ゲームインスタンスを作成

@@ -56,7 +56,7 @@ class Piano extends Instrument {
           const blackKey = this.createKey(
             blackNoteName,
             'black',
-            whiteKeyIndex - 1
+            whiteKeyIndex - 1,
           );
           this.container.appendChild(blackKey);
         }
@@ -77,7 +77,7 @@ class Piano extends Instrument {
     label.className = 'key-label';
 
     const keyboardKey = Object.keys(this.keyboardMapping).find(
-      k => this.keyboardMapping[k] === note
+      k => this.keyboardMapping[k] === note,
     );
     if (keyboardKey) {
       label.textContent = keyboardKey.toUpperCase();

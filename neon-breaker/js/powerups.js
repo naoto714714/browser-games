@@ -114,7 +114,7 @@ class PowerUpManager {
       // Restore original ball speed
       const currentSpeed = Math.sqrt(
         gameState.ball.dx * gameState.ball.dx +
-            gameState.ball.dy * gameState.ball.dy
+            gameState.ball.dy * gameState.ball.dy,
       );
       const speedRatio = powerUp.originalSpeed / currentSpeed;
       gameState.ball.dx *= speedRatio;
@@ -123,7 +123,7 @@ class PowerUpManager {
     case 'multiScore':
       gameState.scoreMultiplier = Math.max(
         1,
-        (gameState.scoreMultiplier || 1) / 2
+        (gameState.scoreMultiplier || 1) / 2,
       );
       break;
     case 'shield':
@@ -295,7 +295,7 @@ class ShieldEffect {
       -shieldWidth / 2,
       -shieldHeight / 2,
       shieldWidth,
-      shieldHeight
+      shieldHeight,
     );
 
     // Shield border
@@ -305,7 +305,7 @@ class ShieldEffect {
       -shieldWidth / 2,
       -shieldHeight / 2,
       shieldWidth,
-      shieldHeight
+      shieldHeight,
     );
 
     ctx.restore();

@@ -22,8 +22,8 @@ class PrestigeManager {
     const baseGain = Math.floor(
       Math.pow(
         resourceManager.graviCoin / this.minGraviCoinForPrestige,
-        this.quantumYarnExponent
-      )
+        this.quantumYarnExponent,
+      ),
     );
 
     // パッシブスキルによる倍率
@@ -31,7 +31,7 @@ class PrestigeManager {
 
     return Math.max(
       this.baseQuantumYarnGain,
-      Math.floor(baseGain * multiplier)
+      Math.floor(baseGain * multiplier),
     );
   }
 
@@ -108,9 +108,9 @@ class PrestigeManager {
       window.eventManager.showCustomEvent(
         '次元跳躍推奨',
         `${formatNumber(
-          this.calculateQuantumYarnGain()
+          this.calculateQuantumYarnGain(),
         )} 量子毛玉を獲得できるニャ！`,
-        5000
+        5000,
       );
     }
   }
@@ -160,7 +160,7 @@ function setupPrestigeButton() {
           '次元跳躍を実行しますか？\n\n' +
           `獲得量子毛玉: ${formatNumber(info.quantumYarnGain)}\n` +
           `現在の量子毛玉: ${formatNumber(info.currentQY)} → ${formatNumber(
-            info.totalQY
+            info.totalQY,
           )}\n\n` +
           '※GraviCoinとSingularity Levelはリセットされます';
 

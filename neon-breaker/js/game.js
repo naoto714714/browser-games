@@ -54,7 +54,7 @@ class GameState {
     // Initialize particle effects first
     this.particleSystem = new ParticleSystem(
       this.canvas.width,
-      this.canvas.height
+      this.canvas.height,
     );
 
     // Initialize game objects
@@ -62,7 +62,7 @@ class GameState {
       this.canvas.width / 2 - 50,
       this.canvas.height - 40,
       100,
-      15
+      15,
     );
 
     // 🆕 マルチボールシステム初期化
@@ -292,7 +292,7 @@ class GameState {
       blockHeight,
       padding,
       offsetX,
-      offsetY
+      offsetY,
     );
   }
 
@@ -304,7 +304,7 @@ class GameState {
       100,
       200,
       80,
-      this.level
+      this.level,
     );
 
     // ボス戦用の少数雑魚ブロック
@@ -327,7 +327,7 @@ class GameState {
     blockHeight,
     padding,
     offsetX,
-    offsetY
+    offsetY,
   ) {
     // レベル3以上で中央に爆発ブロック確定配置
     if (this.level >= 3 && rows >= 2) {
@@ -338,7 +338,7 @@ class GameState {
           Math.abs(block.x - (offsetX + centerCol * (blockWidth + padding))) <
             5 &&
           Math.abs(block.y - (offsetY + centerRow * (blockHeight + padding))) <
-            5
+            5,
       );
       if (centerIndex !== -1) {
         this.blocks[centerIndex].type = 'explosive';
@@ -357,11 +357,11 @@ class GameState {
         const cornerIndex = this.blocks.findIndex(
           block =>
             Math.abs(
-              block.x - (offsetX + corner.col * (blockWidth + padding))
+              block.x - (offsetX + corner.col * (blockWidth + padding)),
             ) < 5 &&
             Math.abs(
-              block.y - (offsetY + corner.row * (blockHeight + padding))
-            ) < 5
+              block.y - (offsetY + corner.row * (blockHeight + padding)),
+            ) < 5,
         );
         if (cornerIndex !== -1) {
           this.blocks[cornerIndex].type = corner.type;
@@ -395,7 +395,7 @@ class GameState {
       this.keys,
       this.mouseX,
       this.canvas.width,
-      this.controlMethod
+      this.controlMethod,
     );
 
     // 🚀 マルチボールシステム更新
@@ -606,7 +606,7 @@ class GameState {
       if (Math.random() < 0.2) {
         this.dropPowerUpItem(
           block.x + block.width / 2,
-          block.y + block.height / 2
+          block.y + block.height / 2,
         );
       }
 
@@ -734,7 +734,7 @@ class GameState {
         targetY,
         this.canvas.width,
         targetY,
-        '#ff0040'
+        '#ff0040',
       );
     }
 
@@ -774,7 +774,7 @@ class GameState {
         0,
         targetX,
         this.canvas.height,
-        '#4000ff'
+        '#4000ff',
       );
     }
 
@@ -798,7 +798,7 @@ class GameState {
       const block = this.blocks[i];
       const distance = Math.sqrt(
         Math.pow(centerX - (block.x + block.width / 2), 2) +
-          Math.pow(centerY - (block.y + block.height / 2), 2)
+          Math.pow(centerY - (block.y + block.height / 2), 2),
       );
 
       if (distance <= chainRadius) {
@@ -820,7 +820,7 @@ class GameState {
             this.particleSystem.createExplosion(
               block.x + block.width / 2,
               block.y + block.height / 2,
-              '#ff8000'
+              '#ff8000',
             );
           }
         }
@@ -869,7 +869,7 @@ class GameState {
       const block = this.blocks[i];
       const distance = Math.sqrt(
         Math.pow(x - (block.x + block.width / 2), 2) +
-          Math.pow(y - (block.y + block.height / 2), 2)
+          Math.pow(y - (block.y + block.height / 2), 2),
       );
 
       if (distance <= explosionRadius) {
@@ -884,10 +884,10 @@ class GameState {
             () => {
               this.createExplosion(
                 block.x + block.width / 2,
-                block.y + block.height / 2
+                block.y + block.height / 2,
               );
             },
-            200 + Math.random() * 300
+            200 + Math.random() * 300,
           );
         }
       }
@@ -912,7 +912,7 @@ class GameState {
       this.score += bonus;
       this.multiplier = Math.min(
         5,
-        this.multiplier + Math.floor(destroyedCount / 3)
+        this.multiplier + Math.floor(destroyedCount / 3),
       );
       this.multiplierTimer = 180 + destroyedCount * 30; // 破壊数に応じて延長
     }
@@ -1100,7 +1100,7 @@ class GameState {
       this.particleSystem.createBlockDestruction(
         block.x + block.width / 2,
         block.y + block.height / 2,
-        block.color
+        block.color,
       );
     }
   }
@@ -1242,7 +1242,7 @@ class GameState {
       this.ctx.fillText(
         'PAUSED',
         this.canvas.width / 2,
-        this.canvas.height / 2
+        this.canvas.height / 2,
       );
     }
   }
@@ -1343,7 +1343,7 @@ class Paddle {
     if (mouseX > 0 && controlMethod === 'mouse') {
       this.x = Math.max(
         0,
-        Math.min(canvasWidth - this.width, mouseX - this.width / 2)
+        Math.min(canvasWidth - this.width, mouseX - this.width / 2),
       );
     }
   }
@@ -1354,7 +1354,7 @@ class Paddle {
       this.x,
       this.y,
       this.x,
-      this.y + this.height
+      this.y + this.height,
     );
     gradient.addColorStop(0, '#00ffff');
     gradient.addColorStop(0.5, '#0080ff');
@@ -1420,7 +1420,7 @@ class Ball {
       0,
       this.x,
       this.y,
-      this.radius
+      this.radius,
     );
     gradient.addColorStop(0, '#ffffff');
     gradient.addColorStop(0.7, '#00ffff');
@@ -1507,7 +1507,7 @@ class Block {
       this.x,
       this.y,
       this.x,
-      this.y + this.height
+      this.y + this.height,
     );
     gradient.addColorStop(0, this.color);
     gradient.addColorStop(1, this.adjustColor(this.color, -0.3));
@@ -1534,7 +1534,7 @@ class Block {
       ctx.fillText(
         this.getTypeSymbol(),
         this.x + this.width / 2,
-        this.y + this.height / 2 + 4
+        this.y + this.height / 2 + 4,
       );
     }
 
@@ -1581,15 +1581,15 @@ class Block {
     const hex = color.replace('#', '');
     const r = Math.max(
       0,
-      Math.min(255, parseInt(hex.substr(0, 2), 16) * (1 + factor))
+      Math.min(255, parseInt(hex.substr(0, 2), 16) * (1 + factor)),
     );
     const g = Math.max(
       0,
-      Math.min(255, parseInt(hex.substr(2, 2), 16) * (1 + factor))
+      Math.min(255, parseInt(hex.substr(2, 2), 16) * (1 + factor)),
     );
     const b = Math.max(
       0,
-      Math.min(255, parseInt(hex.substr(4, 2), 16) * (1 + factor))
+      Math.min(255, parseInt(hex.substr(4, 2), 16) * (1 + factor)),
     );
 
     return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
@@ -1666,7 +1666,7 @@ class BossBlock {
       this.x,
       this.y,
       this.x,
-      this.y + this.height
+      this.y + this.height,
     );
     gradient.addColorStop(0, '#ff0080');
     gradient.addColorStop(0.5, '#8000ff');

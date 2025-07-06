@@ -8,7 +8,7 @@ class Upgrade {
     baseCost,
     costMultiplier,
     effect,
-    maxLevel = -1
+    maxLevel = -1,
   ) {
     this.id = id;
     this.name = name;
@@ -22,7 +22,7 @@ class Upgrade {
 
   getCost() {
     return Math.floor(
-      this.baseCost * Math.pow(this.costMultiplier, this.level)
+      this.baseCost * Math.pow(this.costMultiplier, this.level),
     );
   }
 
@@ -136,7 +136,7 @@ class UpgradeManager {
         'クリック収益 +20%',
         15,
         1.15,
-        level => level * 0.2
+        level => level * 0.2,
       ),
       new Upgrade(
         'cushion',
@@ -144,7 +144,7 @@ class UpgradeManager {
         '放置収益の基本値を増加',
         50,
         1.12,
-        level => level * 0.5
+        level => level * 0.5,
       ),
       new Upgrade(
         'treats',
@@ -152,7 +152,7 @@ class UpgradeManager {
         'Singularity Level +1',
         200,
         1.25,
-        level => level
+        level => level,
       ),
       new Upgrade(
         'telescope',
@@ -160,7 +160,7 @@ class UpgradeManager {
         '放置収益 +30%',
         1000,
         1.18,
-        level => level * 0.3
+        level => level * 0.3,
       ),
       new Upgrade(
         'laser',
@@ -168,7 +168,7 @@ class UpgradeManager {
         'クリック基本値 +2',
         2500,
         1.2,
-        level => level * 2
+        level => level * 2,
       ),
       new Upgrade(
         'catnip',
@@ -176,7 +176,7 @@ class UpgradeManager {
         'クリック収益 +50%',
         8000,
         1.22,
-        level => level * 0.5
+        level => level * 0.5,
       ),
       new Upgrade(
         'blackHoleCore',
@@ -184,7 +184,7 @@ class UpgradeManager {
         '全収益 +25%',
         25000,
         1.25,
-        level => level * 0.25
+        level => level * 0.25,
       ),
       new Upgrade(
         'quantumTunnel',
@@ -192,7 +192,7 @@ class UpgradeManager {
         '放置収益 +100%',
         75000,
         1.28,
-        level => level * 1.0
+        level => level * 1.0,
       ),
       new Upgrade(
         'gravitySiphon',
@@ -200,7 +200,7 @@ class UpgradeManager {
         'クリック基本値 +10',
         150000,
         1.3,
-        level => level * 10
+        level => level * 10,
       ),
     ];
 
@@ -250,21 +250,21 @@ class UpgradeManager {
           : upgrade.level === 0
             ? `効果: ${this.formatEffect(
               upgrade.id,
-              upgrade.getNextEffectValue()
+              upgrade.getNextEffectValue(),
             )}`
             : `効果: ${this.formatEffect(
               upgrade.id,
-              upgrade.getEffectValue()
+              upgrade.getEffectValue(),
             )} → ${this.formatEffect(
               upgrade.id,
-              upgrade.getNextEffectValue()
+              upgrade.getNextEffectValue(),
             )}`;
 
       div.innerHTML = `
                 <div class="item-name">${upgrade.name}</div>
                 <div class="item-effect">${effectText}</div>
                 <div class="item-cost">コスト: ${formatNumber(
-    upgrade.getCost()
+    upgrade.getCost(),
   )} GC</div>
                 ${
   upgrade.level > 0

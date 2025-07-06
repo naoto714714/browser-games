@@ -12,7 +12,7 @@ class ParticleSystem {
     // Create floating background particles for atmosphere
     for (let i = 0; i < 20; i++) {
       this.backgroundParticles.push(
-        new BackgroundParticle(this.canvasWidth, this.canvasHeight)
+        new BackgroundParticle(this.canvasWidth, this.canvasHeight),
       );
     }
   }

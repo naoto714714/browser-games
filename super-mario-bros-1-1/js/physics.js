@@ -6,7 +6,7 @@ const Physics = {
       entity.velocityY += GAME_CONSTANTS.GRAVITY;
       entity.velocityY = Math.min(
         entity.velocityY,
-        GAME_CONSTANTS.TERMINAL_VELOCITY
+        GAME_CONSTANTS.TERMINAL_VELOCITY,
       );
     }
   },
@@ -111,7 +111,7 @@ const Physics = {
         y: entity2.y,
         width: entity2.width,
         height: entity2.height,
-      }
+      },
     );
   },
 
@@ -172,12 +172,12 @@ const Physics = {
     entity.x = Utils.clamp(
       entity.x,
       area.x,
-      area.x + area.width - entity.width
+      area.x + area.width - entity.width,
     );
     entity.y = Utils.clamp(
       entity.y,
       area.y,
-      area.y + area.height - entity.height
+      area.y + area.height - entity.height,
     );
   },
 

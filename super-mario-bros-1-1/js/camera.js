@@ -82,12 +82,12 @@ class Camera {
     this.x = Utils.clamp(
       this.x + this.shake.offsetX,
       this.bounds.left,
-      this.bounds.right
+      this.bounds.right,
     );
     this.y = Utils.clamp(
       this.y + this.shake.offsetY,
       this.bounds.top,
-      this.bounds.bottom
+      this.bounds.bottom,
     );
   }
 
@@ -178,12 +178,12 @@ class Camera {
     this.bounds.left = Math.max(x, 0);
     this.bounds.right = Math.min(
       x + width - cameraWidth,
-      GAME_CONSTANTS.LEVEL.WIDTH - cameraWidth
+      GAME_CONSTANTS.LEVEL.WIDTH - cameraWidth,
     );
     this.bounds.top = Math.max(y, 0);
     this.bounds.bottom = Math.min(
       y + height - cameraHeight,
-      GAME_CONSTANTS.LEVEL.HEIGHT - cameraHeight
+      GAME_CONSTANTS.LEVEL.HEIGHT - cameraHeight,
     );
   }
 

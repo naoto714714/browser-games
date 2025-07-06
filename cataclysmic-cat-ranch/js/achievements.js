@@ -56,7 +56,7 @@ class AchievementManager {
         () => resourceManager.graviCoin >= 1000,
         () => {
           resourceManager.clickMultiplier *= 1.05;
-        }
+        },
       ),
       new Achievement(
         'million_gc',
@@ -65,7 +65,7 @@ class AchievementManager {
         () => resourceManager.graviCoin >= 1e6,
         () => {
           resourceManager.idleMultiplier *= 1.1;
-        }
+        },
       ),
       new Achievement(
         'billion_gc',
@@ -74,7 +74,7 @@ class AchievementManager {
         () => resourceManager.graviCoin >= 1e9,
         () => {
           resourceManager.clickMultiplier *= 1.1;
-        }
+        },
       ),
       new Achievement(
         'yocto_gc',
@@ -83,7 +83,7 @@ class AchievementManager {
         () => resourceManager.graviCoin >= 1e24,
         () => {
           resourceManager.idleMultiplier *= 1.2;
-        }
+        },
       ),
 
       // クリック関連
@@ -94,7 +94,7 @@ class AchievementManager {
         () => resourceManager.totalClicks >= 100,
         () => {
           resourceManager.baseClick += 0.5;
-        }
+        },
       ),
       new Achievement(
         'click_1000',
@@ -103,7 +103,7 @@ class AchievementManager {
         () => resourceManager.totalClicks >= 1000,
         () => {
           resourceManager.baseClick += 2;
-        }
+        },
       ),
       new Achievement(
         'click_10000',
@@ -112,7 +112,7 @@ class AchievementManager {
         () => resourceManager.totalClicks >= 10000,
         () => {
           resourceManager.clickMultiplier *= 1.15;
-        }
+        },
       ),
 
       // 放置収益関連
@@ -123,7 +123,7 @@ class AchievementManager {
         () => resourceManager.getIdleValue() >= 100,
         () => {
           resourceManager.baseIdle += 10;
-        }
+        },
       ),
       new Achievement(
         'idle_1t',
@@ -132,7 +132,7 @@ class AchievementManager {
         () => resourceManager.getIdleValue() >= 1e12,
         () => {
           resourceManager.idleMultiplier *= 1.25;
-        }
+        },
       ),
 
       // Singularity Level関連
@@ -143,7 +143,7 @@ class AchievementManager {
         () => resourceManager.singularityLevel >= 10,
         () => {
           resourceManager.clickMultiplier *= 1.1;
-        }
+        },
       ),
       new Achievement(
         'slv_50',
@@ -152,7 +152,7 @@ class AchievementManager {
         () => resourceManager.singularityLevel >= 50,
         () => {
           resourceManager.idleMultiplier *= 1.15;
-        }
+        },
       ),
       new Achievement(
         'slv_100',
@@ -162,7 +162,7 @@ class AchievementManager {
         () => {
           resourceManager.clickMultiplier *= 1.2;
           resourceManager.idleMultiplier *= 1.2;
-        }
+        },
       ),
 
       // 次元跳躍関連
@@ -173,7 +173,7 @@ class AchievementManager {
         () => resourceManager.totalPrestige >= 1,
         () => {
           /* 特別な報酬なし */
-        }
+        },
       ),
       new Achievement(
         'prestige_10',
@@ -182,7 +182,7 @@ class AchievementManager {
         () => resourceManager.totalPrestige >= 10,
         () => {
           resourceManager.baseClick += 5;
-        }
+        },
       ),
       new Achievement(
         'qy_100',
@@ -191,7 +191,7 @@ class AchievementManager {
         () => resourceManager.quantumYarn >= 100,
         () => {
           /* 特別な報酬なし */
-        }
+        },
       ),
 
       // イベント関連
@@ -202,7 +202,7 @@ class AchievementManager {
         () => eventManager.activeEvents.length > 0,
         () => {
           /* 特別な報酬なし */
-        }
+        },
       ),
 
       // 総合
@@ -214,7 +214,7 @@ class AchievementManager {
         () => {
           resourceManager.clickMultiplier *= 1.5;
           resourceManager.idleMultiplier *= 1.5;
-        }
+        },
       ),
     ];
 
@@ -257,7 +257,7 @@ class AchievementManager {
           window.eventManager.showCustomEvent(
             '実績解除！',
             `「${achievement.name}」\n${achievement.description}`,
-            4000
+            4000,
           );
         }
       }, index * 1000); // 1秒ずつずらして表示

@@ -19,7 +19,7 @@ class FluteAudio extends PianoAudio {
     const noiseBuffer = this.audioContext.createBuffer(
       1,
       this.audioContext.sampleRate * 2,
-      this.audioContext.sampleRate
+      this.audioContext.sampleRate,
     );
     const noiseData = noiseBuffer.getChannelData(0);
     for (let i = 0; i < noiseData.length; i++) {
@@ -176,7 +176,7 @@ class Flute extends Instrument {
       label.style.fontSize = '12px';
 
       const key = Object.keys(this.keyboardMapping).find(
-        k => this.keyboardMapping[k] === note
+        k => this.keyboardMapping[k] === note,
       );
       if (key) {
         label.textContent = key.toUpperCase();

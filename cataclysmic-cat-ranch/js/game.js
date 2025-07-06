@@ -83,24 +83,24 @@ class Game {
     // キーボードショートカット
     document.addEventListener('keydown', e => {
       switch (e.key.toLowerCase()) {
-        case 's':
-          if (e.ctrlKey) {
-            e.preventDefault();
-            saveManager.save();
-          }
-          break;
-        case 'e':
-          if (e.ctrlKey && e.shiftKey) {
-            e.preventDefault();
-            saveManager.exportSave();
-          }
-          break;
-        case 'i':
-          if (e.ctrlKey && e.shiftKey) {
-            e.preventDefault();
-            saveManager.importSave();
-          }
-          break;
+      case 's':
+        if (e.ctrlKey) {
+          e.preventDefault();
+          saveManager.save();
+        }
+        break;
+      case 'e':
+        if (e.ctrlKey && e.shiftKey) {
+          e.preventDefault();
+          saveManager.exportSave();
+        }
+        break;
+      case 'i':
+        if (e.ctrlKey && e.shiftKey) {
+          e.preventDefault();
+          saveManager.importSave();
+        }
+        break;
       }
     });
   }

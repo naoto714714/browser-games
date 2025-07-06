@@ -36,8 +36,8 @@ class Level {
           new Block(
             x * GAME_CONSTANTS.TILE_SIZE,
             groundY + y * GAME_CONSTANTS.TILE_SIZE,
-            BLOCK_TYPES.GROUND
-          )
+            BLOCK_TYPES.GROUND,
+          ),
         );
       }
     }
@@ -52,8 +52,8 @@ class Level {
           new Block(
             x * GAME_CONSTANTS.TILE_SIZE,
             groundY + y * GAME_CONSTANTS.TILE_SIZE,
-            BLOCK_TYPES.GROUND
-          )
+            BLOCK_TYPES.GROUND,
+          ),
         );
       }
     }
@@ -67,8 +67,8 @@ class Level {
         new Block(
           x * GAME_CONSTANTS.TILE_SIZE,
           10 * GAME_CONSTANTS.TILE_SIZE,
-          BLOCK_TYPES.GROUND
-        )
+          BLOCK_TYPES.GROUND,
+        ),
       );
     }
 
@@ -78,8 +78,8 @@ class Level {
         new Block(
           x * GAME_CONSTANTS.TILE_SIZE,
           10 * GAME_CONSTANTS.TILE_SIZE,
-          BLOCK_TYPES.GROUND
-        )
+          BLOCK_TYPES.GROUND,
+        ),
       );
     }
 
@@ -102,8 +102,8 @@ class Level {
             new Block(
               (stair.x + x) * GAME_CONSTANTS.TILE_SIZE,
               (stair.y + y) * GAME_CONSTANTS.TILE_SIZE,
-              BLOCK_TYPES.GROUND
-            )
+              BLOCK_TYPES.GROUND,
+            ),
           );
         }
       }
@@ -135,8 +135,8 @@ class Level {
             new Block(
               (pipe.x + x) * GAME_CONSTANTS.TILE_SIZE,
               pipeY + y * GAME_CONSTANTS.TILE_SIZE,
-              BLOCK_TYPES.PIPE
-            )
+              BLOCK_TYPES.PIPE,
+            ),
           );
         }
       }
@@ -238,8 +238,8 @@ class Level {
           qBlock.x * GAME_CONSTANTS.TILE_SIZE,
           qBlock.y * GAME_CONSTANTS.TILE_SIZE,
           BLOCK_TYPES.QUESTION,
-          qBlock.item
-        )
+          qBlock.item,
+        ),
       );
     });
   }
@@ -295,8 +295,8 @@ class Level {
         new Block(
           brick.x * GAME_CONSTANTS.TILE_SIZE,
           brick.y * GAME_CONSTANTS.TILE_SIZE,
-          BLOCK_TYPES.BRICK
-        )
+          BLOCK_TYPES.BRICK,
+        ),
       );
     });
   }
@@ -382,17 +382,17 @@ class Level {
 
     return {
       blocks: this.blocks.filter(
-        block => block.x + block.width > leftBound && block.x < rightBound
+        block => block.x + block.width > leftBound && block.x < rightBound,
       ),
       enemies: this.enemies.filter(
         enemy =>
           enemy.active &&
           enemy.x + enemy.width > leftBound &&
-          enemy.x < rightBound
+          enemy.x < rightBound,
       ),
       items: this.spawnedItems.filter(
         item =>
-          item.active && item.x + item.width > leftBound && item.x < rightBound
+          item.active && item.x + item.width > leftBound && item.x < rightBound,
       ),
     };
   }
@@ -433,7 +433,7 @@ class Level {
       0,
       0,
       GAME_CONSTANTS.CANVAS_WIDTH,
-      GAME_CONSTANTS.CANVAS_HEIGHT
+      GAME_CONSTANTS.CANVAS_HEIGHT,
     );
 
     // 背景オブジェクト（装飾）の描画
@@ -451,7 +451,7 @@ class Level {
           screenX,
           screenY,
           GAME_CONSTANTS.TILE_SIZE * 3,
-          GAME_CONSTANTS.TILE_SIZE * 2
+          GAME_CONSTANTS.TILE_SIZE * 2,
         );
       }
     });
@@ -459,7 +459,7 @@ class Level {
     // ブロックの描画
     const visibleBlocks = this.getEntitiesInRange(
       camera.x,
-      GAME_CONSTANTS.CANVAS_WIDTH
+      GAME_CONSTANTS.CANVAS_WIDTH,
     ).blocks;
     visibleBlocks.forEach(block => {
       block.render(ctx, camera);
@@ -468,7 +468,7 @@ class Level {
     // 敵の描画
     const visibleEnemies = this.getEntitiesInRange(
       camera.x,
-      GAME_CONSTANTS.CANVAS_WIDTH
+      GAME_CONSTANTS.CANVAS_WIDTH,
     ).enemies;
     visibleEnemies.forEach(enemy => {
       enemy.render(ctx, camera);
@@ -477,7 +477,7 @@ class Level {
     // アイテムの描画
     const visibleItems = this.getEntitiesInRange(
       camera.x,
-      GAME_CONSTANTS.CANVAS_WIDTH
+      GAME_CONSTANTS.CANVAS_WIDTH,
     ).items;
     visibleItems.forEach(item => {
       item.render(ctx, camera);
