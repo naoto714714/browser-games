@@ -11,7 +11,7 @@ export const PLAYER_EYE_OFFSET = 10;
 export const PLAYER_EYE_RADIUS = 3;
 
 // 舌関連
-export const TONGUE_MAX_LENGTH = 300;
+export const TONGUE_MAX_LENGTH = 700;
 export const TONGUE_EXTEND_SPEED = 10;
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
@@ -36,8 +36,17 @@ export const DIFFICULTY_INCREASE_FRAMES = 600; // 10秒（60FPS想定）
 // マメの出現確率
 export const BEAN_SPAWN_PROBABILITY = {
   FLASHING: 0.05,
-  WHITE: 0.2,
+  WHITE: 0.15,
 };
+
+// スコアゾーン関連
+export const SCORE_ZONE_1_HEIGHT = 180; // 最上部ゾーン: 0〜180px
+export const SCORE_ZONE_2_HEIGHT = 360; // 上部ゾーン: 180〜360px
+export const SCORE_ZONE_3_HEIGHT = 540; // 中部ゾーン: 360〜540px
+export const SCORE_ZONE_1_SCORE = 300; // 最上部スコア
+export const SCORE_ZONE_2_SCORE = 100; // 上部スコア
+export const SCORE_ZONE_3_SCORE = 30; // 中部スコア
+export const SCORE_ZONE_4_SCORE = 10; // 下部スコア
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;
