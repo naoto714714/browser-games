@@ -1,3 +1,11 @@
+import {
+  AUDIO_GAIN,
+  AUDIO_FADE_TIME,
+  AUDIO_FREQUENCIES,
+  AUDIO_DURATIONS,
+  AUDIO_TYPES
+} from './constants.js';
+
 export class AudioManager {
   constructor() {
     this.sounds = {};
@@ -10,11 +18,11 @@ export class AudioManager {
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     this.sounds = {
-      catch: () => this.playTone(800, 0.1, 'sine'),
-      hole: () => this.playTone(200, 0.2, 'square'),
-      fill: () => this.playTone(600, 0.15, 'triangle'),
-      gameOver: () => this.playTone(150, 0.5, 'sawtooth'),
-      powerUp: () => this.playSequence([400, 600, 800], 0.1),
+      catch: () => this.playTone(AUDIO_FREQUENCIES.CATCH, AUDIO_DURATIONS.CATCH, AUDIO_TYPES.CATCH),
+      hole: () => this.playTone(AUDIO_FREQUENCIES.HOLE, AUDIO_DURATIONS.HOLE, AUDIO_TYPES.HOLE),
+      fill: () => this.playTone(AUDIO_FREQUENCIES.FILL, AUDIO_DURATIONS.FILL, AUDIO_TYPES.FILL),
+      gameOver: () => this.playTone(AUDIO_FREQUENCIES.GAME_OVER, AUDIO_DURATIONS.GAME_OVER, AUDIO_TYPES.GAME_OVER),
+      powerUp: () => this.playSequence(AUDIO_FREQUENCIES.POWER_UP, AUDIO_DURATIONS.POWER_UP),
     };
   }
 
@@ -31,8 +39,8 @@ export class AudioManager {
       oscillator.frequency.value = frequency;
       oscillator.type = type;
 
-      gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+      gainNode.gain.setValueAtTime(AUDIO_GAIN, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(AUDIO_FADE_TIME, this.audioContext.currentTime + duration);
 
       oscillator.start(this.audioContext.currentTime);
       oscillator.stop(this.audioContext.currentTime + duration);

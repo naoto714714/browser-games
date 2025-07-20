@@ -1,23 +1,39 @@
+import {
+  PLAYER_WIDTH,
+  PLAYER_HEIGHT,
+  PLAYER_SPEED,
+  PLAYER_GROUND_MARGIN,
+  PLAYER_EYE_OFFSET,
+  PLAYER_EYE_RADIUS,
+  GROUND_HEIGHT,
+  TONGUE_MAX_LENGTH,
+  TONGUE_EXTEND_SPEED,
+  TONGUE_ANGLE_DEGREES,
+  TONGUE_WIDTH,
+  TONGUE_CHECK_INTERVAL,
+  COLORS
+} from './constants.js';
+
 export class Player {
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.width = 40;
-    this.height = 40;
+    this.width = PLAYER_WIDTH;
+    this.height = PLAYER_HEIGHT;
     this.x = canvasWidth / 2 - this.width / 2;
-    this.y = canvasHeight - 40 - this.height - 10;
+    this.y = canvasHeight - GROUND_HEIGHT - this.height - PLAYER_GROUND_MARGIN;
 
-    this.speed = 5;
+    this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き
 
     this.tongue = {
       active: false,
       extending: false,
       length: 0,
-      maxLength: 300,
-      extendSpeed: 10,
-      angle: (45 * Math.PI) / 180,
+      maxLength: TONGUE_MAX_LENGTH,
+      extendSpeed: TONGUE_EXTEND_SPEED,
+      angle: (TONGUE_ANGLE_DEGREES * Math.PI) / 180,
       startX: 0,
       startY: 0,
       endX: 0,
@@ -92,12 +108,24 @@ export class Player {
   }
 
   render(renderer) {
-    renderer.drawRect(this.x, this.y, this.width, this.height, '#ff6b6b');
+    renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
 
-    renderer.drawCircle(this.x + this.width / 2 + this.direction * 10, this.y + 10, 3, '#ffffff');
+    renderer.drawCircle(
+      this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
+      this.y + PLAYER_EYE_OFFSET,
+      PLAYER_EYE_RADIUS,
+      COLORS.PLAYER_EYE
+    );
 
     if (this.tongue.active && this.tongue.length > 0) {
-      renderer.drawLine(this.tongue.startX, this.tongue.startY, this.tongue.endX, this.tongue.endY, '#ff9999', 5);
+      renderer.drawLine(
+        this.tongue.startX,
+        this.tongue.startY,
+        this.tongue.endX,
+        this.tongue.endY,
+        COLORS.TONGUE,
+        TONGUE_WIDTH
+      );
     }
   }
 
@@ -117,7 +145,7 @@ export class Player {
     const dy = this.tongue.endY - this.tongue.startY;
     const len = Math.sqrt(dx * dx + dy * dy);
 
-    for (let i = 0; i <= len; i += 5) {
+    for (let i = 0; i <= len; i += TONGUE_CHECK_INTERVAL) {
       const ratio = i / len;
       const checkX = this.tongue.startX + dx * ratio;
       const checkY = this.tongue.startY + dy * ratio;

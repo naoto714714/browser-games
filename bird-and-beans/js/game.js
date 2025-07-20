@@ -4,6 +4,7 @@ import { Player } from './player.js';
 import { BeanManager } from './bean.js';
 import { Ground } from './ground.js';
 import { AudioManager } from './audio.js';
+import { HIGH_SCORE_KEY } from './constants.js';
 
 export class Game {
   constructor(canvas, ctx) {
@@ -112,10 +113,10 @@ export class Game {
   }
 
   loadHighScore() {
-    return parseInt(localStorage.getItem('birdAndBeansHighScore') || '0');
+    return parseInt(localStorage.getItem(HIGH_SCORE_KEY) || '0');
   }
 
   saveHighScore() {
-    localStorage.setItem('birdAndBeansHighScore', this.highScore.toString());
+    localStorage.setItem(HIGH_SCORE_KEY, this.highScore.toString());
   }
 }

@@ -1,10 +1,17 @@
+import {
+  GROUND_BLOCK_COUNT,
+  GROUND_HEIGHT,
+  GROUND_BLOCK_GAP,
+  COLORS
+} from './constants.js';
+
 export class Ground {
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-    this.blockCount = 30;
+    this.blockCount = GROUND_BLOCK_COUNT;
     this.blockWidth = canvasWidth / this.blockCount;
-    this.blockHeight = 40;
+    this.blockHeight = GROUND_HEIGHT;
     this.y = canvasHeight - this.blockHeight;
 
     this.blocks = new Array(this.blockCount).fill(true);
@@ -56,13 +63,9 @@ export class Ground {
 
   render(renderer) {
     for (let i = 0; i < this.blockCount; i++) {
-      if (this.blocks[i]) {
-        const x = i * this.blockWidth;
-        renderer.drawRect(x, this.y, this.blockWidth - 1, this.blockHeight, '#333333');
-      } else {
-        const x = i * this.blockWidth;
-        renderer.drawRect(x, this.y, this.blockWidth - 1, this.blockHeight, '#000000');
-      }
+      const x = i * this.blockWidth;
+      const color = this.blocks[i] ? COLORS.GROUND_BLOCK : COLORS.GROUND_HOLE;
+      renderer.drawRect(x, this.y, this.blockWidth - GROUND_BLOCK_GAP, this.blockHeight, color);
     }
   }
 }

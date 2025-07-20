@@ -1,9 +1,12 @@
 import { Game } from './game.js';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
 
 let game;
 
 function init() {
   const canvas = document.getElementById('game-canvas');
+  canvas.width = CANVAS_WIDTH;
+  canvas.height = CANVAS_HEIGHT;
   const ctx = canvas.getContext('2d');
 
   game = new Game(canvas, ctx);

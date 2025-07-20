@@ -1,10 +1,12 @@
+import { COLORS } from './constants.js';
+
 export class Renderer {
   constructor(ctx) {
     this.ctx = ctx;
   }
 
   clear(width, height) {
-    this.ctx.fillStyle = '#1a1a1a';
+    this.ctx.fillStyle = COLORS.BACKGROUND;
     this.ctx.fillRect(0, 0, width, height);
   }
 
