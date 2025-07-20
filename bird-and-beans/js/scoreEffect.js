@@ -1,10 +1,14 @@
+const SCORE_EFFECT_DURATION = 3000; // 3秒間表示
+const SCORE_EFFECT_COLOR = '#ffffff';
+const SCORE_EFFECT_FONT = '20px Arial';
+
 export class ScoreEffect {
   constructor(x, y, score) {
     this.x = x;
     this.y = y;
     this.score = score;
     this.createdAt = Date.now();
-    this.duration = 3000; // 3秒間表示
+    this.duration = SCORE_EFFECT_DURATION;
     this.active = true;
   }
 
@@ -19,7 +23,7 @@ export class ScoreEffect {
     if (!this.active) return;
 
     // スコアテキストを白色で表示
-    renderer.drawText(this.score.toString(), this.x, this.y, '#ffffff', '20px Arial');
+    renderer.drawText(this.score.toString(), this.x, this.y, SCORE_EFFECT_COLOR, SCORE_EFFECT_FONT);
   }
 }
 
