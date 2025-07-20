@@ -6,13 +6,9 @@ import {
   PLAYER_EYE_OFFSET,
   PLAYER_EYE_RADIUS,
   GROUND_HEIGHT,
-  TONGUE_MAX_LENGTH,
-  TONGUE_EXTEND_SPEED,
-  TONGUE_ANGLE_DEGREES,
-  TONGUE_WIDTH,
-  TONGUE_CHECK_INTERVAL,
   COLORS
 } from './constants.js';
+import { Tongue } from './tongue.js';
 
 export class Player {
   constructor(canvasWidth, canvasHeight) {
@@ -26,19 +22,7 @@ export class Player {
 
     this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き
-
-    this.tongue = {
-      active: false,
-      extending: false,
-      length: 0,
-      maxLength: TONGUE_MAX_LENGTH,
-      extendSpeed: TONGUE_EXTEND_SPEED,
-      angle: (TONGUE_ANGLE_DEGREES * Math.PI) / 180,
-      startX: 0,
-      startY: 0,
-      endX: 0,
-      endY: 0,
-    };
+    this.tongue = new Tongue();
   }
 
   moveLeft(ground) {
@@ -58,37 +42,17 @@ export class Player {
   }
 
   startTongue() {
-    if (!this.tongue.active) {
-      this.tongue.active = true;
-      this.tongue.extending = true;
-      this.tongue.length = 0;
-    }
+    this.tongue.start();
   }
 
   releaseTongue() {
-    if (this.tongue.active) {
-      this.tongue.extending = false;
-    }
+    this.tongue.release();
   }
 
   updateTongue() {
-    if (!this.tongue.active) return;
-
-    if (this.tongue.extending) {
-      this.tongue.length += this.tongue.extendSpeed;
-      if (this.tongue.length >= this.tongue.maxLength) {
-        this.tongue.length = this.tongue.maxLength;
-        this.tongue.extending = false;
-      }
-    } else {
-      this.tongue.active = false;
-      this.tongue.length = 0;
-    }
-
-    this.tongue.startX = this.x + this.width / 2;
-    this.tongue.startY = this.y + this.height / 2;
-    this.tongue.endX = this.tongue.startX + Math.cos(this.tongue.angle) * this.tongue.length * this.direction;
-    this.tongue.endY = this.tongue.startY - Math.sin(this.tongue.angle) * this.tongue.length;
+    const centerX = this.x + this.width / 2;
+    const centerY = this.y + this.height / 2;
+    this.tongue.update(centerX, centerY, this.direction);
   }
 
   update(inputManager, ground) {
@@ -117,16 +81,7 @@ export class Player {
       COLORS.PLAYER_EYE
     );
 
-    if (this.tongue.active && this.tongue.length > 0) {
-      renderer.drawLine(
-        this.tongue.startX,
-        this.tongue.startY,
-        this.tongue.endX,
-        this.tongue.endY,
-        COLORS.TONGUE,
-        TONGUE_WIDTH
-      );
-    }
+    this.tongue.render(renderer);
   }
 
   checkCollision(bean) {
@@ -139,22 +94,6 @@ export class Player {
   }
 
   checkTongueCollision(bean) {
-    if (!this.tongue.active || this.tongue.length === 0) return false;
-
-    const dx = this.tongue.endX - this.tongue.startX;
-    const dy = this.tongue.endY - this.tongue.startY;
-    const len = Math.sqrt(dx * dx + dy * dy);
-
-    for (let i = 0; i <= len; i += TONGUE_CHECK_INTERVAL) {
-      const ratio = i / len;
-      const checkX = this.tongue.startX + dx * ratio;
-      const checkY = this.tongue.startY + dy * ratio;
-
-      if (checkX >= bean.x && checkX <= bean.x + bean.width && checkY >= bean.y && checkY <= bean.y + bean.height) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.tongue.checkCollision(bean);
   }
 }
