@@ -1,4 +1,8 @@
 import { Renderer } from './render.js';
+import { InputManager } from './input.js';
+import { Player } from './player.js';
+import { BeanManager } from './bean.js';
+import { Ground } from './ground.js';
 
 export class Game {
     constructor(canvas, ctx) {
@@ -11,6 +15,11 @@ export class Game {
         this.gameOver = false;
         this.frameCount = 0;
         this.lastTime = 0;
+        
+        this.inputManager = new InputManager();
+        this.player = new Player(canvas.width, canvas.height);
+        this.beanManager = new BeanManager(canvas.width);
+        this.ground = new Ground(canvas.width, canvas.height);
         
         this.updateUI();
     }
@@ -33,18 +42,46 @@ export class Game {
     }
     
     update(deltaTime) {
-        // ゲームロジックの更新（後で実装）
+        this.player.update(this.inputManager, this.ground);
+        this.beanManager.update(deltaTime, this.frameCount);
+        
+        // 地面との衝突判定
+        this.beanManager.checkGroundCollision(this.ground);
+        
+        // 鳥とマメの衝突判定
+        this.beanManager.beans.forEach(bean => {
+            if (!bean.active) return;
+            
+            // 舌との衝突
+            if (this.player.checkTongueCollision(bean)) {
+                const score = bean.getScore(bean.y);
+                this.addScore(score);
+                bean.active = false;
+            }
+            
+            // 鳥本体との衝突
+            if (this.player.checkCollision(bean)) {
+                this.endGame();
+            }
+        });
     }
     
     render() {
         this.renderer.clear(this.canvas.width, this.canvas.height);
-        // 各要素の描画（後で実装）
+        this.ground.render(this.renderer);
+        this.player.render(this.renderer);
+        this.beanManager.render(this.renderer);
     }
     
     restart() {
         this.score = 0;
         this.gameOver = false;
         this.frameCount = 0;
+        
+        this.player = new Player(this.canvas.width, this.canvas.height);
+        this.beanManager.reset();
+        this.ground = new Ground(this.canvas.width, this.canvas.height);
+        
         this.updateUI();
         document.getElementById('game-over').classList.add('hidden');
     }
