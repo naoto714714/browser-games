@@ -27,24 +27,24 @@ export class Player {
   }
 
   moveLeft(ground) {
+    // 舌を伸ばしている間は移動できない
+    if (this.tongue.active) return;
+
     const newX = this.x - this.speed;
     if (newX >= 0 && ground.canPlayerMoveTo(newX, this.width)) {
       this.x = newX;
-      // 舌を伸ばしていない場合のみ方向を変更
-      if (!this.tongue.active) {
-        this.direction = -1;
-      }
+      this.direction = -1;
     }
   }
 
   moveRight(ground) {
+    // 舌を伸ばしている間は移動できない
+    if (this.tongue.active) return;
+
     const newX = this.x + this.speed;
     if (newX + this.width <= this.canvasWidth && ground.canPlayerMoveTo(newX, this.width)) {
       this.x = newX;
-      // 舌を伸ばしていない場合のみ方向を変更
-      if (!this.tongue.active) {
-        this.direction = 1;
-      }
+      this.direction = 1;
     }
   }
 
