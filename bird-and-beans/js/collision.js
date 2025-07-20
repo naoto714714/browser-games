@@ -22,7 +22,7 @@ export class CollisionManager {
       const checkX = lineStart.x + dx * ratio;
       const checkY = lineStart.y + dy * ratio;
 
-      if (this.checkPointInRect(checkX, checkY, rect)) {
+      if (CollisionManager.checkPointInRect(checkX, checkY, rect)) {
         return true;
       }
     }
