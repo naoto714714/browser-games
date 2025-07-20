@@ -30,7 +30,10 @@ export class Player {
     const newX = this.x - this.speed;
     if (newX >= 0 && ground.canPlayerMoveTo(newX, this.width)) {
       this.x = newX;
-      this.direction = -1;
+      // 舌を伸ばしていない場合のみ方向を変更
+      if (!this.tongue.active) {
+        this.direction = -1;
+      }
     }
   }
 
@@ -38,7 +41,10 @@ export class Player {
     const newX = this.x + this.speed;
     if (newX + this.width <= this.canvasWidth && ground.canPlayerMoveTo(newX, this.width)) {
       this.x = newX;
-      this.direction = 1;
+      // 舌を伸ばしていない場合のみ方向を変更
+      if (!this.tongue.active) {
+        this.direction = 1;
+      }
     }
   }
 
