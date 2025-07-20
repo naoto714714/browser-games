@@ -140,7 +140,7 @@ class EventManager {
     const now = Date.now();
 
     // アクティブなイベントの更新
-    this.activeEvents = this.activeEvents.filter(event => {
+    this.activeEvents = this.activeEvents.filter((event) => {
       const ended = event.update();
       if (ended) {
         this.showEventEnd(event);
@@ -161,9 +161,9 @@ class EventManager {
       return;
     }
 
-    this.events.forEach(event => {
+    this.events.forEach((event) => {
       // すでにアクティブなイベントはスキップ
-      if (this.activeEvents.some(e => e.id === event.id)) {
+      if (this.activeEvents.some((e) => e.id === event.id)) {
         return;
       }
 
@@ -241,7 +241,7 @@ class EventManager {
 
   // アクティブなイベントの情報取得
   getActiveEventsInfo() {
-    return this.activeEvents.map(event => ({
+    return this.activeEvents.map((event) => ({
       name: event.name,
       remainingTime: event.getRemainingTime(),
     }));
@@ -250,7 +250,7 @@ class EventManager {
   // セーブデータ
   getSaveData() {
     return {
-      activeEvents: this.activeEvents.map(event => ({
+      activeEvents: this.activeEvents.map((event) => ({
         id: event.id,
         endTime: event.endTime,
       })),
@@ -265,8 +265,8 @@ class EventManager {
 
     if (data.activeEvents && Array.isArray(data.activeEvents)) {
       const now = Date.now();
-      data.activeEvents.forEach(savedEvent => {
-        const event = this.events.find(e => e.id === savedEvent.id);
+      data.activeEvents.forEach((savedEvent) => {
+        const event = this.events.find((e) => e.id === savedEvent.id);
         if (event && savedEvent.endTime > now) {
           event.active = true;
           event.endTime = savedEvent.endTime;

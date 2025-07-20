@@ -61,10 +61,7 @@ class Enemy extends Entity {
     }
 
     // プレイヤーが上から踏んだ場合
-    if (
-      player.velocityY > 0 &&
-      player.y + player.height - player.velocityY <= this.y
-    ) {
+    if (player.velocityY > 0 && player.y + player.height - player.velocityY <= this.y) {
       return this.onStomp(player);
     } else {
       // 横から触れた場合はプレイヤーがダメージを受ける
@@ -87,13 +84,7 @@ class Enemy extends Entity {
 // グンバ
 class Goomba extends Enemy {
   constructor(x, y) {
-    super(
-      x,
-      y,
-      GAME_CONSTANTS.ENEMY.GOOMBA.WIDTH,
-      GAME_CONSTANTS.ENEMY.GOOMBA.HEIGHT,
-      ENEMY_TYPES.GOOMBA,
-    );
+    super(x, y, GAME_CONSTANTS.ENEMY.GOOMBA.WIDTH, GAME_CONSTANTS.ENEMY.GOOMBA.HEIGHT, ENEMY_TYPES.GOOMBA);
     this.velocityX = -GAME_CONSTANTS.ENEMY.GOOMBA.SPEED;
     this.spriteKey = 'goomba';
     this.points = 100;
@@ -105,8 +96,7 @@ class Goomba extends Enemy {
   updateMovement() {
     // 歩行アニメーション
     if (this.animationTimer % 20 === 0) {
-      this.currentWalkFrame =
-        (this.currentWalkFrame + 1) % this.walkAnimationFrames.length;
+      this.currentWalkFrame = (this.currentWalkFrame + 1) % this.walkAnimationFrames.length;
       this.spriteKey = this.walkAnimationFrames[this.currentWalkFrame];
     }
 
@@ -157,12 +147,7 @@ class Goomba extends Enemy {
     // 前方に壁があるかチェック
     let hasWallAhead = false;
     for (const tile of tiles) {
-      if (
-        Physics.checkRectCollision(
-          { x: nextX, y: this.y, width: this.width, height: this.height },
-          tile,
-        )
-      ) {
+      if (Physics.checkRectCollision({ x: nextX, y: this.y, width: this.width, height: this.height }, tile)) {
         hasWallAhead = true;
         break;
       }
@@ -178,13 +163,7 @@ class Goomba extends Enemy {
 // ノコノコ（簡易版）
 class KoopaTroopa extends Enemy {
   constructor(x, y) {
-    super(
-      x,
-      y,
-      GAME_CONSTANTS.ENEMY.KOOPA.WIDTH,
-      GAME_CONSTANTS.ENEMY.KOOPA.HEIGHT,
-      ENEMY_TYPES.KOOPA_TROOPA,
-    );
+    super(x, y, GAME_CONSTANTS.ENEMY.KOOPA.WIDTH, GAME_CONSTANTS.ENEMY.KOOPA.HEIGHT, ENEMY_TYPES.KOOPA_TROOPA);
     this.velocityX = -GAME_CONSTANTS.ENEMY.KOOPA.SPEED;
     this.spriteKey = 'koopa';
     this.points = 200;

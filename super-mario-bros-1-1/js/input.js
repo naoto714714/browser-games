@@ -13,16 +13,12 @@ class InputManager {
   // イベントリスナーを設定
   setupEventListeners() {
     // キーボードイベント
-    document.addEventListener('keydown', e => this.onKeyDown(e));
-    document.addEventListener('keyup', e => this.onKeyUp(e));
+    document.addEventListener('keydown', (e) => this.onKeyDown(e));
+    document.addEventListener('keyup', (e) => this.onKeyUp(e));
 
     // ゲームパッドイベント
-    window.addEventListener('gamepadconnected', e =>
-      this.onGamepadConnected(e),
-    );
-    window.addEventListener('gamepaddisconnected', e =>
-      this.onGamepadDisconnected(e),
-    );
+    window.addEventListener('gamepadconnected', (e) => this.onGamepadConnected(e));
+    window.addEventListener('gamepaddisconnected', (e) => this.onGamepadDisconnected(e));
 
     // フォーカス時の処理
     window.addEventListener('focus', () => this.resetKeys());
@@ -50,15 +46,7 @@ class InputManager {
 
   // ゲームで使用するキーかチェック
   isGameKey(keyCode) {
-    const gameKeys = [
-      'ArrowLeft',
-      'ArrowRight',
-      'ArrowUp',
-      'ArrowDown',
-      'Space',
-      'KeyX',
-      'KeyP',
-    ];
+    const gameKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space', 'KeyX', 'KeyP'];
     return gameKeys.includes(keyCode);
   }
 
@@ -106,20 +94,14 @@ class InputManager {
     }
 
     // 方向キー・スティック
-    const leftPressed =
-      this.gamepad.buttons[14]?.pressed || this.gamepad.axes[0] < -0.5;
-    const rightPressed =
-      this.gamepad.buttons[15]?.pressed || this.gamepad.axes[0] > 0.5;
-    const upPressed =
-      this.gamepad.buttons[12]?.pressed || this.gamepad.axes[1] < -0.5;
-    const downPressed =
-      this.gamepad.buttons[13]?.pressed || this.gamepad.axes[1] > 0.5;
+    const leftPressed = this.gamepad.buttons[14]?.pressed || this.gamepad.axes[0] < -0.5;
+    const rightPressed = this.gamepad.buttons[15]?.pressed || this.gamepad.axes[0] > 0.5;
+    const upPressed = this.gamepad.buttons[12]?.pressed || this.gamepad.axes[1] < -0.5;
+    const downPressed = this.gamepad.buttons[13]?.pressed || this.gamepad.axes[1] > 0.5;
 
     // ボタン
-    const jumpPressed =
-      this.gamepad.buttons[0]?.pressed || this.gamepad.buttons[1]?.pressed; // A, B
-    const runPressed =
-      this.gamepad.buttons[2]?.pressed || this.gamepad.buttons[3]?.pressed; // X, Y
+    const jumpPressed = this.gamepad.buttons[0]?.pressed || this.gamepad.buttons[1]?.pressed; // A, B
+    const runPressed = this.gamepad.buttons[2]?.pressed || this.gamepad.buttons[3]?.pressed; // X, Y
 
     // キー状態を更新
     this.keys['ArrowLeft'] = leftPressed;
@@ -213,7 +195,7 @@ class InputManager {
 
   // デバッグ用：現在押されているキーを表示
   getActiveKeys() {
-    return Object.keys(this.keys).filter(key => this.keys[key]);
+    return Object.keys(this.keys).filter((key) => this.keys[key]);
   }
 
   // 入力デバイスの情報を取得

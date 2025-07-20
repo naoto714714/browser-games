@@ -127,11 +127,7 @@ function formatNumber(num, decimals = 2) {
         continue;
       }
       const formatted =
-        value < 10
-          ? value.toFixed(decimals)
-          : value < 100
-            ? value.toFixed(1)
-            : Math.floor(value).toString();
+        value < 10 ? value.toFixed(decimals) : value < 100 ? value.toFixed(1) : Math.floor(value).toString();
       return formatted + unit.suffix;
     }
   }

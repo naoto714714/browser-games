@@ -51,7 +51,7 @@ class Game {
     const petButton = document.getElementById('petButton');
     const catBlackhole = document.getElementById('catBlackhole');
 
-    const handleClick = e => {
+    const handleClick = (e) => {
       // コンボシステム
       const comboMultiplier = window.comboManager ? comboManager.onClick() : 1;
 
@@ -81,26 +81,26 @@ class Game {
     setupPrestigeButton();
 
     // キーボードショートカット
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       switch (e.key.toLowerCase()) {
-      case 's':
-        if (e.ctrlKey) {
-          e.preventDefault();
-          saveManager.save();
-        }
-        break;
-      case 'e':
-        if (e.ctrlKey && e.shiftKey) {
-          e.preventDefault();
-          saveManager.exportSave();
-        }
-        break;
-      case 'i':
-        if (e.ctrlKey && e.shiftKey) {
-          e.preventDefault();
-          saveManager.importSave();
-        }
-        break;
+        case 's':
+          if (e.ctrlKey) {
+            e.preventDefault();
+            saveManager.save();
+          }
+          break;
+        case 'e':
+          if (e.ctrlKey && e.shiftKey) {
+            e.preventDefault();
+            saveManager.exportSave();
+          }
+          break;
+        case 'i':
+          if (e.ctrlKey && e.shiftKey) {
+            e.preventDefault();
+            saveManager.importSave();
+          }
+          break;
       }
     });
   }
@@ -109,8 +109,7 @@ class Game {
     // 各種乗数を適用
     const eventMultiplier = eventManager.getClickMultiplier();
     const passiveMultiplier = passiveManager.getClickMultiplier();
-    const totalMultiplier =
-      eventMultiplier * passiveMultiplier * comboMultiplier;
+    const totalMultiplier = eventMultiplier * passiveMultiplier * comboMultiplier;
 
     // 元のクリック値を保存
     const originalMultiplier = resourceManager.clickMultiplier;
@@ -149,8 +148,7 @@ class Game {
 
   update(deltaTime) {
     // 放置収益の計算
-    const idleMultiplier =
-      eventManager.getIdleMultiplier() * passiveManager.getIdleMultiplier();
+    const idleMultiplier = eventManager.getIdleMultiplier() * passiveManager.getIdleMultiplier();
     const originalMultiplier = resourceManager.idleMultiplier;
     resourceManager.idleMultiplier *= idleMultiplier;
 
@@ -194,17 +192,13 @@ class Game {
 
     if (gcPerSecEl) {
       const idleValue =
-        resourceManager.getIdleValue() *
-        eventManager.getIdleMultiplier() *
-        passiveManager.getIdleMultiplier();
+        resourceManager.getIdleValue() * eventManager.getIdleMultiplier() * passiveManager.getIdleMultiplier();
       gcPerSecEl.textContent = formatNumber(idleValue);
     }
 
     if (clickValueEl) {
       const clickValue =
-        resourceManager.getClickValue() *
-        eventManager.getClickMultiplier() *
-        passiveManager.getClickMultiplier();
+        resourceManager.getClickValue() * eventManager.getClickMultiplier() * passiveManager.getClickMultiplier();
       clickValueEl.textContent = '+' + formatNumber(clickValue);
     }
 
@@ -233,23 +227,23 @@ class Game {
 
   // デバッグ用関数
   debug = {
-    addGC: amount => {
+    addGC: (amount) => {
       resourceManager.addGraviCoin(amount);
       console.log(`Added ${amount} GC`);
     },
 
-    addQY: amount => {
+    addQY: (amount) => {
       resourceManager.addQuantumYarn(amount);
       console.log(`Added ${amount} QY`);
     },
 
-    setSLv: level => {
+    setSLv: (level) => {
       resourceManager.singularityLevel = level;
       console.log(`Set SLv to ${level}`);
     },
 
-    triggerEvent: eventId => {
-      const event = eventManager.events.find(e => e.id === eventId);
+    triggerEvent: (eventId) => {
+      const event = eventManager.events.find((e) => e.id === eventId);
       if (event) {
         eventManager.startEvent(event);
         console.log(`Triggered event: ${event.name}`);
@@ -259,7 +253,7 @@ class Game {
     },
 
     unlockAllAchievements: () => {
-      achievementManager.achievements.forEach(achievement => {
+      achievementManager.achievements.forEach((achievement) => {
         achievement.unlock();
       });
       achievementManager.updateUI();

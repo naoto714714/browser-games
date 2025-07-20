@@ -26,18 +26,13 @@ class Level {
   // 地面を作成
   createGround() {
     const groundHeight = 2; // 2タイル分の高さ
-    const groundY =
-      GAME_CONSTANTS.LEVEL.HEIGHT - groundHeight * GAME_CONSTANTS.TILE_SIZE;
+    const groundY = GAME_CONSTANTS.LEVEL.HEIGHT - groundHeight * GAME_CONSTANTS.TILE_SIZE;
 
     // 基本的な地面（0-2816px）
     for (let x = 0; x < 176; x++) {
       for (let y = 0; y < groundHeight; y++) {
         this.blocks.push(
-          new Block(
-            x * GAME_CONSTANTS.TILE_SIZE,
-            groundY + y * GAME_CONSTANTS.TILE_SIZE,
-            BLOCK_TYPES.GROUND,
-          ),
+          new Block(x * GAME_CONSTANTS.TILE_SIZE, groundY + y * GAME_CONSTANTS.TILE_SIZE, BLOCK_TYPES.GROUND),
         );
       }
     }
@@ -49,11 +44,7 @@ class Level {
     for (let x = 184; x < 384; x++) {
       for (let y = 0; y < groundHeight; y++) {
         this.blocks.push(
-          new Block(
-            x * GAME_CONSTANTS.TILE_SIZE,
-            groundY + y * GAME_CONSTANTS.TILE_SIZE,
-            BLOCK_TYPES.GROUND,
-          ),
+          new Block(x * GAME_CONSTANTS.TILE_SIZE, groundY + y * GAME_CONSTANTS.TILE_SIZE, BLOCK_TYPES.GROUND),
         );
       }
     }
@@ -63,24 +54,12 @@ class Level {
   createPlatforms() {
     // 最初の小さなプラットフォーム（320-384px）
     for (let x = 20; x <= 23; x++) {
-      this.blocks.push(
-        new Block(
-          x * GAME_CONSTANTS.TILE_SIZE,
-          10 * GAME_CONSTANTS.TILE_SIZE,
-          BLOCK_TYPES.GROUND,
-        ),
-      );
+      this.blocks.push(new Block(x * GAME_CONSTANTS.TILE_SIZE, 10 * GAME_CONSTANTS.TILE_SIZE, BLOCK_TYPES.GROUND));
     }
 
     // 大きなプラットフォーム（2560-2688px）
     for (let x = 160; x <= 165; x++) {
-      this.blocks.push(
-        new Block(
-          x * GAME_CONSTANTS.TILE_SIZE,
-          10 * GAME_CONSTANTS.TILE_SIZE,
-          BLOCK_TYPES.GROUND,
-        ),
-      );
+      this.blocks.push(new Block(x * GAME_CONSTANTS.TILE_SIZE, 10 * GAME_CONSTANTS.TILE_SIZE, BLOCK_TYPES.GROUND));
     }
 
     // 階段状のプラットフォーム（3520px以降）
@@ -95,7 +74,7 @@ class Level {
       { x: 252, y: 24, width: 2, height: 1 },
     ];
 
-    stairPositions.forEach(stair => {
+    stairPositions.forEach((stair) => {
       for (let x = 0; x < stair.width; x++) {
         for (let y = 0; y < stair.height; y++) {
           this.blocks.push(
@@ -121,22 +100,15 @@ class Level {
       { x: 179, height: 2 }, // 最後のパイプ
     ];
 
-    pipes.forEach(pipe => {
-      const pipeY =
-        GAME_CONSTANTS.LEVEL.HEIGHT -
-        32 -
-        pipe.height * GAME_CONSTANTS.TILE_SIZE;
+    pipes.forEach((pipe) => {
+      const pipeY = GAME_CONSTANTS.LEVEL.HEIGHT - 32 - pipe.height * GAME_CONSTANTS.TILE_SIZE;
 
       // パイプの本体を作成
       for (let y = 0; y < pipe.height; y++) {
         // パイプは2タイル分の幅
         for (let x = 0; x < 2; x++) {
           this.blocks.push(
-            new Block(
-              (pipe.x + x) * GAME_CONSTANTS.TILE_SIZE,
-              pipeY + y * GAME_CONSTANTS.TILE_SIZE,
-              BLOCK_TYPES.PIPE,
-            ),
+            new Block((pipe.x + x) * GAME_CONSTANTS.TILE_SIZE, pipeY + y * GAME_CONSTANTS.TILE_SIZE, BLOCK_TYPES.PIPE),
           );
         }
       }
@@ -203,7 +175,7 @@ class Level {
       },
     ];
 
-    enemyPositions.forEach(pos => {
+    enemyPositions.forEach((pos) => {
       let enemy;
       if (pos.type === ENEMY_TYPES.GOOMBA) {
         enemy = new Goomba(pos.x, pos.y);
@@ -232,7 +204,7 @@ class Level {
       { x: 130, y: 20, item: ITEM_TYPES.COIN },
     ];
 
-    questionBlocks.forEach(qBlock => {
+    questionBlocks.forEach((qBlock) => {
       this.blocks.push(
         new Block(
           qBlock.x * GAME_CONSTANTS.TILE_SIZE,
@@ -290,13 +262,9 @@ class Level {
       { x: 170, y: 20 },
     ];
 
-    brickPositions.forEach(brick => {
+    brickPositions.forEach((brick) => {
       this.blocks.push(
-        new Block(
-          brick.x * GAME_CONSTANTS.TILE_SIZE,
-          brick.y * GAME_CONSTANTS.TILE_SIZE,
-          BLOCK_TYPES.BRICK,
-        ),
+        new Block(brick.x * GAME_CONSTANTS.TILE_SIZE, brick.y * GAME_CONSTANTS.TILE_SIZE, BLOCK_TYPES.BRICK),
       );
     });
   }
@@ -332,7 +300,7 @@ class Level {
     ];
 
     // これらは装飾なので当たり判定なし
-    cloudPositions.forEach(cloud => {
+    cloudPositions.forEach((cloud) => {
       this.backgroundObjects.push({
         x: cloud.x * GAME_CONSTANTS.TILE_SIZE,
         y: cloud.y * GAME_CONSTANTS.TILE_SIZE,
@@ -340,7 +308,7 @@ class Level {
       });
     });
 
-    hillPositions.forEach(hill => {
+    hillPositions.forEach((hill) => {
       this.backgroundObjects.push({
         x: hill.x * GAME_CONSTANTS.TILE_SIZE,
         y: hill.y * GAME_CONSTANTS.TILE_SIZE,
@@ -348,7 +316,7 @@ class Level {
       });
     });
 
-    bushPositions.forEach(bush => {
+    bushPositions.forEach((bush) => {
       this.backgroundObjects.push({
         x: bush.x * GAME_CONSTANTS.TILE_SIZE,
         y: bush.y * GAME_CONSTANTS.TILE_SIZE,
@@ -372,7 +340,7 @@ class Level {
 
   // 指定位置の固体ブロックを取得
   getSolidBlocks() {
-    return this.blocks.filter(block => block.isSolid());
+    return this.blocks.filter((block) => block.isSolid());
   }
 
   // カメラ範囲内のエンティティを取得
@@ -381,105 +349,75 @@ class Level {
     const rightBound = cameraX + cameraWidth + 100;
 
     return {
-      blocks: this.blocks.filter(
-        block => block.x + block.width > leftBound && block.x < rightBound,
-      ),
+      blocks: this.blocks.filter((block) => block.x + block.width > leftBound && block.x < rightBound),
       enemies: this.enemies.filter(
-        enemy =>
-          enemy.active &&
-          enemy.x + enemy.width > leftBound &&
-          enemy.x < rightBound,
+        (enemy) => enemy.active && enemy.x + enemy.width > leftBound && enemy.x < rightBound,
       ),
-      items: this.spawnedItems.filter(
-        item =>
-          item.active && item.x + item.width > leftBound && item.x < rightBound,
-      ),
+      items: this.spawnedItems.filter((item) => item.active && item.x + item.width > leftBound && item.x < rightBound),
     };
   }
 
   // レベル全体の更新
   update(deltaTime) {
     // 敵の更新
-    this.enemies.forEach(enemy => {
+    this.enemies.forEach((enemy) => {
       if (enemy.active) {
         enemy.update(deltaTime);
       }
     });
 
     // アイテムの更新
-    this.spawnedItems.forEach(item => {
+    this.spawnedItems.forEach((item) => {
       if (item.active) {
         item.update(deltaTime);
       }
     });
 
     // ブロックの更新（バンプアニメーションなど）
-    this.blocks.forEach(block => {
+    this.blocks.forEach((block) => {
       if (block.active) {
         block.update(deltaTime);
       }
     });
 
     // 非アクティブなエンティティを削除
-    this.enemies = this.enemies.filter(enemy => enemy.active);
-    this.spawnedItems = this.spawnedItems.filter(item => item.active);
+    this.enemies = this.enemies.filter((enemy) => enemy.active);
+    this.spawnedItems = this.spawnedItems.filter((item) => item.active);
   }
 
   // レベル描画
   render(ctx, camera) {
     // 背景色（空色）
     ctx.fillStyle = GAME_CONSTANTS.COLORS.SKY_BLUE;
-    ctx.fillRect(
-      0,
-      0,
-      GAME_CONSTANTS.CANVAS_WIDTH,
-      GAME_CONSTANTS.CANVAS_HEIGHT,
-    );
+    ctx.fillRect(0, 0, GAME_CONSTANTS.CANVAS_WIDTH, GAME_CONSTANTS.CANVAS_HEIGHT);
 
     // 背景オブジェクト（装飾）の描画
-    this.backgroundObjects.forEach(obj => {
+    this.backgroundObjects.forEach((obj) => {
       const screenX = obj.x - camera.x;
       const screenY = obj.y - camera.y;
 
-      if (
-        screenX + GAME_CONSTANTS.TILE_SIZE > 0 &&
-        screenX < GAME_CONSTANTS.CANVAS_WIDTH
-      ) {
+      if (screenX + GAME_CONSTANTS.TILE_SIZE > 0 && screenX < GAME_CONSTANTS.CANVAS_WIDTH) {
         // TODO: 背景オブジェクトのスプライト描画
         ctx.fillStyle = obj.type === 'cloud' ? 'white' : 'green';
-        ctx.fillRect(
-          screenX,
-          screenY,
-          GAME_CONSTANTS.TILE_SIZE * 3,
-          GAME_CONSTANTS.TILE_SIZE * 2,
-        );
+        ctx.fillRect(screenX, screenY, GAME_CONSTANTS.TILE_SIZE * 3, GAME_CONSTANTS.TILE_SIZE * 2);
       }
     });
 
     // ブロックの描画
-    const visibleBlocks = this.getEntitiesInRange(
-      camera.x,
-      GAME_CONSTANTS.CANVAS_WIDTH,
-    ).blocks;
-    visibleBlocks.forEach(block => {
+    const visibleBlocks = this.getEntitiesInRange(camera.x, GAME_CONSTANTS.CANVAS_WIDTH).blocks;
+    visibleBlocks.forEach((block) => {
       block.render(ctx, camera);
     });
 
     // 敵の描画
-    const visibleEnemies = this.getEntitiesInRange(
-      camera.x,
-      GAME_CONSTANTS.CANVAS_WIDTH,
-    ).enemies;
-    visibleEnemies.forEach(enemy => {
+    const visibleEnemies = this.getEntitiesInRange(camera.x, GAME_CONSTANTS.CANVAS_WIDTH).enemies;
+    visibleEnemies.forEach((enemy) => {
       enemy.render(ctx, camera);
     });
 
     // アイテムの描画
-    const visibleItems = this.getEntitiesInRange(
-      camera.x,
-      GAME_CONSTANTS.CANVAS_WIDTH,
-    ).items;
-    visibleItems.forEach(item => {
+    const visibleItems = this.getEntitiesInRange(camera.x, GAME_CONSTANTS.CANVAS_WIDTH).items;
+    visibleItems.forEach((item) => {
       item.render(ctx, camera);
     });
   }

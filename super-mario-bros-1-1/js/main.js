@@ -13,10 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // スプライトローダーを初期化
   console.log('Initializing sprite loader...');
   SpriteLoader.init();
-  console.log(
-    'Sprite loader initialized. Available sprites:',
-    Object.keys(SpriteLoader.sprites),
-  );
+  console.log('Sprite loader initialized. Available sprites:', Object.keys(SpriteLoader.sprites));
 
   // ゲームインスタンスを作成
   console.log('Creating game instance...');
@@ -28,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const gameOverScreen = document.getElementById('gameOverScreen');
 
   // スペースキーでゲーム開始
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', (event) => {
     if (event.code === 'Space') {
       event.preventDefault();
 
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // エラーハンドリング
-window.addEventListener('error', event => {
+window.addEventListener('error', (event) => {
   console.error('Game Error:', event.error);
   console.error('Error details:', {
     message: event.message,

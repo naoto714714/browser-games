@@ -25,8 +25,7 @@ class Resources {
 
   // クリック収益計算
   getClickValue() {
-    const baseValue =
-      this.baseClick * this.clickMultiplier * (1 + this.singularityLevel * 0.1);
+    const baseValue = this.baseClick * this.clickMultiplier * (1 + this.singularityLevel * 0.1);
     return baseValue * this.getBlackHoleCoreMultiplier();
   }
 
@@ -35,8 +34,7 @@ class Resources {
     if (this.baseIdle === 0) {
       return 0;
     }
-    const baseValue =
-      this.baseIdle * this.singularityLevel * this.idleMultiplier;
+    const baseValue = this.baseIdle * this.singularityLevel * this.idleMultiplier;
     return baseValue * this.getBlackHoleCoreMultiplier();
   }
 
@@ -109,10 +107,7 @@ class Resources {
 
     // 時間反転コア効果（後で実装予定）
     let timeMultiplier = 1;
-    if (
-      window.passiveManager &&
-      window.passiveManager.hasPassive('timeReverse')
-    ) {
+    if (window.passiveManager && window.passiveManager.hasPassive('timeReverse')) {
       // 時間の2乗で計算（最大24時間まで）
       const cappedHours = Math.min(offlineSeconds / 3600, 24);
       timeMultiplier = Math.pow(cappedHours, 2) / cappedHours || 1;

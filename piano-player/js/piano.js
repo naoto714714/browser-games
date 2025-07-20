@@ -22,7 +22,7 @@ class Piano extends Instrument {
       l: 'D5',
       p: 'D#5',
       ';': 'E5',
-      '\'': 'F5',
+      "'": 'F5',
       ']': 'F#5',
       z: 'C3',
       x: 'D3',
@@ -44,7 +44,7 @@ class Piano extends Instrument {
 
     let whiteKeyIndex = 0;
 
-    octaves.forEach(octave => {
+    octaves.forEach((octave) => {
       whiteNotes.forEach((note, index) => {
         const noteName = `${note}${octave}`;
         const key = this.createKey(noteName, 'white', whiteKeyIndex);
@@ -53,11 +53,7 @@ class Piano extends Instrument {
 
         if (blackNotes[index] && (octave < 5 || index < 2)) {
           const blackNoteName = `${blackNotes[index]}${octave}`;
-          const blackKey = this.createKey(
-            blackNoteName,
-            'black',
-            whiteKeyIndex - 1,
-          );
+          const blackKey = this.createKey(blackNoteName, 'black', whiteKeyIndex - 1);
           this.container.appendChild(blackKey);
         }
       });
@@ -76,9 +72,7 @@ class Piano extends Instrument {
     const label = document.createElement('div');
     label.className = 'key-label';
 
-    const keyboardKey = Object.keys(this.keyboardMapping).find(
-      k => this.keyboardMapping[k] === note,
-    );
+    const keyboardKey = Object.keys(this.keyboardMapping).find((k) => this.keyboardMapping[k] === note);
     if (keyboardKey) {
       label.textContent = keyboardKey.toUpperCase();
     }
@@ -92,11 +86,11 @@ class Piano extends Instrument {
   }
 
   setupKeyboardEvents() {
-    this.keys.forEach(key => {
+    this.keys.forEach((key) => {
       this.setupElementEvents(key, key.dataset.note);
     });
 
-    this._keydownHandler = e => {
+    this._keydownHandler = (e) => {
       if (e.repeat) {
         return;
       }
@@ -108,7 +102,7 @@ class Piano extends Instrument {
       }
     };
 
-    this._keyupHandler = e => {
+    this._keyupHandler = (e) => {
       const note = this.keyboardMapping[e.key.toLowerCase()];
       if (note) {
         e.preventDefault();

@@ -59,13 +59,7 @@ class Entity {
       // 左向きの場合は水平反転
       if (this.direction === DIRECTION.LEFT) {
         ctx.scale(-1, 1);
-        ctx.drawImage(
-          sprite,
-          -screenX - this.width,
-          screenY,
-          this.width,
-          this.height,
-        );
+        ctx.drawImage(sprite, -screenX - this.width, screenY, this.width, this.height);
       } else {
         ctx.drawImage(sprite, screenX, screenY, this.width, this.height);
       }
@@ -143,16 +137,16 @@ class Block extends Entity {
   // ブロックタイプに応じたスプライトキーを取得
   getSpriteKey() {
     switch (this.type) {
-    case BLOCK_TYPES.GROUND:
-      return 'ground';
-    case BLOCK_TYPES.BRICK:
-      return 'brick';
-    case BLOCK_TYPES.QUESTION:
-      return this.hit ? 'brick' : 'question';
-    case BLOCK_TYPES.PIPE:
-      return 'pipeTop';
-    default:
-      return 'brick';
+      case BLOCK_TYPES.GROUND:
+        return 'ground';
+      case BLOCK_TYPES.BRICK:
+        return 'brick';
+      case BLOCK_TYPES.QUESTION:
+        return this.hit ? 'brick' : 'question';
+      case BLOCK_TYPES.PIPE:
+        return 'pipeTop';
+      default:
+        return 'brick';
     }
   }
 
@@ -208,14 +202,14 @@ class Block extends Entity {
   // アイテムのポイントを取得
   getItemPoints() {
     switch (this.item) {
-    case ITEM_TYPES.MUSHROOM:
-      return GAME_CONSTANTS.ITEM.MUSHROOM.POINTS;
-    case ITEM_TYPES.FIRE_FLOWER:
-      return GAME_CONSTANTS.ITEM.FIRE_FLOWER.POINTS;
-    case ITEM_TYPES.ONE_UP:
-      return 0; // 1UPは得点なし
-    default:
-      return 0;
+      case ITEM_TYPES.MUSHROOM:
+        return GAME_CONSTANTS.ITEM.MUSHROOM.POINTS;
+      case ITEM_TYPES.FIRE_FLOWER:
+        return GAME_CONSTANTS.ITEM.FIRE_FLOWER.POINTS;
+      case ITEM_TYPES.ONE_UP:
+        return 0; // 1UPは得点なし
+      default:
+        return 0;
     }
   }
 
@@ -255,46 +249,46 @@ class Item extends Entity {
   // アイテムタイプに応じたスプライトキーを取得
   getSpriteKey() {
     switch (this.type) {
-    case ITEM_TYPES.COIN:
-      return 'coin';
-    case ITEM_TYPES.MUSHROOM:
-      return 'mushroom';
-    case ITEM_TYPES.FIRE_FLOWER:
-      return 'fireFlower';
-    default:
-      return 'coin';
+      case ITEM_TYPES.COIN:
+        return 'coin';
+      case ITEM_TYPES.MUSHROOM:
+        return 'mushroom';
+      case ITEM_TYPES.FIRE_FLOWER:
+        return 'fireFlower';
+      default:
+        return 'coin';
     }
   }
 
   // アイテムのポイントを取得
   getPoints() {
     switch (this.type) {
-    case ITEM_TYPES.COIN:
-      return GAME_CONSTANTS.ITEM.COIN.POINTS;
-    case ITEM_TYPES.MUSHROOM:
-      return GAME_CONSTANTS.ITEM.MUSHROOM.POINTS;
-    case ITEM_TYPES.FIRE_FLOWER:
-      return GAME_CONSTANTS.ITEM.FIRE_FLOWER.POINTS;
-    default:
-      return 0;
+      case ITEM_TYPES.COIN:
+        return GAME_CONSTANTS.ITEM.COIN.POINTS;
+      case ITEM_TYPES.MUSHROOM:
+        return GAME_CONSTANTS.ITEM.MUSHROOM.POINTS;
+      case ITEM_TYPES.FIRE_FLOWER:
+        return GAME_CONSTANTS.ITEM.FIRE_FLOWER.POINTS;
+      default:
+        return 0;
     }
   }
 
   // アイテムの動作設定
   setupItemBehavior() {
     switch (this.type) {
-    case ITEM_TYPES.COIN:
-      this.velocityX = 0;
-      this.velocityY = -2; // 上に飛び出す
-      break;
-    case ITEM_TYPES.MUSHROOM:
-      this.velocityX = GAME_CONSTANTS.ITEM.MUSHROOM.SPEED;
-      this.direction = DIRECTION.RIGHT;
-      break;
-    case ITEM_TYPES.FIRE_FLOWER:
-      this.velocityX = 0;
-      this.velocityY = 0;
-      break;
+      case ITEM_TYPES.COIN:
+        this.velocityX = 0;
+        this.velocityY = -2; // 上に飛び出す
+        break;
+      case ITEM_TYPES.MUSHROOM:
+        this.velocityX = GAME_CONSTANTS.ITEM.MUSHROOM.SPEED;
+        this.direction = DIRECTION.RIGHT;
+        break;
+      case ITEM_TYPES.FIRE_FLOWER:
+        this.velocityX = 0;
+        this.velocityY = 0;
+        break;
     }
   }
 
@@ -308,12 +302,12 @@ class Item extends Entity {
 
     // アイテムタイプ別の特別な処理
     switch (this.type) {
-    case ITEM_TYPES.COIN:
-      this.updateCoin();
-      break;
-    case ITEM_TYPES.MUSHROOM:
-      this.updateMushroom();
-      break;
+      case ITEM_TYPES.COIN:
+        this.updateCoin();
+        break;
+      case ITEM_TYPES.MUSHROOM:
+        this.updateMushroom();
+        break;
     }
   }
 

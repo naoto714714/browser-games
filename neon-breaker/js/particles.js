@@ -11,9 +11,7 @@ class ParticleSystem {
   createBackgroundParticles() {
     // Create floating background particles for atmosphere
     for (let i = 0; i < 20; i++) {
-      this.backgroundParticles.push(
-        new BackgroundParticle(this.canvasWidth, this.canvasHeight),
-      );
+      this.backgroundParticles.push(new BackgroundParticle(this.canvasWidth, this.canvasHeight));
     }
   }
 
@@ -67,21 +65,21 @@ class ParticleSystem {
 
   update() {
     // Update and remove dead particles
-    this.particles = this.particles.filter(particle => {
+    this.particles = this.particles.filter((particle) => {
       particle.update();
       return particle.isAlive();
     });
 
     // Update background particles
-    this.backgroundParticles.forEach(particle => particle.update());
+    this.backgroundParticles.forEach((particle) => particle.update());
   }
 
   render(ctx) {
     // Render background particles
-    this.backgroundParticles.forEach(particle => particle.render(ctx));
+    this.backgroundParticles.forEach((particle) => particle.render(ctx));
 
     // Render effect particles
-    this.particles.forEach(particle => particle.render(ctx));
+    this.particles.forEach((particle) => particle.render(ctx));
   }
 }
 

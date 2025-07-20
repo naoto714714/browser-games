@@ -60,7 +60,7 @@ class FluteAudio extends PianoAudio {
       { mult: 4, gain: 0.02 },
     ];
 
-    harmonics.forEach(harmonic => {
+    harmonics.forEach((harmonic) => {
       const gain = this.audioContext.createGain();
       const osc = this.audioContext.createOscillator();
       osc.type = 'sine';
@@ -77,14 +77,14 @@ class FluteAudio extends PianoAudio {
     envelope.gain.exponentialRampToValueAtTime(0.8, now + 0.1);
     envelope.gain.exponentialRampToValueAtTime(0.7, now + 0.5);
 
-    gains.forEach(gain => {
+    gains.forEach((gain) => {
       gain.connect(envelope);
     });
 
     envelope.connect(this.masterGain);
     envelope.connect(this.reverb);
 
-    oscillators.forEach(osc => {
+    oscillators.forEach((osc) => {
       if (osc !== vibrato) {
         osc.start(now);
       }
@@ -107,7 +107,7 @@ class FluteAudio extends PianoAudio {
     envelope.gain.setValueAtTime(envelope.gain.value, now);
     envelope.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
 
-    oscillators.forEach(osc => {
+    oscillators.forEach((osc) => {
       osc.stop(now + 0.3);
     });
 
@@ -175,9 +175,7 @@ class Flute extends Instrument {
       label.style.color = '#999';
       label.style.fontSize = '12px';
 
-      const key = Object.keys(this.keyboardMapping).find(
-        k => this.keyboardMapping[k] === note,
-      );
+      const key = Object.keys(this.keyboardMapping).find((k) => this.keyboardMapping[k] === note);
       if (key) {
         label.textContent = key.toUpperCase();
       }
@@ -191,7 +189,7 @@ class Flute extends Instrument {
   }
 
   setupKeyboardEvents() {
-    this._keydownHandler = e => {
+    this._keydownHandler = (e) => {
       if (e.repeat) {
         return;
       }
@@ -206,7 +204,7 @@ class Flute extends Instrument {
       }
     };
 
-    this._keyupHandler = e => {
+    this._keyupHandler = (e) => {
       const note = this.keyboardMapping[e.key.toLowerCase()];
       if (note) {
         e.preventDefault();

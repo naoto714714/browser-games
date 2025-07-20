@@ -119,9 +119,7 @@ class EffectsManager {
             opacity: 1,
           },
           {
-            transform: `translate(${Math.cos(angle) * distance}px, ${
-              Math.sin(angle) * distance
-            }px) scale(0)`,
+            transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`,
             opacity: 0,
           },
         ],
@@ -267,9 +265,7 @@ class EffectsManager {
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: ${
-  isError ? 'rgba(245, 87, 108, 0.9)' : 'rgba(102, 126, 234, 0.9)'
-};
+            background: ${isError ? 'rgba(245, 87, 108, 0.9)' : 'rgba(102, 126, 234, 0.9)'};
             color: white;
             padding: 10px 20px;
             border-radius: 20px;
@@ -390,42 +386,36 @@ class EffectsManager {
     ];
 
     switch (stage) {
-    case 0: // 初期状態
-      body.style.background =
-          'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)';
-      break;
+      case 0: // 初期状態
+        body.style.background = 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)';
+        break;
 
-    case 1: // レベル5-9: 星雲が見え始める
-      body.style.background =
-          'radial-gradient(ellipse at bottom, #1b2735 0%, #0f1b2e 50%, #090a0f 100%)';
-      this.addNebulaEffect();
-      break;
+      case 1: // レベル5-9: 星雲が見え始める
+        body.style.background = 'radial-gradient(ellipse at bottom, #1b2735 0%, #0f1b2e 50%, #090a0f 100%)';
+        this.addNebulaEffect();
+        break;
 
-    case 2: // レベル10-14: 銀河の渦が現れる
-      body.style.background =
-          'radial-gradient(ellipse at bottom, #2d1b69 0%, #1b2735 50%, #090a0f 100%)';
-      this.addGalaxyEffect();
-      break;
+      case 2: // レベル10-14: 銀河の渦が現れる
+        body.style.background = 'radial-gradient(ellipse at bottom, #2d1b69 0%, #1b2735 50%, #090a0f 100%)';
+        this.addGalaxyEffect();
+        break;
 
-    case 3: // レベル15-19: 時空の歪みエフェクト
-      body.style.background =
-          'radial-gradient(ellipse at bottom, #4c1d95 0%, #2d1b69 50%, #090a0f 100%)';
-      this.addSpaceDistortionEffect();
-      break;
+      case 3: // レベル15-19: 時空の歪みエフェクト
+        body.style.background = 'radial-gradient(ellipse at bottom, #4c1d95 0%, #2d1b69 50%, #090a0f 100%)';
+        this.addSpaceDistortionEffect();
+        break;
 
-    case 4: // レベル20-24: 多次元空間
-      body.style.background =
-          'radial-gradient(ellipse at bottom, #7c3aed 0%, #4c1d95 50%, #1e1b4b 100%)';
-      this.addMultidimensionalEffect();
-      break;
+      case 4: // レベル20-24: 多次元空間
+        body.style.background = 'radial-gradient(ellipse at bottom, #7c3aed 0%, #4c1d95 50%, #1e1b4b 100%)';
+        this.addMultidimensionalEffect();
+        break;
 
-    default: // レベル25+: 宇宙の終焉
-      if (stage >= 5) {
-        body.style.background =
-            'radial-gradient(ellipse at bottom, #ec4899 0%, #7c3aed 30%, #1e1b4b 100%)';
-        this.addCosmicEndEffect();
-      }
-      break;
+      default: // レベル25+: 宇宙の終焉
+        if (stage >= 5) {
+          body.style.background = 'radial-gradient(ellipse at bottom, #ec4899 0%, #7c3aed 30%, #1e1b4b 100%)';
+          this.addCosmicEndEffect();
+        }
+        break;
     }
 
     // 星の速度を段階に応じて加速
@@ -440,7 +430,7 @@ class EffectsManager {
 
   // 背景エフェクトをクリア
   clearBackgroundEffects() {
-    this.backgroundEffects.forEach(effect => {
+    this.backgroundEffects.forEach((effect) => {
       if (effect && effect.parentNode) {
         effect.parentNode.removeChild(effect);
       }
@@ -543,28 +533,18 @@ class EffectsManager {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: radial-gradient(circle at ${30 + i * 20}% ${
-  40 + i * 15
-}%,
-                    rgba(${180 + i * 30}, ${
-  100 + i * 50
-}, 255, 0.1) 0%, transparent 40%);
+                background: radial-gradient(circle at ${30 + i * 20}% ${40 + i * 15}%,
+                    rgba(${180 + i * 30}, ${100 + i * 50}, 255, 0.1) 0%, transparent 40%);
                 z-index: -1;
-                animation: dimensionShift${i} ${
-  20 + i * 5
-}s ease-in-out infinite;
+                animation: dimensionShift${i} ${20 + i * 5}s ease-in-out infinite;
             `;
 
       const style = document.createElement('style');
       style.textContent = `
                 @keyframes dimensionShift${i} {
                     0%, 100% { transform: translateX(0) scale(1); opacity: 0.3; }
-                    33% { transform: translateX(${
-  (i - 1) * 50
-}px) scale(1.1); opacity: 0.6; }
-                    66% { transform: translateX(${
-  (1 - i) * 50
-}px) scale(0.9); opacity: 0.4; }
+                    33% { transform: translateX(${(i - 1) * 50}px) scale(1.1); opacity: 0.6; }
+                    66% { transform: translateX(${(1 - i) * 50}px) scale(0.9); opacity: 0.4; }
                 }
             `;
       document.head.appendChild(style);
@@ -914,9 +894,7 @@ class EffectsManager {
               opacity: 1,
             },
             {
-              transform: `translateY(-60px) rotate(${
-                (Math.random() - 0.5) * 30
-              }deg) scale(1.2)`,
+              transform: `translateY(-60px) rotate(${(Math.random() - 0.5) * 30}deg) scale(1.2)`,
               opacity: 0,
             },
           ],
@@ -992,15 +970,14 @@ class EffectsManager {
       this.surprisedExpression.bind(this),
     ];
 
-    const randomExpression =
-      expressions[Math.floor(Math.random() * expressions.length)];
+    const randomExpression = expressions[Math.floor(Math.random() * expressions.length)];
     randomExpression();
   }
 
   // まばたき表情
   blinkExpression() {
     const eyes = document.querySelectorAll('.cat-eye');
-    eyes.forEach(eye => {
+    eyes.forEach((eye) => {
       eye.style.transition = 'height 0.1s ease';
       eye.style.height = '5px';
       setTimeout(() => {
@@ -1025,7 +1002,7 @@ class EffectsManager {
   // 幸せ表情（目が細くなる）
   happyExpression() {
     const eyes = document.querySelectorAll('.cat-eye');
-    eyes.forEach(eye => {
+    eyes.forEach((eye) => {
       eye.style.transition = 'height 0.2s ease';
       eye.style.height = '15px';
       eye.style.borderRadius = '50% 50% 80% 80%';
@@ -1037,7 +1014,7 @@ class EffectsManager {
 
     // ほっぺの色を一時的に強くする
     const cheeks = document.querySelectorAll('.cat-cheek');
-    cheeks.forEach(cheek => {
+    cheeks.forEach((cheek) => {
       cheek.style.transition = 'background 0.3s ease';
       cheek.style.background = 'rgba(255, 107, 129, 0.6)';
       setTimeout(() => {
@@ -1049,7 +1026,7 @@ class EffectsManager {
   // 眠そうな表情
   sleepyExpression() {
     const eyes = document.querySelectorAll('.cat-eye');
-    eyes.forEach(eye => {
+    eyes.forEach((eye) => {
       eye.style.transition = 'height 0.3s ease';
       eye.style.height = '8px';
       setTimeout(() => {
@@ -1061,7 +1038,7 @@ class EffectsManager {
   // 驚き表情（目が大きくなる）
   surprisedExpression() {
     const eyes = document.querySelectorAll('.cat-eye');
-    eyes.forEach(eye => {
+    eyes.forEach((eye) => {
       eye.style.transition = 'all 0.1s ease';
       eye.style.height = '45px';
       eye.style.width = '38px';
@@ -1103,8 +1080,7 @@ class EffectsManager {
 
     if (Math.random() < 0.4) {
       // 40%の確率で耳が動く
-      const randomAnimation =
-        animations[Math.floor(Math.random() * animations.length)];
+      const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
       randomAnimation();
     }
   }
@@ -1121,9 +1097,7 @@ class EffectsManager {
       whiskers.forEach((whisker, index) => {
         setTimeout(() => {
           whisker.style.transition = 'transform 0.2s ease';
-          const isLeft =
-            whisker.classList.contains('whisker-left-1') ||
-            whisker.classList.contains('whisker-left-2');
+          const isLeft = whisker.classList.contains('whisker-left-1') || whisker.classList.contains('whisker-left-2');
           const direction = isLeft ? 1 : -1;
           const currentRotation = isLeft
             ? whisker.classList.contains('whisker-left-1')
@@ -1133,14 +1107,10 @@ class EffectsManager {
               ? 10
               : 5;
 
-          whisker.style.transform = `rotate(${
-            currentRotation + direction * 3
-          }deg)${!isLeft ? ' scaleX(-1)' : ''}`;
+          whisker.style.transform = `rotate(${currentRotation + direction * 3}deg)${!isLeft ? ' scaleX(-1)' : ''}`;
 
           setTimeout(() => {
-            whisker.style.transform = `rotate(${currentRotation}deg)${
-              !isLeft ? ' scaleX(-1)' : ''
-            }`;
+            whisker.style.transform = `rotate(${currentRotation}deg)${!isLeft ? ' scaleX(-1)' : ''}`;
           }, 200);
         }, index * 50);
       });
@@ -1190,7 +1160,7 @@ class EffectsManager {
   // 集中状態の表情
   focusedExpression() {
     const eyes = document.querySelectorAll('.cat-eye');
-    eyes.forEach(eye => {
+    eyes.forEach((eye) => {
       eye.style.transition = 'all 0.2s ease';
       eye.style.height = '30px';
       setTimeout(() => {
@@ -1202,7 +1172,7 @@ class EffectsManager {
   // 真剣な表情
   concentratedExpression() {
     const eyeShines = document.querySelectorAll('.eye-shine');
-    eyeShines.forEach(shine => {
+    eyeShines.forEach((shine) => {
       shine.style.transition = 'all 0.3s ease';
       shine.style.background = 'rgba(255, 255, 255, 1)';
       shine.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.8)';

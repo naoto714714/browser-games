@@ -1,7 +1,6 @@
 class PianoAudio {
   constructor() {
-    this.audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     this.masterGain = this.audioContext.createGain();
     this.masterGain.gain.value = 0.3;
     this.masterGain.connect(this.audioContext.destination);
@@ -88,7 +87,7 @@ class PianoAudio {
       { mult: 8, gain: 0.01 },
     ];
 
-    harmonics.forEach(harmonic => {
+    harmonics.forEach((harmonic) => {
       const gain = this.audioContext.createGain();
       const osc = this.audioContext.createOscillator();
       osc.type = 'sine';
@@ -105,14 +104,14 @@ class PianoAudio {
     envelope.gain.exponentialRampToValueAtTime(0.3, now + 0.1);
     envelope.gain.exponentialRampToValueAtTime(0.2, now + 0.5);
 
-    gains.forEach(gain => {
+    gains.forEach((gain) => {
       gain.connect(envelope);
     });
 
     envelope.connect(this.masterGain);
     envelope.connect(this.reverb);
 
-    oscillators.forEach(osc => osc.start(now));
+    oscillators.forEach((osc) => osc.start(now));
 
     this.activeNotes.set(note, { oscillators, envelope, gains });
   }
@@ -130,7 +129,7 @@ class PianoAudio {
     envelope.gain.setValueAtTime(envelope.gain.value, now);
     envelope.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
 
-    oscillators.forEach(osc => {
+    oscillators.forEach((osc) => {
       osc.stop(now + 0.5);
     });
 

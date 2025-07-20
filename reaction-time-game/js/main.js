@@ -55,9 +55,7 @@ class GameController {
     // タッチイベント設定
     this.canvas.style.touchAction = 'none';
 
-    console.log(
-      `📱 Canvas initialized: ${this.canvas.width}x${this.canvas.height}`,
-    );
+    console.log(`📱 Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
   }
 
   // レンダラー設定
@@ -93,22 +91,22 @@ class GameController {
     });
 
     // キーボードショートカット
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       switch (e.key) {
-      case 'r':
-      case 'R':
-        if (e.ctrlKey || e.metaKey) {
-          return;
-        } // Ctrl+R (reload) は無視
-        this.restartGame();
-        break;
-      case 'n':
-      case 'N':
-        this.nextRound();
-        break;
-      case 'Escape':
-        this.pauseGame();
-        break;
+        case 'r':
+        case 'R':
+          if (e.ctrlKey || e.metaKey) {
+            return;
+          } // Ctrl+R (reload) は無視
+          this.restartGame();
+          break;
+        case 'n':
+        case 'N':
+          this.nextRound();
+          break;
+        case 'Escape':
+          this.pauseGame();
+          break;
       }
     });
 
@@ -224,9 +222,7 @@ class GameController {
       this.game.updateCharacterPositions();
     }
 
-    console.log(
-      `📐 Canvas resized: ${this.canvas.width}x${this.canvas.height}`,
-    );
+    console.log(`📐 Canvas resized: ${this.canvas.width}x${this.canvas.height}`);
   }
 
   // メインゲームループ
@@ -237,9 +233,7 @@ class GameController {
 
     // FPS計算
     if (currentTime - this.lastFpsUpdate >= 1000) {
-      this.fps = Math.round(
-        (this.frameCount * 1000) / (currentTime - this.lastFpsUpdate),
-      );
+      this.fps = Math.round((this.frameCount * 1000) / (currentTime - this.lastFpsUpdate));
       this.frameCount = 0;
       this.lastFpsUpdate = currentTime;
     }
@@ -254,7 +248,7 @@ class GameController {
       this.lastFrameTime = currentTime;
     }
 
-    this.animationId = requestAnimationFrame(time => this.gameLoop(time));
+    this.animationId = requestAnimationFrame((time) => this.gameLoop(time));
   }
 
   // ゲーム更新
@@ -334,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // エラーハンドリング
-window.addEventListener('error', e => {
+window.addEventListener('error', (e) => {
   console.error('🚨 Game Error:', e.error);
   // ゲームが壊れた場合の復旧処理
   if (window.gameController) {
@@ -343,7 +337,7 @@ window.addEventListener('error', e => {
 });
 
 // 未処理のPromise拒否をキャッチ
-window.addEventListener('unhandledrejection', e => {
+window.addEventListener('unhandledrejection', (e) => {
   console.error('🚨 Unhandled Promise Rejection:', e.reason);
   e.preventDefault();
 });

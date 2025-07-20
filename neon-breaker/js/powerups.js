@@ -11,7 +11,7 @@ class PowerUpManager {
 
   update(paddle, ball, gameState) {
     // Update falling power-ups
-    this.fallingPowerUps = this.fallingPowerUps.filter(powerUp => {
+    this.fallingPowerUps = this.fallingPowerUps.filter((powerUp) => {
       powerUp.update();
 
       // Check collision with paddle
@@ -25,7 +25,7 @@ class PowerUpManager {
     });
 
     // Update active power-ups (duration countdown)
-    this.activePowerUps = this.activePowerUps.filter(powerUp => {
+    this.activePowerUps = this.activePowerUps.filter((powerUp) => {
       powerUp.duration--;
       if (powerUp.duration <= 0) {
         this.deactivatePowerUp(powerUp, gameState);
@@ -46,21 +46,21 @@ class PowerUpManager {
 
   activatePowerUp(type, gameState) {
     switch (type) {
-    case 'bigPaddle':
-      this.activateBigPaddle(gameState);
-      break;
-    case 'slowBall':
-      this.activateSlowBall(gameState);
-      break;
-    case 'extraLife':
-      this.activateExtraLife(gameState);
-      break;
-    case 'multiScore':
-      this.activateMultiScore(gameState);
-      break;
-    case 'shield':
-      this.activateShield(gameState);
-      break;
+      case 'bigPaddle':
+        this.activateBigPaddle(gameState);
+        break;
+      case 'slowBall':
+        this.activateSlowBall(gameState);
+        break;
+      case 'extraLife':
+        this.activateExtraLife(gameState);
+        break;
+      case 'multiScore':
+        this.activateMultiScore(gameState);
+        break;
+      case 'shield':
+        this.activateShield(gameState);
+        break;
     }
   }
 
@@ -107,34 +107,28 @@ class PowerUpManager {
 
   deactivatePowerUp(powerUp, gameState) {
     switch (powerUp.type) {
-    case 'bigPaddle':
-      gameState.paddle.width = powerUp.originalWidth;
-      break;
-    case 'slowBall':
-      // Restore original ball speed
-      const currentSpeed = Math.sqrt(
-        gameState.ball.dx * gameState.ball.dx +
-            gameState.ball.dy * gameState.ball.dy,
-      );
-      const speedRatio = powerUp.originalSpeed / currentSpeed;
-      gameState.ball.dx *= speedRatio;
-      gameState.ball.dy *= speedRatio;
-      break;
-    case 'multiScore':
-      gameState.scoreMultiplier = Math.max(
-        1,
-        (gameState.scoreMultiplier || 1) / 2,
-      );
-      break;
-    case 'shield':
-      gameState.hasShield = false;
-      break;
+      case 'bigPaddle':
+        gameState.paddle.width = powerUp.originalWidth;
+        break;
+      case 'slowBall':
+        // Restore original ball speed
+        const currentSpeed = Math.sqrt(gameState.ball.dx * gameState.ball.dx + gameState.ball.dy * gameState.ball.dy);
+        const speedRatio = powerUp.originalSpeed / currentSpeed;
+        gameState.ball.dx *= speedRatio;
+        gameState.ball.dy *= speedRatio;
+        break;
+      case 'multiScore':
+        gameState.scoreMultiplier = Math.max(1, (gameState.scoreMultiplier || 1) / 2);
+        break;
+      case 'shield':
+        gameState.hasShield = false;
+        break;
     }
   }
 
   render(ctx) {
     // Render falling power-ups
-    this.fallingPowerUps.forEach(powerUp => powerUp.render(ctx));
+    this.fallingPowerUps.forEach((powerUp) => powerUp.render(ctx));
 
     // Render active power-up indicators
     this.renderActivePowerUps(ctx);
@@ -144,7 +138,7 @@ class PowerUpManager {
     const y = 10;
     let x = 10;
 
-    this.activePowerUps.forEach(powerUp => {
+    this.activePowerUps.forEach((powerUp) => {
       const timeLeft = Math.ceil(powerUp.duration / 60);
 
       // Power-up icon background
@@ -291,22 +285,12 @@ class ShieldEffect {
     gradient.addColorStop(1, 'rgba(255, 128, 0, 0.1)');
 
     ctx.fillStyle = gradient;
-    ctx.fillRect(
-      -shieldWidth / 2,
-      -shieldHeight / 2,
-      shieldWidth,
-      shieldHeight,
-    );
+    ctx.fillRect(-shieldWidth / 2, -shieldHeight / 2, shieldWidth, shieldHeight);
 
     // Shield border
     ctx.strokeStyle = '#ff8000';
     ctx.lineWidth = 2;
-    ctx.strokeRect(
-      -shieldWidth / 2,
-      -shieldHeight / 2,
-      shieldWidth,
-      shieldHeight,
-    );
+    ctx.strokeRect(-shieldWidth / 2, -shieldHeight / 2, shieldWidth, shieldHeight);
 
     ctx.restore();
   }

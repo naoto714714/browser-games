@@ -117,7 +117,7 @@ const Utils = {
       return new Date(obj.getTime());
     }
     if (obj instanceof Array) {
-      return obj.map(item => this.deepClone(item));
+      return obj.map((item) => this.deepClone(item));
     }
     if (typeof obj === 'object') {
       const clonedObj = {};

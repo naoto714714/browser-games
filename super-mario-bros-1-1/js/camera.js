@@ -79,16 +79,8 @@ class Camera {
 
   // カメラ位置を境界内に制限
   clampToBounds() {
-    this.x = Utils.clamp(
-      this.x + this.shake.offsetX,
-      this.bounds.left,
-      this.bounds.right,
-    );
-    this.y = Utils.clamp(
-      this.y + this.shake.offsetY,
-      this.bounds.top,
-      this.bounds.bottom,
-    );
+    this.x = Utils.clamp(this.x + this.shake.offsetX, this.bounds.left, this.bounds.right);
+    this.y = Utils.clamp(this.y + this.shake.offsetY, this.bounds.top, this.bounds.bottom);
   }
 
   // 即座にターゲットに移動
@@ -176,15 +168,9 @@ class Camera {
     const cameraHeight = GAME_CONSTANTS.CANVAS_HEIGHT;
 
     this.bounds.left = Math.max(x, 0);
-    this.bounds.right = Math.min(
-      x + width - cameraWidth,
-      GAME_CONSTANTS.LEVEL.WIDTH - cameraWidth,
-    );
+    this.bounds.right = Math.min(x + width - cameraWidth, GAME_CONSTANTS.LEVEL.WIDTH - cameraWidth);
     this.bounds.top = Math.max(y, 0);
-    this.bounds.bottom = Math.min(
-      y + height - cameraHeight,
-      GAME_CONSTANTS.LEVEL.HEIGHT - cameraHeight,
-    );
+    this.bounds.bottom = Math.min(y + height - cameraHeight, GAME_CONSTANTS.LEVEL.HEIGHT - cameraHeight);
   }
 
   // カメラの移動を停止

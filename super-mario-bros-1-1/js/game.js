@@ -123,19 +123,13 @@ class Game {
     }
 
     // ゲーム開始（スタート画面から）
-    if (
-      this.state === GAME_CONSTANTS.GAME_STATE.START &&
-      input.jumpJustPressed
-    ) {
+    if (this.state === GAME_CONSTANTS.GAME_STATE.START && input.jumpJustPressed) {
       this.startGame();
       return;
     }
 
     // ゲームオーバー画面からリスタート
-    if (
-      this.state === GAME_CONSTANTS.GAME_STATE.GAME_OVER &&
-      input.jumpJustPressed
-    ) {
+    if (this.state === GAME_CONSTANTS.GAME_STATE.GAME_OVER && input.jumpJustPressed) {
       this.restartGame();
       return;
     }
@@ -189,17 +183,13 @@ class Game {
     Physics.resolveCollisionWithTiles(this.player, solidBlocks);
 
     // 世界境界チェック
-    const boundResult = Physics.checkWorldBounds(
-      this.player,
-      this.level.width,
-      this.level.height,
-    );
+    const boundResult = Physics.checkWorldBounds(this.player, this.level.width, this.level.height);
     if (boundResult.fellOffWorld) {
       this.playerDie();
     }
 
     // 敵の物理演算
-    this.level.enemies.forEach(enemy => {
+    this.level.enemies.forEach((enemy) => {
       if (enemy.active) {
         Physics.applyGravity(enemy);
         Physics.resolveCollisionWithTiles(enemy, solidBlocks);
@@ -212,7 +202,7 @@ class Game {
     });
 
     // アイテムの物理演算
-    this.level.spawnedItems.forEach(item => {
+    this.level.spawnedItems.forEach((item) => {
       if (item.active) {
         Physics.applyGravity(item);
         Physics.resolveCollisionWithTiles(item, solidBlocks);
@@ -223,12 +213,7 @@ class Game {
           let shouldTurn = false;
 
           for (const block of solidBlocks) {
-            if (
-              Physics.checkRectCollision(
-                { x: nextX, y: item.y, width: item.width, height: item.height },
-                block,
-              )
-            ) {
+            if (Physics.checkRectCollision({ x: nextX, y: item.y, width: item.width, height: item.height }, block)) {
               shouldTurn = true;
               break;
             }
@@ -263,11 +248,10 @@ class Game {
       height: 8,
     };
 
-    this.level.blocks.forEach(block => {
+    this.level.blocks.forEach((block) => {
       if (
         block.active &&
-        (block.type === BLOCK_TYPES.BRICK ||
-          block.type === BLOCK_TYPES.QUESTION) &&
+        (block.type === BLOCK_TYPES.BRICK || block.type === BLOCK_TYPES.QUESTION) &&
         this.player.velocityY < 0 && // 上昇中
         Physics.checkRectCollision(playerHead, block)
       ) {
@@ -297,15 +281,11 @@ class Game {
 
   // プレイヤーと敵の衝突
   checkPlayerEnemyCollisions() {
-    this.level.enemies.forEach(enemy => {
+    this.level.enemies.forEach((enemy) => {
       if (enemy.isAlive() && Physics.checkEntityCollision(this.player, enemy)) {
         const result = enemy.onPlayerCollision(this.player);
         if (result) {
-          if (
-            result.type === 'defeat' ||
-            result.type === 'shell' ||
-            result.type === 'kick'
-          ) {
+          if (result.type === 'defeat' || result.type === 'shell' || result.type === 'kick') {
             this.player.addScore(result.points);
             this.audioManager.playStomp();
           } else if (result.type === 'damage') {
@@ -318,7 +298,7 @@ class Game {
 
   // プレイヤーとアイテムの衝突
   checkPlayerItemCollisions() {
-    this.level.spawnedItems.forEach(item => {
+    this.level.spawnedItems.forEach((item) => {
       if (item.active && Physics.checkEntityCollision(this.player, item)) {
         const result = item.collect(this.player);
         if (result) {
@@ -331,20 +311,20 @@ class Game {
   // アイテム取得処理
   handleItemCollection(result) {
     switch (result.type) {
-    case ITEM_TYPES.COIN:
-      this.collectCoin(result.points);
-      this.audioManager.playCoin();
-      break;
-    case ITEM_TYPES.MUSHROOM:
-    case ITEM_TYPES.FIRE_FLOWER:
-      this.player.powerUp(result.type);
-      this.player.addScore(result.points);
-      this.audioManager.playPowerUp();
-      break;
-    case ITEM_TYPES.ONE_UP:
-      this.player.lives++;
-      this.audioManager.playOneUp();
-      break;
+      case ITEM_TYPES.COIN:
+        this.collectCoin(result.points);
+        this.audioManager.playCoin();
+        break;
+      case ITEM_TYPES.MUSHROOM:
+      case ITEM_TYPES.FIRE_FLOWER:
+        this.player.powerUp(result.type);
+        this.player.addScore(result.points);
+        this.audioManager.playPowerUp();
+        break;
+      case ITEM_TYPES.ONE_UP:
+        this.player.lives++;
+        this.audioManager.playOneUp();
+        break;
     }
   }
 
@@ -450,24 +430,10 @@ class Game {
     this.ctx.save();
     this.ctx.fillStyle = 'white';
     this.ctx.font = '12px monospace';
-    this.ctx.fillText(
-      `Player: (${Math.floor(this.player.x)}, ${Math.floor(this.player.y)})`,
-      10,
-      20,
-    );
-    this.ctx.fillText(
-      `Velocity: (${this.player.velocityX.toFixed(
-        2,
-      )}, ${this.player.velocityY.toFixed(2)})`,
-      10,
-      35,
-    );
+    this.ctx.fillText(`Player: (${Math.floor(this.player.x)}, ${Math.floor(this.player.y)})`, 10, 20);
+    this.ctx.fillText(`Velocity: (${this.player.velocityX.toFixed(2)}, ${this.player.velocityY.toFixed(2)})`, 10, 35);
     this.ctx.fillText(`Grounded: ${this.player.grounded}`, 10, 50);
-    this.ctx.fillText(
-      `Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`,
-      10,
-      65,
-    );
+    this.ctx.fillText(`Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`, 10, 65);
     this.ctx.fillText(`FPS: ${Math.floor(1 / this.deltaTime)}`, 10, 80);
     this.ctx.restore();
   }

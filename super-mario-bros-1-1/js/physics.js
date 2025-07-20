@@ -4,10 +4,7 @@ const Physics = {
   applyGravity(entity) {
     if (!entity.grounded) {
       entity.velocityY += GAME_CONSTANTS.GRAVITY;
-      entity.velocityY = Math.min(
-        entity.velocityY,
-        GAME_CONSTANTS.TERMINAL_VELOCITY,
-      );
+      entity.velocityY = Math.min(entity.velocityY, GAME_CONSTANTS.TERMINAL_VELOCITY);
     }
   },
 
@@ -169,16 +166,8 @@ const Physics = {
 
   // 移動可能範囲の制限
   constrainToArea(entity, area) {
-    entity.x = Utils.clamp(
-      entity.x,
-      area.x,
-      area.x + area.width - entity.width,
-    );
-    entity.y = Utils.clamp(
-      entity.y,
-      area.y,
-      area.y + area.height - entity.height,
-    );
+    entity.x = Utils.clamp(entity.x, area.x, area.x + area.width - entity.width);
+    entity.y = Utils.clamp(entity.y, area.y, area.y + area.height - entity.height);
   },
 
   // スロープ（斜面）との衝突処理
