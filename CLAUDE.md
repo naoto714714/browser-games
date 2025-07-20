@@ -29,3 +29,22 @@
 - 必ず細かい単位で `git commit` しながらタスクを進めなさい
   - 特に、機能追加(feature)とリファクタリング(refactor)など、異なる方向の作業を1つのcommitで行ってはいけない
   - 形式: `prefix: 日本語で説明`
+
+# プロジェクト概要
+複数のブラウザゲームをまとめたコレクションプロジェクト。各ゲームは独立したサブディレクトリに配置され、GitHub Pages上で公開されます。
+
+## 公開設定
+- **プラットフォーム**: GitHub Pages
+- **アクセス方法**: `https://[username].github.io/browser-games/[ゲーム名]/`
+- **運用方針**: 静的ファイルのみ（ビルド工程なし）
+
+## 開発ルール
+1. **エントリーポイント**: 各ゲームは `index.html` から開始
+2. **独立性**: ゲーム間で名前衝突を防ぐ
+3. **CDN利用**: 外部ライブラリはCDN参照を推奨
+
+## 開発用コマンド
+npm run lint              # ESLintでコードチェック
+npm run lint:fix           # ESLint自動修正
+npm run format             # Prettierでフォーマット
+npm run check-format       # フォーマットチェック
