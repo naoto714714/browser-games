@@ -12,15 +12,7 @@ import {
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
-  SCORE_ZONE_1_HEIGHT,
-  SCORE_ZONE_2_HEIGHT,
-  SCORE_ZONE_3_HEIGHT,
-  SCORE_ZONE_4_HEIGHT,
-  SCORE_ZONE_1_SCORE,
-  SCORE_ZONE_2_SCORE,
-  SCORE_ZONE_3_SCORE,
-  SCORE_ZONE_4_SCORE,
-  SCORE_ZONE_5_SCORE,
+  SCORE_ZONES,
 } from './constants.js';
 
 export class Bean {
@@ -63,17 +55,13 @@ export class Bean {
   }
 
   getScore(catchY) {
-    if (catchY < SCORE_ZONE_1_HEIGHT) {
-      return SCORE_ZONE_1_SCORE;
-    } else if (catchY < SCORE_ZONE_2_HEIGHT) {
-      return SCORE_ZONE_2_SCORE;
-    } else if (catchY < SCORE_ZONE_3_HEIGHT) {
-      return SCORE_ZONE_3_SCORE;
-    } else if (catchY < SCORE_ZONE_4_HEIGHT) {
-      return SCORE_ZONE_4_SCORE;
-    } else {
-      return SCORE_ZONE_5_SCORE;
+    for (const zone of SCORE_ZONES) {
+      if (catchY < zone.maxHeight) {
+        return zone.score;
+      }
     }
+    // これは実際には到達しないはず（最後のゾーンがInfinity）
+    return SCORE_ZONES[SCORE_ZONES.length - 1].score;
   }
 }
 
