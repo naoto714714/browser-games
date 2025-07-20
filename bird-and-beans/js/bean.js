@@ -165,22 +165,10 @@ export class BeanManager {
 
   handleBeanGroundCollision(bean, ground, audioManager) {
     const beanCenterX = bean.x + bean.width / 2;
-
-    switch (bean.type) {
-      case 'white':
-        ground.fillRandomHole();
-        if (audioManager) audioManager.play('fill');
-        break;
-      case 'flashing':
-        ground.fillAllHoles();
-        this.clearAllBeans();
-        if (audioManager) audioManager.play('powerUp');
-        break;
-      default:
-        ground.createHole(beanCenterX);
-        if (audioManager) audioManager.play('hole');
-        break;
-    }
+    
+    // 全てのマメ種類で床を1ブロック消す
+    ground.createHole(beanCenterX);
+    if (audioManager) audioManager.play('hole');
   }
 
   clearAllBeans() {

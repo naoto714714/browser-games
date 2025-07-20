@@ -61,7 +61,25 @@ export class Game {
         const score = bean.getScore(bean.y);
         this.addScore(score);
         bean.active = false;
-        this.audioManager.play('catch');
+        
+        // マメの種類に応じた効果
+        switch (bean.type) {
+          case 'white':
+            this.ground.fillRandomHole();
+            this.audioManager.play('fill');
+            break;
+          case 'flashing':
+            this.ground.fillAllHoles();
+            this.beanManager.clearAllBeans();
+            this.audioManager.play('powerUp');
+            break;
+          default:
+            this.audioManager.play('catch');
+            break;
+        }
+        
+        // 舌を即座に戻す
+        this.player.retractTongue();
       }
 
       // 鳥本体との衝突
