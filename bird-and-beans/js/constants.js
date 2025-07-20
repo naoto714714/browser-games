@@ -66,6 +66,7 @@ export const COLORS = {
   BEAN_FLASHING_2: '#ff6b6b',
   GROUND_BLOCK: '#333333',
   GROUND_HOLE: '#000000',
+  SCORE_EFFECT: '#ffffff',
 };
 
 // オーディオ関連
@@ -91,6 +92,14 @@ export const AUDIO_TYPES = {
   FILL: 'triangle',
   GAME_OVER: 'sawtooth',
 };
+
+// フォント
+export const FONTS = {
+  SCORE_EFFECT: '20px Arial',
+};
+
+// スコアエフェクト関連
+export const SCORE_EFFECT_DURATION = 3000; // 3秒間表示
 
 // ローカルストレージ
 export const HIGH_SCORE_KEY = 'birdAndBeansHighScore';
