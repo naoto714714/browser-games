@@ -4,6 +4,7 @@ import { Player } from './player.js';
 import { BeanManager } from './bean.js';
 import { Ground } from './ground.js';
 import { AudioManager } from './audio.js';
+import { ScoreEffectManager } from './scoreEffect.js';
 import { HIGH_SCORE_KEY } from './constants.js';
 
 export class Game {
@@ -23,6 +24,7 @@ export class Game {
     this.beanManager = new BeanManager(canvas.width);
     this.ground = new Ground(canvas.width, canvas.height);
     this.audioManager = new AudioManager();
+    this.scoreEffectManager = new ScoreEffectManager();
 
     this.updateUI();
   }
@@ -47,6 +49,8 @@ export class Game {
   update(deltaTime) {
     this.player.update(this.inputManager, this.ground);
     this.beanManager.update(deltaTime, this.frameCount);
+    this.scoreEffectManager.update();
+    this.inputManager.update();
 
     // 地面との衝突判定
     this.beanManager.checkGroundCollision(this.ground, this.audioManager);
@@ -57,10 +61,7 @@ export class Game {
 
       // 舌との衝突
       if (this.player.checkTongueCollision(bean)) {
-        const score = bean.getScore(bean.y);
-        this.addScore(score);
-        bean.active = false;
-        this.audioManager.play('catch');
+        this.handleBeanCatch(bean);
       }
 
       // 鳥本体との衝突
@@ -70,11 +71,41 @@ export class Game {
     });
   }
 
+  handleBeanCatch(bean) {
+    const score = bean.getScore(bean.y);
+    this.addScore(score);
+
+    // スコアエフェクトを追加
+    this.scoreEffectManager.add(bean.x + bean.width / 2, bean.y + bean.height / 2, score);
+
+    bean.active = false;
+
+    // マメの種類に応じた効果
+    switch (bean.type) {
+      case 'white':
+        this.ground.fillRandomHole();
+        this.audioManager.play('fill');
+        break;
+      case 'flashing':
+        this.ground.fillAllHoles();
+        this.beanManager.clearAllBeans();
+        this.audioManager.play('powerUp');
+        break;
+      default:
+        this.audioManager.play('catch');
+        break;
+    }
+
+    // 舌を即座に戻す
+    this.player.retractTongue();
+  }
+
   render() {
     this.renderer.clear(this.canvas.width, this.canvas.height);
     this.ground.render(this.renderer);
     this.player.render(this.renderer);
     this.beanManager.render(this.renderer);
+    this.scoreEffectManager.render(this.renderer);
   }
 
   restart() {
@@ -85,6 +116,7 @@ export class Game {
     this.player = new Player(this.canvas.width, this.canvas.height);
     this.beanManager.reset();
     this.ground = new Ground(this.canvas.width, this.canvas.height);
+    this.scoreEffectManager.reset();
 
     this.updateUI();
     document.getElementById('game-over').classList.add('hidden');

@@ -3,7 +3,7 @@ import {
   TONGUE_EXTEND_SPEED,
   TONGUE_ANGLE_DEGREES,
   TONGUE_WIDTH,
-  TONGUE_CHECK_INTERVAL,
+  TONGUE_TIP_RADIUS,
   COLORS,
 } from './constants.js';
 import { CollisionManager } from './collision.js';
@@ -36,6 +36,12 @@ export class Tongue {
     }
   }
 
+  retract() {
+    this.active = false;
+    this.extending = false;
+    this.length = 0;
+  }
+
   update(x, y, direction) {
     if (!this.active) return;
 
@@ -62,17 +68,25 @@ export class Tongue {
 
   render(renderer) {
     if (this.active && this.length > 0) {
+      // 舌のラインを描画
       renderer.drawLine(this.startX, this.startY, this.endX, this.endY, COLORS.TONGUE, TONGUE_WIDTH);
+
+      // 舌の先端を太い円で描画
+      renderer.drawCircle(this.endX, this.endY, TONGUE_TIP_RADIUS, COLORS.TONGUE);
     }
   }
 
   checkCollision(bean) {
     if (!this.active || this.length === 0) return false;
 
-    const lineStart = { x: this.startX, y: this.startY };
-    const lineEnd = { x: this.endX, y: this.endY };
+    // 舌の先端（円）とマメ（矩形）の衝突判定
+    const tongueTip = {
+      x: this.endX,
+      y: this.endY,
+      radius: TONGUE_TIP_RADIUS,
+    };
 
-    return CollisionManager.checkLineRectCollision(lineStart, lineEnd, bean, TONGUE_CHECK_INTERVAL);
+    return CollisionManager.checkCircleRectCollision(tongueTip, bean);
   }
 
   reset() {

@@ -2,8 +2,6 @@ import {
   BEAN_WIDTH,
   BEAN_HEIGHT,
   BEAN_BASE_SPEED,
-  BEAN_MIN_SCORE,
-  BEAN_MAX_SCORE,
   BEAN_FLASH_INTERVAL,
   BEAN_SPAWN_MARGIN,
   BEAN_SPAWN_PROBABILITY,
@@ -14,6 +12,7 @@ import {
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
+  SCORE_ZONES,
 } from './constants.js';
 
 export class Bean {
@@ -56,9 +55,13 @@ export class Bean {
   }
 
   getScore(catchY) {
-    const scoreRange = BEAN_MAX_SCORE - BEAN_MIN_SCORE;
-    const heightRatio = (CANVAS_HEIGHT - catchY) / CANVAS_HEIGHT;
-    return Math.floor(BEAN_MIN_SCORE + scoreRange * heightRatio);
+    for (const zone of SCORE_ZONES) {
+      if (catchY < zone.maxHeight) {
+        return zone.score;
+      }
+    }
+    // これは実際には到達しないはず（最後のゾーンがInfinity）
+    return SCORE_ZONES[SCORE_ZONES.length - 1].score;
   }
 }
 
@@ -124,7 +127,7 @@ export class BeanManager {
 
     if (rand < BEAN_SPAWN_PROBABILITY.FLASHING) {
       return 'flashing';
-    } else if (rand < BEAN_SPAWN_PROBABILITY.WHITE) {
+    } else if (rand < BEAN_SPAWN_PROBABILITY.FLASHING + BEAN_SPAWN_PROBABILITY.WHITE) {
       return 'white';
     } else {
       return 'normal';
@@ -153,21 +156,9 @@ export class BeanManager {
   handleBeanGroundCollision(bean, ground, audioManager) {
     const beanCenterX = bean.x + bean.width / 2;
 
-    switch (bean.type) {
-      case 'white':
-        ground.fillRandomHole();
-        if (audioManager) audioManager.play('fill');
-        break;
-      case 'flashing':
-        ground.fillAllHoles();
-        this.clearAllBeans();
-        if (audioManager) audioManager.play('powerUp');
-        break;
-      default:
-        ground.createHole(beanCenterX);
-        if (audioManager) audioManager.play('hole');
-        break;
-    }
+    // 全てのマメ種類で床を1ブロック消す
+    ground.createHole(beanCenterX);
+    if (audioManager) audioManager.play('hole');
   }
 
   clearAllBeans() {

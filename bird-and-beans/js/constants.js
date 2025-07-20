@@ -11,11 +11,12 @@ export const PLAYER_EYE_OFFSET = 10;
 export const PLAYER_EYE_RADIUS = 3;
 
 // 舌関連
-export const TONGUE_MAX_LENGTH = 300;
-export const TONGUE_EXTEND_SPEED = 10;
+export const TONGUE_MAX_LENGTH = 700;
+export const TONGUE_EXTEND_SPEED = 20;
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
 export const TONGUE_CHECK_INTERVAL = 5;
+export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定と描画用）
 
 // マメ関連
 export const BEAN_WIDTH = 20;
@@ -36,8 +37,17 @@ export const DIFFICULTY_INCREASE_FRAMES = 600; // 10秒（60FPS想定）
 // マメの出現確率
 export const BEAN_SPAWN_PROBABILITY = {
   FLASHING: 0.05,
-  WHITE: 0.2,
+  WHITE: 0.15,
 };
+
+// スコアゾーン関連
+export const SCORE_ZONES = [
+  { maxHeight: 144, score: 1000 }, // 最上部ゾーン: 0〜144px
+  { maxHeight: 288, score: 300 }, // 上部ゾーン: 144〜288px
+  { maxHeight: 432, score: 100 }, // 中部ゾーン: 288〜432px
+  { maxHeight: 576, score: 50 }, // 下部ゾーン: 432〜576px
+  { maxHeight: Infinity, score: 10 }, // 最下部ゾーン: 576px〜
+];
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;
@@ -56,6 +66,7 @@ export const COLORS = {
   BEAN_FLASHING_2: '#ff6b6b',
   GROUND_BLOCK: '#333333',
   GROUND_HOLE: '#000000',
+  SCORE_EFFECT: '#ffffff',
 };
 
 // オーディオ関連
@@ -81,6 +92,14 @@ export const AUDIO_TYPES = {
   FILL: 'triangle',
   GAME_OVER: 'sawtooth',
 };
+
+// フォント
+export const FONTS = {
+  SCORE_EFFECT: '20px Arial',
+};
+
+// スコアエフェクト関連
+export const SCORE_EFFECT_DURATION = 3000; // 3秒間表示
 
 // ローカルストレージ
 export const HIGH_SCORE_KEY = 'birdAndBeansHighScore';
