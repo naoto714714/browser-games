@@ -127,7 +127,7 @@ export class BeanManager {
 
     if (rand < BEAN_SPAWN_PROBABILITY.FLASHING) {
       return 'flashing';
-    } else if (rand < BEAN_SPAWN_PROBABILITY.WHITE) {
+    } else if (rand < BEAN_SPAWN_PROBABILITY.FLASHING + BEAN_SPAWN_PROBABILITY.WHITE) {
       return 'white';
     } else {
       return 'normal';
