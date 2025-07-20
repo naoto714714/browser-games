@@ -3,6 +3,7 @@ import { InputManager } from './input.js';
 import { Player } from './player.js';
 import { BeanManager } from './bean.js';
 import { Ground } from './ground.js';
+import { AudioManager } from './audio.js';
 
 export class Game {
     constructor(canvas, ctx) {
@@ -20,6 +21,7 @@ export class Game {
         this.player = new Player(canvas.width, canvas.height);
         this.beanManager = new BeanManager(canvas.width);
         this.ground = new Ground(canvas.width, canvas.height);
+        this.audioManager = new AudioManager();
         
         this.updateUI();
     }
@@ -46,7 +48,7 @@ export class Game {
         this.beanManager.update(deltaTime, this.frameCount);
         
         // 地面との衝突判定
-        this.beanManager.checkGroundCollision(this.ground);
+        this.beanManager.checkGroundCollision(this.ground, this.audioManager);
         
         // 鳥とマメの衝突判定
         this.beanManager.beans.forEach(bean => {
@@ -57,6 +59,7 @@ export class Game {
                 const score = bean.getScore(bean.y);
                 this.addScore(score);
                 bean.active = false;
+                this.audioManager.play('catch');
             }
             
             // 鳥本体との衝突
@@ -88,6 +91,7 @@ export class Game {
     
     endGame() {
         this.gameOver = true;
+        this.audioManager.play('gameOver');
         if (this.score > this.highScore) {
             this.highScore = this.score;
             this.saveHighScore();

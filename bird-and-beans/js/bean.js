@@ -101,7 +101,7 @@ export class BeanManager {
         this.beans.forEach(bean => bean.render(renderer));
     }
     
-    checkGroundCollision(ground) {
+    checkGroundCollision(ground, audioManager) {
         const beansToRemove = [];
         
         this.beans.forEach(bean => {
@@ -110,11 +110,14 @@ export class BeanManager {
                 
                 if (bean.type === 'white') {
                     ground.fillRandomHole();
+                    if (audioManager) audioManager.play('fill');
                 } else if (bean.type === 'flashing') {
                     ground.fillAllHoles();
                     this.clearAllBeans();
+                    if (audioManager) audioManager.play('powerUp');
                 } else {
                     ground.createHole(bean.x + bean.width / 2);
+                    if (audioManager) audioManager.play('hole');
                 }
             }
         });
