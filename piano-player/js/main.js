@@ -18,18 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.toggle('active');
   });
 
-  document.addEventListener('click', e => {
+  document.addEventListener('click', (e) => {
     if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
       hamburgerMenu.classList.remove('active');
       sidebar.classList.remove('active');
     }
   });
 
-  instrumentButtons.forEach(btn => {
+  instrumentButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const instrument = btn.dataset.instrument;
 
-      instrumentButtons.forEach(b => b.classList.remove('active'));
+      instrumentButtons.forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
 
       instrumentManager.switchToInstrument(instrument);
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.addEventListener('contextmenu', e => {
+  document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     return false;
   });

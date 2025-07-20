@@ -52,18 +52,10 @@ class GameState {
 
   initializeGame() {
     // Initialize particle effects first
-    this.particleSystem = new ParticleSystem(
-      this.canvas.width,
-      this.canvas.height,
-    );
+    this.particleSystem = new ParticleSystem(this.canvas.width, this.canvas.height);
 
     // Initialize game objects
-    this.paddle = new Paddle(
-      this.canvas.width / 2 - 50,
-      this.canvas.height - 40,
-      100,
-      15,
-    );
+    this.paddle = new Paddle(this.canvas.width / 2 - 50, this.canvas.height - 40, 100, 15);
 
     // 🆕 マルチボールシステム初期化
     this.ball = new Ball(this.canvas.width / 2, this.canvas.height - 60, 8);
@@ -77,7 +69,7 @@ class GameState {
 
   bindEvents() {
     // Keyboard events
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       this.keys[e.code] = true;
       if (e.code === 'Space') {
         e.preventDefault();
@@ -90,12 +82,12 @@ class GameState {
       }
     });
 
-    document.addEventListener('keyup', e => {
+    document.addEventListener('keyup', (e) => {
       this.keys[e.code] = false;
     });
 
     // Mouse events for paddle control
-    this.canvas.addEventListener('mousemove', e => {
+    this.canvas.addEventListener('mousemove', (e) => {
       const rect = this.canvas.getBoundingClientRect();
       this.mouseX = e.clientX - rect.left;
     });
@@ -200,7 +192,7 @@ class GameState {
   launchBall() {
     if (!this.isPlaying && this.gameStarted) {
       // 🚀 マルチボールシステム対応
-      this.balls.forEach(ball => {
+      this.balls.forEach((ball) => {
         if (ball.dx === 0 && ball.dy === 0) {
           ball.launch(this.level);
         }
@@ -233,8 +225,7 @@ class GameState {
     const blockWidth = 80; // 70→80に拡大（視認性向上）
     const blockHeight = 28; // 25→28に拡大
     const padding = 8; // 5→8に拡大（見やすさ向上）
-    const offsetX =
-      (this.canvas.width - (cols * (blockWidth + padding) - padding)) / 2;
+    const offsetX = (this.canvas.width - (cols * (blockWidth + padding) - padding)) / 2;
     const offsetY = 60; // 50→60（パドルとの距離確保）
 
     // 🔥 特殊ブロック確率を劇的に向上！
@@ -270,8 +261,7 @@ class GameState {
             type = Math.random() < 0.5 ? 'laser_h' : 'laser_v';
           } else {
             // その他の特殊ブロック
-            type =
-              specialTypes[Math.floor(Math.random() * specialTypes.length)];
+            type = specialTypes[Math.floor(Math.random() * specialTypes.length)];
           }
         } else {
           // 通常ブロックも強化
@@ -285,27 +275,13 @@ class GameState {
     }
 
     // 🎯 レベルごとの特別配置
-    this.addLevelSpecialBlocks(
-      rows,
-      cols,
-      blockWidth,
-      blockHeight,
-      padding,
-      offsetX,
-      offsetY,
-    );
+    this.addLevelSpecialBlocks(rows, cols, blockWidth, blockHeight, padding, offsetX, offsetY);
   }
 
   // 🆕 ボス戦レベル作成
   createBossLevel() {
     this.isBossLevel = true;
-    this.bossBlock = new BossBlock(
-      this.canvas.width / 2 - 100,
-      100,
-      200,
-      80,
-      this.level,
-    );
+    this.bossBlock = new BossBlock(this.canvas.width / 2 - 100, 100, 200, 80, this.level);
 
     // ボス戦用の少数雑魚ブロック
     const minionCount = 6 + this.level;
@@ -320,25 +296,15 @@ class GameState {
   }
 
   // 🆕 レベル別特別ブロック配置システム
-  addLevelSpecialBlocks(
-    rows,
-    cols,
-    blockWidth,
-    blockHeight,
-    padding,
-    offsetX,
-    offsetY,
-  ) {
+  addLevelSpecialBlocks(rows, cols, blockWidth, blockHeight, padding, offsetX, offsetY) {
     // レベル3以上で中央に爆発ブロック確定配置
     if (this.level >= 3 && rows >= 2) {
       const centerCol = Math.floor(cols / 2);
       const centerRow = Math.floor(rows / 2);
       const centerIndex = this.blocks.findIndex(
-        block =>
-          Math.abs(block.x - (offsetX + centerCol * (blockWidth + padding))) <
-            5 &&
-          Math.abs(block.y - (offsetY + centerRow * (blockHeight + padding))) <
-            5,
+        (block) =>
+          Math.abs(block.x - (offsetX + centerCol * (blockWidth + padding))) < 5 &&
+          Math.abs(block.y - (offsetY + centerRow * (blockHeight + padding))) < 5,
       );
       if (centerIndex !== -1) {
         this.blocks[centerIndex].type = 'explosive';
@@ -353,15 +319,11 @@ class GameState {
         { row: 0, col: cols - 1, type: 'laser_v' },
       ];
 
-      corners.forEach(corner => {
+      corners.forEach((corner) => {
         const cornerIndex = this.blocks.findIndex(
-          block =>
-            Math.abs(
-              block.x - (offsetX + corner.col * (blockWidth + padding)),
-            ) < 5 &&
-            Math.abs(
-              block.y - (offsetY + corner.row * (blockHeight + padding)),
-            ) < 5,
+          (block) =>
+            Math.abs(block.x - (offsetX + corner.col * (blockWidth + padding))) < 5 &&
+            Math.abs(block.y - (offsetY + corner.row * (blockHeight + padding))) < 5,
         );
         if (cornerIndex !== -1) {
           this.blocks[cornerIndex].type = corner.type;
@@ -391,12 +353,7 @@ class GameState {
     }
 
     // Update paddle
-    this.paddle.update(
-      this.keys,
-      this.mouseX,
-      this.canvas.width,
-      this.controlMethod,
-    );
+    this.paddle.update(this.keys, this.mouseX, this.canvas.width, this.controlMethod);
 
     // 🚀 マルチボールシステム更新
     for (let i = this.balls.length - 1; i >= 0; i--) {
@@ -480,11 +437,7 @@ class GameState {
 
     // Check win condition
     if (this.isBossLevel) {
-      if (
-        this.bossBlock &&
-        this.bossBlock.isDefeated() &&
-        this.blocks.length === 0
-      ) {
+      if (this.bossBlock && this.bossBlock.isDefeated() && this.blocks.length === 0) {
         this.nextLevel();
       }
     } else {
@@ -556,9 +509,7 @@ class GameState {
     const dx = ballCenterX - bossCenterX;
     const dy = ballCenterY - bossCenterY;
 
-    if (
-      Math.abs(dx / this.bossBlock.width) > Math.abs(dy / this.bossBlock.height)
-    ) {
+    if (Math.abs(dx / this.bossBlock.width) > Math.abs(dy / this.bossBlock.height)) {
       ball.dx = -ball.dx;
     } else {
       ball.dy = -ball.dy;
@@ -604,10 +555,7 @@ class GameState {
 
       // 🆕 パワーアップアイテムドロップ（20%確率）
       if (Math.random() < 0.2) {
-        this.dropPowerUpItem(
-          block.x + block.width / 2,
-          block.y + block.height / 2,
-        );
+        this.dropPowerUpItem(block.x + block.width / 2, block.y + block.height / 2);
       }
 
       // Update score with combo bonus
@@ -657,54 +605,54 @@ class GameState {
     const centerY = block.y + block.height / 2;
 
     switch (block.type) {
-    case 'explosive':
-      this.createExplosion(centerX, centerY);
-      break;
+      case 'explosive':
+        this.createExplosion(centerX, centerY);
+        break;
 
-    case 'laser_h':
-      // 🆕 水平レーザー：行全体を消去
-      this.createHorizontalLaser(centerY);
-      break;
+      case 'laser_h':
+        // 🆕 水平レーザー：行全体を消去
+        this.createHorizontalLaser(centerY);
+        break;
 
-    case 'laser_v':
-      // 🆕 垂直レーザー：列全体を消去
-      this.createVerticalLaser(centerX);
-      break;
+      case 'laser_v':
+        // 🆕 垂直レーザー：列全体を消去
+        this.createVerticalLaser(centerX);
+        break;
 
-    case 'chain':
-      // 🆕 連鎖ブロック：隣接8方向のブロックを破壊
-      this.createChainReaction(centerX, centerY);
-      break;
+      case 'chain':
+        // 🆕 連鎖ブロック：隣接8方向のブロックを破壊
+        this.createChainReaction(centerX, centerY);
+        break;
 
-    case 'multiball':
-      this.createMultiBall();
-      break;
+      case 'multiball':
+        this.createMultiBall();
+        break;
 
-    case 'mega_score':
-      // 🆕 メガスコア：大量得点 + 視覚エフェクト
-      const megaPoints = 1000 * this.multiplier;
-      this.score += megaPoints;
-      this.createScoreExplosion(centerX, centerY, megaPoints);
-      break;
+      case 'mega_score':
+        // 🆕 メガスコア：大量得点 + 視覚エフェクト
+        const megaPoints = 1000 * this.multiplier;
+        this.score += megaPoints;
+        this.createScoreExplosion(centerX, centerY, megaPoints);
+        break;
 
-    case 'paddle_power':
-      // 🆕 パドル強化：一時的に巨大化 + スピードアップ
-      this.activatePaddlePower();
-      break;
+      case 'paddle_power':
+        // 🆕 パドル強化：一時的に巨大化 + スピードアップ
+        this.activatePaddlePower();
+        break;
 
-    case 'gravity_bomb':
-      // 🆕 重力爆弾：全ブロックに重力効果
-      this.activateGravityBomb();
-      break;
+      case 'gravity_bomb':
+        // 🆕 重力爆弾：全ブロックに重力効果
+        this.activateGravityBomb();
+        break;
 
-    case 'paddle': // 旧システム互換
-      this.expandPaddle();
-      break;
+      case 'paddle': // 旧システム互換
+        this.expandPaddle();
+        break;
 
-    case 'score': // 旧システム互換
-      this.score += 500 * this.multiplier;
-      this.updateUI();
-      break;
+      case 'score': // 旧システム互換
+        this.score += 500 * this.multiplier;
+        this.updateUI();
+        break;
     }
   }
 
@@ -716,10 +664,7 @@ class GameState {
     // 同じ行のブロックを全て破壊
     for (let i = this.blocks.length - 1; i >= 0; i--) {
       const block = this.blocks[i];
-      if (
-        Math.abs(block.y + block.height / 2 - targetY) <
-        block.height / 2 + laserHeight
-      ) {
+      if (Math.abs(block.y + block.height / 2 - targetY) < block.height / 2 + laserHeight) {
         this.createBlockDestructionEffect(block);
         this.score += block.getPoints() * this.multiplier;
         this.blocks.splice(i, 1);
@@ -729,13 +674,7 @@ class GameState {
 
     // レーザーエフェクト
     if (this.particleSystem) {
-      this.particleSystem.createLaserEffect(
-        0,
-        targetY,
-        this.canvas.width,
-        targetY,
-        '#ff0040',
-      );
+      this.particleSystem.createLaserEffect(0, targetY, this.canvas.width, targetY, '#ff0040');
     }
 
     // コンボボーナス
@@ -756,10 +695,7 @@ class GameState {
     // 同じ列のブロックを全て破壊
     for (let i = this.blocks.length - 1; i >= 0; i--) {
       const block = this.blocks[i];
-      if (
-        Math.abs(block.x + block.width / 2 - targetX) <
-        block.width / 2 + laserWidth
-      ) {
+      if (Math.abs(block.x + block.width / 2 - targetX) < block.width / 2 + laserWidth) {
         this.createBlockDestructionEffect(block);
         this.score += block.getPoints() * this.multiplier;
         this.blocks.splice(i, 1);
@@ -769,13 +705,7 @@ class GameState {
 
     // レーザーエフェクト
     if (this.particleSystem) {
-      this.particleSystem.createLaserEffect(
-        targetX,
-        0,
-        targetX,
-        this.canvas.height,
-        '#4000ff',
-      );
+      this.particleSystem.createLaserEffect(targetX, 0, targetX, this.canvas.height, '#4000ff');
     }
 
     // コンボボーナス
@@ -797,8 +727,7 @@ class GameState {
     for (let i = this.blocks.length - 1; i >= 0; i--) {
       const block = this.blocks[i];
       const distance = Math.sqrt(
-        Math.pow(centerX - (block.x + block.width / 2), 2) +
-          Math.pow(centerY - (block.y + block.height / 2), 2),
+        Math.pow(centerX - (block.x + block.width / 2), 2) + Math.pow(centerY - (block.y + block.height / 2), 2),
       );
 
       if (distance <= chainRadius) {
@@ -817,11 +746,7 @@ class GameState {
 
           // 各破壊で小爆発エフェクト
           if (this.particleSystem) {
-            this.particleSystem.createExplosion(
-              block.x + block.width / 2,
-              block.y + block.height / 2,
-              '#ff8000',
-            );
+            this.particleSystem.createExplosion(block.x + block.width / 2, block.y + block.height / 2, '#ff8000');
           }
         }
       }, delay * 100); // 100ms間隔で連鎖
@@ -868,8 +793,7 @@ class GameState {
     for (let i = this.blocks.length - 1; i >= 0; i--) {
       const block = this.blocks[i];
       const distance = Math.sqrt(
-        Math.pow(x - (block.x + block.width / 2), 2) +
-          Math.pow(y - (block.y + block.height / 2), 2),
+        Math.pow(x - (block.x + block.width / 2), 2) + Math.pow(y - (block.y + block.height / 2), 2),
       );
 
       if (distance <= explosionRadius) {
@@ -882,10 +806,7 @@ class GameState {
         if (block.type === 'explosive' && Math.random() < 0.7) {
           setTimeout(
             () => {
-              this.createExplosion(
-                block.x + block.width / 2,
-                block.y + block.height / 2,
-              );
+              this.createExplosion(block.x + block.width / 2, block.y + block.height / 2);
             },
             200 + Math.random() * 300,
           );
@@ -910,10 +831,7 @@ class GameState {
     if (destroyedCount >= 3) {
       const bonus = destroyedCount * 150 * this.multiplier;
       this.score += bonus;
-      this.multiplier = Math.min(
-        5,
-        this.multiplier + Math.floor(destroyedCount / 3),
-      );
+      this.multiplier = Math.min(5, this.multiplier + Math.floor(destroyedCount / 3));
       this.multiplierTimer = 180 + destroyedCount * 30; // 破壊数に応じて延長
     }
 
@@ -926,10 +844,8 @@ class GameState {
 
     for (let i = 0; i < newBallCount; i++) {
       // 既存ボールの平均位置から新ボール生成
-      const avgX =
-        this.balls.reduce((sum, ball) => sum + ball.x, 0) / this.balls.length;
-      const avgY =
-        this.balls.reduce((sum, ball) => sum + ball.y, 0) / this.balls.length;
+      const avgX = this.balls.reduce((sum, ball) => sum + ball.x, 0) / this.balls.length;
+      const avgY = this.balls.reduce((sum, ball) => sum + ball.y, 0) / this.balls.length;
 
       const newBall = new Ball(avgX + (Math.random() - 0.5) * 100, avgY, 6);
 
@@ -943,7 +859,7 @@ class GameState {
     }
 
     // 全ボールを少し速くする
-    this.balls.forEach(ball => {
+    this.balls.forEach((ball) => {
       ball.dx *= 1.2;
       ball.dy *= 1.2;
     });
@@ -959,7 +875,7 @@ class GameState {
     }, 3000);
 
     // 即座に全ブロックに重力を適用
-    this.blocks.forEach(block => {
+    this.blocks.forEach((block) => {
       block.vy = (block.vy || 0) + 2; // 下向きの速度追加
     });
   }
@@ -987,14 +903,7 @@ class GameState {
 
   // 🆕 パワーアップアイテムドロップ
   dropPowerUpItem(x, y) {
-    const itemTypes = [
-      'extra_life',
-      'score_boost',
-      'multi_ball',
-      'paddle_extend',
-      'ball_speed',
-      'explosion_power',
-    ];
+    const itemTypes = ['extra_life', 'score_boost', 'multi_ball', 'paddle_extend', 'ball_speed', 'explosion_power'];
 
     const itemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
     this.powerUpItems.push(new PowerUpItem(x, y, itemType));
@@ -1013,28 +922,28 @@ class GameState {
   // 🆕 パワーアップアイテム効果適用
   collectPowerUpItem(item) {
     switch (item.type) {
-    case 'extra_life':
-      this.lives++;
-      break;
-    case 'score_boost':
-      this.score += 2000 * this.multiplier;
-      break;
-    case 'multi_ball':
-      this.createMultiBall();
-      break;
-    case 'paddle_extend':
-      this.expandPaddle();
-      break;
-    case 'ball_speed':
-      this.balls.forEach(ball => {
-        ball.dx *= 1.3;
-        ball.dy *= 1.3;
-      });
-      break;
-    case 'explosion_power':
-      // 次の3回の爆発を強化
-      this.explosionPowerUps = 3;
-      break;
+      case 'extra_life':
+        this.lives++;
+        break;
+      case 'score_boost':
+        this.score += 2000 * this.multiplier;
+        break;
+      case 'multi_ball':
+        this.createMultiBall();
+        break;
+      case 'paddle_extend':
+        this.expandPaddle();
+        break;
+      case 'ball_speed':
+        this.balls.forEach((ball) => {
+          ball.dx *= 1.3;
+          ball.dy *= 1.3;
+        });
+        break;
+      case 'explosion_power':
+        // 次の3回の爆発を強化
+        this.explosionPowerUps = 3;
+        break;
     }
 
     this.updateUI();
@@ -1097,11 +1006,7 @@ class GameState {
 
   createBlockDestructionEffect(block) {
     if (this.particleSystem) {
-      this.particleSystem.createBlockDestruction(
-        block.x + block.width / 2,
-        block.y + block.height / 2,
-        block.color,
-      );
+      this.particleSystem.createBlockDestruction(block.x + block.width / 2, block.y + block.height / 2, block.color);
     }
   }
 
@@ -1158,9 +1063,7 @@ class GameState {
 
     // 🆕 ゲームオーバー時の詳細情報
     const gameOverText =
-      `最終スコア: ${this.score.toLocaleString()}\n` +
-      `到達レベル: ${this.level}\n` +
-      `最大コンボ: ${this.maxCombo}`;
+      `最終スコア: ${this.score.toLocaleString()}\n` + `到達レベル: ${this.level}\n` + `最大コンボ: ${this.maxCombo}`;
 
     this.showOverlay('GAME OVER', gameOverText, true);
   }
@@ -1215,9 +1118,9 @@ class GameState {
     this.paddle.render(this.ctx);
 
     // 🚀 マルチボールレンダリング
-    this.balls.forEach(ball => ball.render(this.ctx));
+    this.balls.forEach((ball) => ball.render(this.ctx));
 
-    this.blocks.forEach(block => block.render(this.ctx));
+    this.blocks.forEach((block) => block.render(this.ctx));
 
     // 🚀 ボスレンダリング
     if (this.bossBlock) {
@@ -1225,9 +1128,9 @@ class GameState {
     }
 
     // 🚀 パワーアップアイテムレンダリング
-    this.powerUpItems.forEach(item => item.render(this.ctx));
+    this.powerUpItems.forEach((item) => item.render(this.ctx));
 
-    this.powerUps.forEach(powerUp => powerUp.render(this.ctx));
+    this.powerUps.forEach((powerUp) => powerUp.render(this.ctx));
 
     // Render particle effects
     if (this.particleSystem) {
@@ -1239,11 +1142,7 @@ class GameState {
       this.ctx.fillStyle = 'rgba(0, 255, 255, 0.8)';
       this.ctx.font = '48px Orbitron';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText(
-        'PAUSED',
-        this.canvas.width / 2,
-        this.canvas.height / 2,
-      );
+      this.ctx.fillText('PAUSED', this.canvas.width / 2, this.canvas.height / 2);
     }
   }
 
@@ -1298,8 +1197,7 @@ class GameState {
   showHomeScreen() {
     // オーバーレイタイトルとテキストを初期状態に戻す
     document.getElementById('overlayTitle').textContent = 'NEON BREAKER';
-    document.getElementById('overlayText').textContent =
-      '未来のブロック崩しへようこそ';
+    document.getElementById('overlayText').textContent = '未来のブロック崩しへようこそ';
 
     // 全てのボタンコンテナを非表示
     document.getElementById('controlSelection').style.display = 'block';
@@ -1341,21 +1239,13 @@ class Paddle {
 
     // Mouse control
     if (mouseX > 0 && controlMethod === 'mouse') {
-      this.x = Math.max(
-        0,
-        Math.min(canvasWidth - this.width, mouseX - this.width / 2),
-      );
+      this.x = Math.max(0, Math.min(canvasWidth - this.width, mouseX - this.width / 2));
     }
   }
 
   render(ctx) {
     // Paddle gradient
-    const gradient = ctx.createLinearGradient(
-      this.x,
-      this.y,
-      this.x,
-      this.y + this.height,
-    );
+    const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
     gradient.addColorStop(0, '#00ffff');
     gradient.addColorStop(0.5, '#0080ff');
     gradient.addColorStop(1, '#004080');
@@ -1414,14 +1304,7 @@ class Ball {
 
   render(ctx) {
     // Ball gradient
-    const gradient = ctx.createRadialGradient(
-      this.x,
-      this.y,
-      0,
-      this.x,
-      this.y,
-      this.radius,
-    );
+    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
     gradient.addColorStop(0, '#ffffff');
     gradient.addColorStop(0.7, '#00ffff');
     gradient.addColorStop(1, '#0080ff');
@@ -1503,12 +1386,7 @@ class Block {
 
   render(ctx) {
     // Block gradient with enhanced visuals
-    const gradient = ctx.createLinearGradient(
-      this.x,
-      this.y,
-      this.x,
-      this.y + this.height,
-    );
+    const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
     gradient.addColorStop(0, this.color);
     gradient.addColorStop(1, this.adjustColor(this.color, -0.3));
 
@@ -1531,11 +1409,7 @@ class Block {
       ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
       ctx.font = this.getSymbolSize() + 'px Orbitron';
       ctx.textAlign = 'center';
-      ctx.fillText(
-        this.getTypeSymbol(),
-        this.x + this.width / 2,
-        this.y + this.height / 2 + 4,
-      );
+      ctx.fillText(this.getTypeSymbol(), this.x + this.width / 2, this.y + this.height / 2 + 4);
     }
 
     // Hit indicator
@@ -1579,18 +1453,9 @@ class Block {
 
   adjustColor(color, factor) {
     const hex = color.replace('#', '');
-    const r = Math.max(
-      0,
-      Math.min(255, parseInt(hex.substr(0, 2), 16) * (1 + factor)),
-    );
-    const g = Math.max(
-      0,
-      Math.min(255, parseInt(hex.substr(2, 2), 16) * (1 + factor)),
-    );
-    const b = Math.max(
-      0,
-      Math.min(255, parseInt(hex.substr(4, 2), 16) * (1 + factor)),
-    );
+    const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) * (1 + factor)));
+    const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) * (1 + factor)));
+    const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) * (1 + factor)));
 
     return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
   }
@@ -1657,17 +1522,11 @@ class BossBlock {
 
     // HPバー
     const hpPercent = this.hp / this.maxHp;
-    ctx.fillStyle =
-      hpPercent > 0.5 ? '#00ff00' : hpPercent > 0.25 ? '#ffff00' : '#ff0000';
+    ctx.fillStyle = hpPercent > 0.5 ? '#00ff00' : hpPercent > 0.25 ? '#ffff00' : '#ff0000';
     ctx.fillRect(this.x, this.y - 15, this.width * hpPercent, 8);
 
     // ボス本体（グラデーション）
-    const gradient = ctx.createLinearGradient(
-      this.x,
-      this.y,
-      this.x,
-      this.y + this.height,
-    );
+    const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
     gradient.addColorStop(0, '#ff0080');
     gradient.addColorStop(0.5, '#8000ff');
     gradient.addColorStop(1, '#0080ff');

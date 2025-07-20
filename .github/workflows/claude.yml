@@ -54,7 +54,14 @@ jobs:
 
           # Optional: Add custom instructions for Claude to customize its behavior for your project
           custom_instructions: |
-            @CLAUDE.md の内容を厳守すること
+            この Issue で挙げた課題について、修正対応をお願いします。対応の際は、以下のフローに沿ってプルリクエスト（PR）を作成してください：
+            1.  CLAUDE.md に記載されたコーディングガイドラインに従って修正を行ってください。
+            2.  内容に応じて適切なテストや確認を実施してください（ユニットテスト・動作確認など）。
+            3.  修正が完了したら、新しいブランチを切り、PR を作成してください。
+            4.  PR のタイトルや説明欄には、この Issue 番号を明記し、何をどう修正したかを簡潔に記述してください。
+
+            修正内容が Issue の趣旨から外れている場合や、より良い対応方針があれば、PR 上で相談してください。
+            コードの品質を保つためにも、丁寧な対応をお願いします。
 
           # Optional: Custom environment variables for Claude
           # claude_env: |

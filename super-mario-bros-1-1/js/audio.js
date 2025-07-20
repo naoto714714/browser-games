@@ -14,8 +14,7 @@ class AudioManager {
   // AudioContextを初期化
   initAudioContext() {
     try {
-      this.audioContext = new (window.AudioContext ||
-        window.webkitAudioContext)();
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     } catch (e) {
       console.warn('Web Audio API not supported');
       this.enabled = false;
@@ -63,20 +62,11 @@ class AudioManager {
       oscillator.connect(gainNode);
       gainNode.connect(this.audioContext.destination);
 
-      oscillator.frequency.setValueAtTime(
-        frequency,
-        this.audioContext.currentTime,
-      );
+      oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
       oscillator.type = waveType;
 
-      gainNode.gain.setValueAtTime(
-        this.sfxVolume,
-        this.audioContext.currentTime,
-      );
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.audioContext.currentTime + duration,
-      );
+      gainNode.gain.setValueAtTime(this.sfxVolume, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration);
 
       oscillator.start();
       oscillator.stop(this.audioContext.currentTime + duration);
@@ -91,11 +81,7 @@ class AudioManager {
       }
 
       const bufferSize = this.audioContext.sampleRate * duration;
-      const buffer = this.audioContext.createBuffer(
-        1,
-        bufferSize,
-        this.audioContext.sampleRate,
-      );
+      const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
       const output = buffer.getChannelData(0);
 
       for (let i = 0; i < bufferSize; i++) {
@@ -109,14 +95,8 @@ class AudioManager {
       source.connect(gainNode);
       gainNode.connect(this.audioContext.destination);
 
-      gainNode.gain.setValueAtTime(
-        this.sfxVolume * 0.3,
-        this.audioContext.currentTime,
-      );
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.audioContext.currentTime + duration,
-      );
+      gainNode.gain.setValueAtTime(this.sfxVolume * 0.3, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration);
 
       source.start();
     };
@@ -154,20 +134,11 @@ class AudioManager {
       gainNode.connect(this.audioContext.destination);
 
       oscillator.frequency.setValueAtTime(440, this.audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(
-        110,
-        this.audioContext.currentTime + 1,
-      );
+      oscillator.frequency.exponentialRampToValueAtTime(110, this.audioContext.currentTime + 1);
       oscillator.type = 'sawtooth';
 
-      gainNode.gain.setValueAtTime(
-        this.sfxVolume,
-        this.audioContext.currentTime,
-      );
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.audioContext.currentTime + 1,
-      );
+      gainNode.gain.setValueAtTime(this.sfxVolume, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 1);
 
       oscillator.start();
       oscillator.stop(this.audioContext.currentTime + 1);
@@ -214,9 +185,8 @@ class AudioManager {
 
     // マリオのメインテーマの一部（プロシージャル）
     const melody = [
-      659, 659, 0, 659, 0, 523, 659, 0, 784, 0, 0, 392, 0, 0, 523, 0, 0, 392, 0,
-      0, 330, 0, 0, 440, 0, 494, 0, 466, 0, 440, 0, 392, 659, 784, 880, 0, 698,
-      784, 0, 659, 0, 523, 587, 523,
+      659, 659, 0, 659, 0, 523, 659, 0, 784, 0, 0, 392, 0, 0, 523, 0, 0, 392, 0, 0, 330, 0, 0, 440, 0, 494, 0, 466, 0,
+      440, 0, 392, 659, 784, 880, 0, 698, 784, 0, 659, 0, 523, 587, 523,
     ];
 
     let index = 0;

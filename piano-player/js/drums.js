@@ -1,7 +1,6 @@
 class DrumsAudio {
   constructor() {
-    this.audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     this.masterGain = this.audioContext.createGain();
     this.masterGain.gain.value = 0.8;
     this.masterGain.connect(this.audioContext.destination);
@@ -200,7 +199,7 @@ class Drums extends Instrument {
     const drumsContainer = document.createElement('div');
     drumsContainer.className = 'drums-container';
 
-    this.drumConfig.forEach(drum => {
+    this.drumConfig.forEach((drum) => {
       const drumElement = document.createElement('div');
       drumElement.className = `drum ${drum.type}`;
       drumElement.dataset.type = drum.type;
@@ -211,7 +210,7 @@ class Drums extends Instrument {
 
       drumElement.appendChild(label);
 
-      drumElement.addEventListener('mousedown', e => {
+      drumElement.addEventListener('mousedown', (e) => {
         e.preventDefault();
         this.playDrum(drumElement, drum.method);
       });
@@ -224,12 +223,12 @@ class Drums extends Instrument {
         this.stopDrum(drumElement);
       });
 
-      drumElement.addEventListener('touchstart', e => {
+      drumElement.addEventListener('touchstart', (e) => {
         e.preventDefault();
         this.playDrum(drumElement, drum.method);
       });
 
-      drumElement.addEventListener('touchend', e => {
+      drumElement.addEventListener('touchend', (e) => {
         e.preventDefault();
         this.stopDrum(drumElement);
       });
@@ -252,15 +251,13 @@ class Drums extends Instrument {
   }
 
   setupKeyboardEvents() {
-    this._keydownHandler = e => {
+    this._keydownHandler = (e) => {
       if (e.repeat) {
         return;
       }
 
       const key = e.key.toLowerCase();
-      const drum = this.drumConfig.find(
-        d => d.key === key || (key === ' ' && d.key === 'space'),
-      );
+      const drum = this.drumConfig.find((d) => d.key === key || (key === ' ' && d.key === 'space'));
 
       if (drum) {
         e.preventDefault();
@@ -271,11 +268,9 @@ class Drums extends Instrument {
       }
     };
 
-    this._keyupHandler = e => {
+    this._keyupHandler = (e) => {
       const key = e.key.toLowerCase();
-      const drum = this.drumConfig.find(
-        d => d.key === key || (key === ' ' && d.key === 'space'),
-      );
+      const drum = this.drumConfig.find((d) => d.key === key || (key === ' ' && d.key === 'space'));
 
       if (drum) {
         e.preventDefault();

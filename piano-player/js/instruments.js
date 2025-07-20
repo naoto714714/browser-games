@@ -21,8 +21,7 @@ class InstrumentManager {
     const InstrumentClass = this.instruments[name];
     if (InstrumentClass) {
       this.currentInstrument = new InstrumentClass(this.container, this.audio);
-      document.getElementById('instrumentName').textContent =
-        this.getInstrumentDisplayName(name);
+      document.getElementById('instrumentName').textContent = this.getInstrumentDisplayName(name);
     }
   }
 
@@ -47,7 +46,7 @@ class Instrument {
   }
 
   destroy() {
-    this.elements.forEach(element => {
+    this.elements.forEach((element) => {
       element.removeEventListener('mousedown', element._mousedownHandler);
       element.removeEventListener('mouseup', element._mouseupHandler);
       element.removeEventListener('mouseleave', element._mouseleaveHandler);
@@ -55,7 +54,7 @@ class Instrument {
       element.removeEventListener('touchend', element._touchendHandler);
     });
 
-    this.activeElements.forEach(note => {
+    this.activeElements.forEach((note) => {
       this.audio.stopNote(note);
     });
 
@@ -64,7 +63,7 @@ class Instrument {
   }
 
   setupElementEvents(element, note) {
-    element._mousedownHandler = e => {
+    element._mousedownHandler = (e) => {
       e.preventDefault();
       this.playNote(element, note);
     };
@@ -77,12 +76,12 @@ class Instrument {
       this.stopNote(element, note);
     };
 
-    element._touchstartHandler = e => {
+    element._touchstartHandler = (e) => {
       e.preventDefault();
       this.playNote(element, note);
     };
 
-    element._touchendHandler = e => {
+    element._touchendHandler = (e) => {
       e.preventDefault();
       this.stopNote(element, note);
     };

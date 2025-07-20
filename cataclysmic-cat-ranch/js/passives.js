@@ -1,15 +1,7 @@
 // パッシブスキルシステム
 
 class Passive {
-  constructor(
-    id,
-    name,
-    description,
-    baseCost,
-    costMultiplier,
-    effect,
-    maxLevel = -1,
-  ) {
+  constructor(id, name, description, baseCost, costMultiplier, effect, maxLevel = -1) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -22,9 +14,7 @@ class Passive {
   }
 
   getCost() {
-    return Math.floor(
-      this.baseCost * Math.pow(this.costMultiplier, this.level),
-    );
+    return Math.floor(this.baseCost * Math.pow(this.costMultiplier, this.level));
   }
 
   getEffectValue() {
@@ -40,11 +30,7 @@ class Passive {
   }
 
   canUpgrade() {
-    return (
-      this.unlocked &&
-      this.canAfford() &&
-      (this.maxLevel === -1 || this.level < this.maxLevel)
-    );
+    return this.unlocked && this.canAfford() && (this.maxLevel === -1 || this.level < this.maxLevel);
   }
 
   unlock() {
@@ -85,37 +71,23 @@ class Passive {
 class PassiveManager {
   constructor() {
     this.passives = [
-      new Passive(
-        'horizonExpand',
-        'イベントホライゾン拡張',
-        '放置収益 +25% (永続)',
-        10,
-        1.3,
-        level => level * 0.25,
-      ),
+      new Passive('horizonExpand', 'イベントホライゾン拡張', '放置収益 +25% (永続)', 10, 1.3, (level) => level * 0.25),
       new Passive(
         'gravityLock',
         'グラビティポンプロック',
         'クリック効果 +50% (永続)',
         15,
         1.35,
-        level => level * 0.5,
+        (level) => level * 0.5,
       ),
-      new Passive(
-        'schrodingerCat',
-        'シュレ猫多重化',
-        '全収益 +10% (永続・累積)',
-        25,
-        1.4,
-        level => level * 0.1,
-      ),
+      new Passive('schrodingerCat', 'シュレ猫多重化', '全収益 +10% (永続・累積)', 25, 1.4, (level) => level * 0.1),
       new Passive(
         'timeReverse',
         '時間反転コア',
         'オフライン収益が時間の2乗で計算される',
         50,
         2.0,
-        level => (level > 0 ? 1 : 0),
+        (level) => (level > 0 ? 1 : 0),
         1, // 最大レベル1
       ),
       new Passive(
@@ -124,20 +96,13 @@ class PassiveManager {
         '次元跳躍時の量子毛玉獲得量 +100%',
         100,
         1.5,
-        level => level * 1.0,
+        (level) => level * 1.0,
       ),
-      new Passive(
-        'singularityBoost',
-        '特異点ブースター',
-        '初期Singularity Level +1',
-        200,
-        1.6,
-        level => level,
-      ),
+      new Passive('singularityBoost', '特異点ブースター', '初期Singularity Level +1', 200, 1.6, (level) => level),
     ];
 
     this.passiveMap = {};
-    this.passives.forEach(passive => {
+    this.passives.forEach((passive) => {
       this.passiveMap[passive.id] = passive;
     });
 
@@ -245,7 +210,7 @@ class PassiveManager {
 
     container.innerHTML = '';
 
-    const unlockedPassives = this.passives.filter(p => p.unlocked);
+    const unlockedPassives = this.passives.filter((p) => p.unlocked);
 
     if (unlockedPassives.length === 0) {
       const noPassivesDiv = document.createElement('div');
@@ -261,7 +226,7 @@ class PassiveManager {
       return;
     }
 
-    this.passives.forEach(passive => {
+    this.passives.forEach((passive) => {
       if (!passive.unlocked) {
         return;
       }
@@ -274,31 +239,19 @@ class PassiveManager {
 
       const effectText =
         passive.level === 0
-          ? `効果: ${this.formatEffect(
-            passive.id,
-            passive.getNextEffectValue(),
-          )}`
+          ? `効果: ${this.formatEffect(passive.id, passive.getNextEffectValue())}`
           : passive.maxLevel === 1 && passive.level === 1
             ? '効果: 有効'
-            : `効果: ${this.formatEffect(
-              passive.id,
-              passive.getEffectValue(),
-            )} → ${this.formatEffect(
-              passive.id,
-              passive.getNextEffectValue(),
-            )}`;
+            : `効果: ${this.formatEffect(passive.id, passive.getEffectValue())} → ${this.formatEffect(
+                passive.id,
+                passive.getNextEffectValue(),
+              )}`;
 
       div.innerHTML = `
                 <div class="item-name">${passive.name}</div>
                 <div class="item-effect">${effectText}</div>
-                <div class="item-cost">コスト: ${formatNumber(
-    passive.getCost(),
-  )} QY</div>
-                ${
-  passive.level > 0
-    ? `<div class="item-level">Lv.${passive.level}</div>`
-    : ''
-}
+                <div class="item-cost">コスト: ${formatNumber(passive.getCost())} QY</div>
+                ${passive.level > 0 ? `<div class="item-level">Lv.${passive.level}</div>` : ''}
             `;
 
       div.addEventListener('click', () => {
@@ -316,25 +269,25 @@ class PassiveManager {
 
   formatEffect(id, value) {
     switch (id) {
-    case 'horizonExpand':
-      return `+${formatPercent(value)}`;
-    case 'gravityLock':
-      return `+${formatPercent(value)}`;
-    case 'schrodingerCat':
-      return `+${formatPercent(value)}`;
-    case 'timeReverse':
-      return value > 0 ? '有効' : '無効';
-    case 'quantumLeap':
-      return `+${formatPercent(value)}`;
-    case 'singularityBoost':
-      return `+${value}`;
-    default:
-      return `+${formatNumber(value)}`;
+      case 'horizonExpand':
+        return `+${formatPercent(value)}`;
+      case 'gravityLock':
+        return `+${formatPercent(value)}`;
+      case 'schrodingerCat':
+        return `+${formatPercent(value)}`;
+      case 'timeReverse':
+        return value > 0 ? '有効' : '無効';
+      case 'quantumLeap':
+        return `+${formatPercent(value)}`;
+      case 'singularityBoost':
+        return `+${value}`;
+      default:
+        return `+${formatNumber(value)}`;
     }
   }
 
   getSaveData() {
-    return this.passives.map(passive => passive.getSaveData());
+    return this.passives.map((passive) => passive.getSaveData());
   }
 
   loadSaveData(data) {
@@ -342,7 +295,7 @@ class PassiveManager {
       return;
     }
 
-    data.forEach(passiveData => {
+    data.forEach((passiveData) => {
       const passive = this.getPassive(passiveData.id);
       if (passive) {
         passive.loadSaveData(passiveData);

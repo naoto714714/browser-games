@@ -88,12 +88,7 @@ class ReactionGame {
     // バトル結果メッセージ
     this.battleMessages = {
       victory: ['勝利！', '見事な反応！', '君の勝ちだ！', '素晴らしい！'],
-      defeat: [
-        '敗北...',
-        '相手の方が早かった',
-        '次は頑張ろう',
-        'もう一度挑戦！',
-      ],
+      defeat: ['敗北...', '相手の方が早かった', '次は頑張ろう', 'もう一度挑戦！'],
       draw: ['引き分け', '互角の勝負', '同じタイミング！', 'すごい接戦！'],
       falseStart: ['フライング！', '早すぎる！', '待って！', '焦りすぎ！'],
     };
@@ -127,8 +122,7 @@ class ReactionGame {
   // 音声初期化
   initAudio() {
     try {
-      this.audioContext = new (window.AudioContext ||
-        window.webkitAudioContext)();
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     } catch (e) {
       console.warn('Web Audio API not supported');
     }
@@ -146,17 +140,11 @@ class ReactionGame {
     oscillator.connect(gainNode);
     gainNode.connect(this.audioContext.destination);
 
-    oscillator.frequency.setValueAtTime(
-      frequency,
-      this.audioContext.currentTime,
-    );
+    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
     oscillator.type = type;
 
     gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.01,
-      this.audioContext.currentTime + duration / 1000,
-    );
+    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration / 1000);
 
     oscillator.start(this.audioContext.currentTime);
     oscillator.stop(this.audioContext.currentTime + duration / 1000);
@@ -187,7 +175,7 @@ class ReactionGame {
   // 入力ハンドリング設定
   setupInputHandlers() {
     // キーボード入力
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.code === 'Space' || e.code === 'Enter') {
         e.preventDefault();
         this.handleInput();
@@ -195,18 +183,18 @@ class ReactionGame {
     });
 
     // マウス/タッチ入力
-    this.canvas.addEventListener('click', e => {
+    this.canvas.addEventListener('click', (e) => {
       e.preventDefault();
       this.handleInput();
     });
 
-    this.canvas.addEventListener('touchstart', e => {
+    this.canvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
       this.handleInput();
     });
 
     // 右クリック無効化
-    this.canvas.addEventListener('contextmenu', e => {
+    this.canvas.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
   }
@@ -216,28 +204,28 @@ class ReactionGame {
     const currentTime = Date.now();
 
     switch (this.gameState) {
-    case 'waiting':
-      // waiting状態では何もしない（カウントダウンは自動開始）
-      break;
+      case 'waiting':
+        // waiting状態では何もしない（カウントダウンは自動開始）
+        break;
 
-    case 'countdown':
-    case 'ready':
-      // フライング
-      this.handleFalseStart();
-      break;
+      case 'countdown':
+      case 'ready':
+        // フライング
+        this.handleFalseStart();
+        break;
 
-    case 'signal':
-      // 正常な反応
-      // 敵の反応タイマーをクリア
-      if (this.enemyReactionTimer) {
-        clearTimeout(this.enemyReactionTimer);
-        this.enemyReactionTimer = null;
-      }
+      case 'signal':
+        // 正常な反応
+        // 敵の反応タイマーをクリア
+        if (this.enemyReactionTimer) {
+          clearTimeout(this.enemyReactionTimer);
+          this.enemyReactionTimer = null;
+        }
 
-      this.reactionTime = currentTime - this.signalStartTime;
-      this.gameState = 'result';
-      this.processReaction();
-      break;
+        this.reactionTime = currentTime - this.signalStartTime;
+        this.gameState = 'result';
+        this.processReaction();
+        break;
     }
   }
 
@@ -257,18 +245,14 @@ class ReactionGame {
   selectCurrentEnemy() {
     const enemyIndex = Math.min(this.level - 1, this.enemies.length - 1);
     this.currentEnemy = this.enemies[enemyIndex];
-    console.log(
-      `🎯 Battle vs ${this.currentEnemy.name}: ${this.currentEnemy.description}`,
-    );
+    console.log(`🎯 Battle vs ${this.currentEnemy.name}: ${this.currentEnemy.description}`);
   }
 
   // 敵の反応時間を生成（AI）
   generateEnemyReaction() {
     const range = this.currentEnemy.reactionRange;
     this.enemyReactionTime = Math.random() * (range[1] - range[0]) + range[0];
-    console.log(
-      `🤖 Enemy reaction time: ${Math.round(this.enemyReactionTime)}ms`,
-    );
+    console.log(`🤖 Enemy reaction time: ${Math.round(this.enemyReactionTime)}ms`);
   }
 
   // カウントダウン開始
@@ -304,9 +288,7 @@ class ReactionGame {
 
     // ランダム遅延設定
     const difficulty = this.difficulty[Math.min(this.level, 5)];
-    this.signalDelay =
-      Math.random() * (difficulty.maxDelay - difficulty.minDelay) +
-      difficulty.minDelay;
+    this.signalDelay = Math.random() * (difficulty.maxDelay - difficulty.minDelay) + difficulty.minDelay;
 
     // 信号表示タイマー
     setTimeout(() => {
@@ -328,10 +310,7 @@ class ReactionGame {
     // エフェクト追加（画面全体に散らばる）
     for (let i = 0; i < 10; i++) {
       setTimeout(() => {
-        this.renderer.addSparkle(
-          20 + Math.random() * 60,
-          10 + Math.random() * 50,
-        );
+        this.renderer.addSparkle(20 + Math.random() * 60, 10 + Math.random() * 50);
       }, i * 50);
     }
 
@@ -391,10 +370,7 @@ class ReactionGame {
 
         // 勝利エフェクト
         for (let i = 0; i < 8; i++) {
-          this.renderer.addSparkle(
-            this.catPosition.x + Math.random() * 64,
-            this.catPosition.y + Math.random() * 64,
-          );
+          this.renderer.addSparkle(this.catPosition.x + Math.random() * 64, this.catPosition.y + Math.random() * 64);
         }
 
         this.playSuccessSound();
@@ -419,19 +395,13 @@ class ReactionGame {
       }
 
       // ベストタイム更新（フライング以外の正常な反応時のみ）
-      if (
-        this.reactionTime > 0 &&
-        (!this.bestTime || this.reactionTime < this.bestTime)
-      ) {
+      if (this.reactionTime > 0 && (!this.bestTime || this.reactionTime < this.bestTime)) {
         this.bestTime = this.reactionTime;
         localStorage.setItem('bestReactionTime', this.bestTime);
 
         // 新記録エフェクト
         for (let i = 0; i < 5; i++) {
-          this.renderer.addHeart(
-            this.catPosition.x + Math.random() * 64,
-            this.catPosition.y + Math.random() * 64,
-          );
+          this.renderer.addHeart(this.catPosition.x + Math.random() * 64, this.catPosition.y + Math.random() * 64);
         }
       }
     }
@@ -450,9 +420,7 @@ class ReactionGame {
   // ゲームオーバー処理
   handleGameOver() {
     this.battlePhase = 'gameOver';
-    console.log(
-      `💀 Game Over! Reached level ${this.level}, Score: ${this.score}`,
-    );
+    console.log(`💀 Game Over! Reached level ${this.level}, Score: ${this.score}`);
   }
 
   // レベルアップ
@@ -482,9 +450,7 @@ class ReactionGame {
   updateUI() {
     document.getElementById('score').textContent = this.score;
     document.getElementById('level').textContent = this.level;
-    document.getElementById('best-time').textContent = this.bestTime
-      ? `${this.bestTime}ms`
-      : '---';
+    document.getElementById('best-time').textContent = this.bestTime ? `${this.bestTime}ms` : '---';
   }
 
   // バトル結果UI更新
@@ -500,9 +466,7 @@ class ReactionGame {
       reactionTimeElement.textContent = `${this.reactionTime}ms`;
     } else if (battleResult === 'defeat') {
       // プレイヤーが敗北の場合は敵の時間を表示
-      reactionTimeElement.textContent = `${Math.round(
-        this.enemyReactionTime,
-      )}ms`;
+      reactionTimeElement.textContent = `${Math.round(this.enemyReactionTime)}ms`;
     }
 
     messageElement.textContent = message;
@@ -554,19 +518,11 @@ class ReactionGame {
     this.renderer.drawBackground();
 
     // プレイヤーキャラクター描画
-    this.renderer.drawCat(
-      this.catPosition.x,
-      this.catPosition.y,
-      this.catExpression,
-    );
+    this.renderer.drawCat(this.catPosition.x, this.catPosition.y, this.catExpression);
 
     // 敵キャラクター描画
     if (this.currentEnemy) {
-      this.renderer.drawEnemy(
-        this.enemyPosition.x,
-        this.enemyPosition.y,
-        this.currentEnemy.type,
-      );
+      this.renderer.drawEnemy(this.enemyPosition.x, this.enemyPosition.y, this.currentEnemy.type);
     }
 
     // VS表示（キャラクター間の中央）
@@ -583,23 +539,19 @@ class ReactionGame {
 
     // ゲーム状態に応じた描画
     switch (this.gameState) {
-    case 'countdown':
-      if (this.countdownValue > 0) {
-        const countX = 48;
-        const countY = 42;
-        this.renderer.drawCountdownNumber(
-          countX,
-          countY,
-          this.countdownValue,
-        );
-      }
-      break;
+      case 'countdown':
+        if (this.countdownValue > 0) {
+          const countX = 48;
+          const countY = 42;
+          this.renderer.drawCountdownNumber(countX, countY, this.countdownValue);
+        }
+        break;
 
-    case 'signal':
-      const goX = 50;
-      const goY = 42;
-      this.renderer.drawGoText(goX, goY);
-      break;
+      case 'signal':
+        const goX = 50;
+        const goY = 42;
+        this.renderer.drawGoText(goX, goY);
+        break;
     }
 
     // エフェクト描画

@@ -92,8 +92,7 @@ class SaveManager {
 
     if (cappedOfflineTime > 60000) {
       // 1分以上オフラインだった場合
-      const offlineEarnings =
-        resourceManager.calculateOfflineProgress(cappedOfflineTime);
+      const offlineEarnings = resourceManager.calculateOfflineProgress(cappedOfflineTime);
 
       if (offlineEarnings > 0) {
         resourceManager.addGraviCoin(offlineEarnings);
@@ -103,9 +102,7 @@ class SaveManager {
         if (window.eventManager) {
           window.eventManager.showCustomEvent(
             'おかえりニャ！',
-            `${timeText}の間に ${formatNumber(
-              offlineEarnings,
-            )} GC を獲得したニャ！`,
+            `${timeText}の間に ${formatNumber(offlineEarnings)} GC を獲得したニャ！`,
             5000,
           );
         }
@@ -115,9 +112,7 @@ class SaveManager {
 
   // セーブデータの削除
   deleteSave() {
-    if (
-      confirm('本当にセーブデータを削除しますか？\nこの操作は取り消せません。')
-    ) {
+    if (confirm('本当にセーブデータを削除しますか？\nこの操作は取り消せません。')) {
       localStorage.removeItem(this.saveKey);
       this.showSaveNotification('セーブデータを削除しました');
       setTimeout(() => {
@@ -186,12 +181,7 @@ class SaveManager {
   // セーブデータの移行（将来のバージョンアップ用）
   migrateSaveData(saveData) {
     // 将来のバージョンアップでセーブデータの構造が変わった場合の処理
-    console.log(
-      'Migrating save data from version',
-      saveData.version,
-      'to',
-      this.version,
-    );
+    console.log('Migrating save data from version', saveData.version, 'to', this.version);
   }
 
   // セーブ統計の取得

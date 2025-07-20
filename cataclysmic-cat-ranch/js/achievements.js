@@ -219,7 +219,7 @@ class AchievementManager {
     ];
 
     this.achievementMap = {};
-    this.achievements.forEach(achievement => {
+    this.achievements.forEach((achievement) => {
       this.achievementMap[achievement.id] = achievement;
     });
 
@@ -238,7 +238,7 @@ class AchievementManager {
   checkAchievements() {
     const newUnlocks = [];
 
-    this.achievements.forEach(achievement => {
+    this.achievements.forEach((achievement) => {
       if (achievement.check()) {
         newUnlocks.push(achievement);
       }
@@ -273,11 +273,11 @@ class AchievementManager {
     container.innerHTML = '';
 
     // 解除済みと未解除を分けて表示
-    const unlocked = this.achievements.filter(a => a.unlocked);
-    const locked = this.achievements.filter(a => !a.unlocked);
+    const unlocked = this.achievements.filter((a) => a.unlocked);
+    const locked = this.achievements.filter((a) => !a.unlocked);
 
     // 解除済み実績
-    unlocked.forEach(achievement => {
+    unlocked.forEach((achievement) => {
       const div = document.createElement('div');
       div.className = 'achievement-item unlocked';
 
@@ -290,7 +290,7 @@ class AchievementManager {
     });
 
     // 未解除実績（ヒント表示）
-    locked.forEach(achievement => {
+    locked.forEach((achievement) => {
       const div = document.createElement('div');
       div.className = 'achievement-item locked';
 
@@ -329,7 +329,7 @@ class AchievementManager {
   }
 
   getUnlockedCount() {
-    return this.achievements.filter(a => a.unlocked).length;
+    return this.achievements.filter((a) => a.unlocked).length;
   }
 
   getTotalCount() {
@@ -337,7 +337,7 @@ class AchievementManager {
   }
 
   getSaveData() {
-    return this.achievements.map(achievement => achievement.getSaveData());
+    return this.achievements.map((achievement) => achievement.getSaveData());
   }
 
   loadSaveData(data) {
@@ -345,7 +345,7 @@ class AchievementManager {
       return;
     }
 
-    data.forEach(achievementData => {
+    data.forEach((achievementData) => {
       const achievement = this.achievementMap[achievementData.id];
       if (achievement) {
         achievement.loadSaveData(achievementData);

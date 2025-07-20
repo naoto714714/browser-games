@@ -32,7 +32,7 @@ class GuitarAudio extends PianoAudio {
       { mult: 4, gain: 0.05, detune: 10 },
     ];
 
-    harmonics.forEach(harmonic => {
+    harmonics.forEach((harmonic) => {
       const gain = this.audioContext.createGain();
       const osc = this.audioContext.createOscillator();
       osc.type = 'sawtooth';
@@ -50,14 +50,14 @@ class GuitarAudio extends PianoAudio {
     envelope.gain.exponentialRampToValueAtTime(0.5, now + 0.05);
     envelope.gain.exponentialRampToValueAtTime(0.3, now + 0.2);
 
-    gains.forEach(gain => {
+    gains.forEach((gain) => {
       gain.connect(envelope);
     });
 
     envelope.connect(this.masterGain);
     envelope.connect(this.reverb);
 
-    oscillators.forEach(osc => osc.start(now));
+    oscillators.forEach((osc) => osc.start(now));
 
     this.activeNotes.set(note, { oscillators, envelope, gains });
   }
@@ -98,28 +98,14 @@ class Guitar extends Instrument {
   }
 
   calculateNote(openString, fret) {
-    const notes = [
-      'C',
-      'C#',
-      'D',
-      'D#',
-      'E',
-      'F',
-      'F#',
-      'G',
-      'G#',
-      'A',
-      'A#',
-      'B',
-    ];
+    const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const baseNote = openString.slice(0, -1);
     const baseOctave = parseInt(openString.slice(-1));
 
     let noteIndex = notes.indexOf(baseNote);
     noteIndex = (noteIndex + fret) % 12;
 
-    const octave =
-      baseOctave + Math.floor((notes.indexOf(baseNote) + fret) / 12);
+    const octave = baseOctave + Math.floor((notes.indexOf(baseNote) + fret) / 12);
 
     return notes[noteIndex] + octave;
   }

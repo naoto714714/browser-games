@@ -213,9 +213,7 @@ class ComboManager {
     }
 
     // 特定のコンボ数での特別エフェクト
-    const milestone = this.comboThresholds.find(
-      threshold => threshold.count === this.combo,
-    );
+    const milestone = this.comboThresholds.find((threshold) => threshold.count === this.combo);
     if (milestone) {
       this.showComboMilestoneEffect(milestone);
     }
@@ -265,10 +263,7 @@ class ComboManager {
     }, 800);
 
     // マイルストーン通知
-    this.showComboNotification(
-      `${milestone.name}コンボ達成！ ×${milestone.multiplier}`,
-      milestone.color,
-    );
+    this.showComboNotification(`${milestone.name}コンボ達成！ ×${milestone.multiplier}`, milestone.color);
   }
 
   // 高コンボエフェクト
@@ -368,10 +363,7 @@ class ComboManager {
   // コンボ終了通知
   showComboEndNotification(finalCombo) {
     if (window.effectsManager) {
-      effectsManager.showNotification(
-        `${finalCombo}コンボ終了！お疲れ様でした`,
-        false,
-      );
+      effectsManager.showNotification(`${finalCombo}コンボ終了！お疲れ様でした`, false);
     }
   }
 

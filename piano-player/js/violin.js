@@ -51,7 +51,7 @@ class ViolinAudio extends PianoAudio {
       { mult: 8, gain: 0.03 },
     ];
 
-    harmonics.forEach(harmonic => {
+    harmonics.forEach((harmonic) => {
       const gain = this.audioContext.createGain();
       const osc = this.audioContext.createOscillator();
       osc.type = 'sine';
@@ -68,14 +68,14 @@ class ViolinAudio extends PianoAudio {
     envelope.gain.linearRampToValueAtTime(1, now + 0.1);
     envelope.gain.exponentialRampToValueAtTime(0.8, now + 0.5);
 
-    gains.forEach(gain => {
+    gains.forEach((gain) => {
       gain.connect(envelope);
     });
 
     envelope.connect(this.masterGain);
     envelope.connect(this.reverb);
 
-    oscillators.forEach(osc => {
+    oscillators.forEach((osc) => {
       if (osc !== vibrato) {
         osc.start(now);
       }
@@ -156,34 +156,20 @@ class Violin extends Instrument {
   }
 
   calculateViolinNote(baseNote, position) {
-    const notes = [
-      'C',
-      'C#',
-      'D',
-      'D#',
-      'E',
-      'F',
-      'F#',
-      'G',
-      'G#',
-      'A',
-      'A#',
-      'B',
-    ];
+    const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const noteName = baseNote.slice(0, -1);
     const octave = parseInt(baseNote.slice(-1));
 
     let noteIndex = notes.indexOf(noteName);
     noteIndex = (noteIndex + position) % 12;
 
-    const newOctave =
-      octave + Math.floor((notes.indexOf(noteName) + position) / 12);
+    const newOctave = octave + Math.floor((notes.indexOf(noteName) + position) / 12);
 
     return notes[noteIndex] + newOctave;
   }
 
   setupKeyboardEvents() {
-    this._keydownHandler = e => {
+    this._keydownHandler = (e) => {
       if (e.repeat) {
         return;
       }
@@ -195,7 +181,7 @@ class Violin extends Instrument {
       }
     };
 
-    this._keyupHandler = e => {
+    this._keyupHandler = (e) => {
       const note = this.keyboardMapping[e.key.toLowerCase()];
       if (note) {
         e.preventDefault();

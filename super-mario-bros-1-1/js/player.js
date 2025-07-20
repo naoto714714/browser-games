@@ -155,10 +155,7 @@ class Player extends Entity {
         if (this.walkAnimationTimer >= animationSpeed) {
           this.walkAnimationTimer = 0;
           // marioSmallStandingとmarioSmallWalkingを交互に切り替え
-          this.spriteKey =
-            this.spriteKey === 'marioSmallStanding'
-              ? 'marioSmallWalking'
-              : 'marioSmallStanding';
+          this.spriteKey = this.spriteKey === 'marioSmallStanding' ? 'marioSmallWalking' : 'marioSmallStanding';
         }
       } else {
         // 立ち状態
@@ -225,20 +222,20 @@ class Player extends Entity {
   // パワーアップ
   powerUp(itemType) {
     switch (itemType) {
-    case ITEM_TYPES.MUSHROOM:
-      if (this.powerState === GAME_CONSTANTS.PLAYER_STATE.SMALL) {
-        this.powerState = GAME_CONSTANTS.PLAYER_STATE.BIG;
-        this.height = GAME_CONSTANTS.PLAYER.HEIGHT * 2;
-        this.y -= GAME_CONSTANTS.PLAYER.HEIGHT;
-      }
-      break;
-    case ITEM_TYPES.FIRE_FLOWER:
-      this.powerState = GAME_CONSTANTS.PLAYER_STATE.FIRE;
-      if (this.height === GAME_CONSTANTS.PLAYER.HEIGHT) {
-        this.height = GAME_CONSTANTS.PLAYER.HEIGHT * 2;
-        this.y -= GAME_CONSTANTS.PLAYER.HEIGHT;
-      }
-      break;
+      case ITEM_TYPES.MUSHROOM:
+        if (this.powerState === GAME_CONSTANTS.PLAYER_STATE.SMALL) {
+          this.powerState = GAME_CONSTANTS.PLAYER_STATE.BIG;
+          this.height = GAME_CONSTANTS.PLAYER.HEIGHT * 2;
+          this.y -= GAME_CONSTANTS.PLAYER.HEIGHT;
+        }
+        break;
+      case ITEM_TYPES.FIRE_FLOWER:
+        this.powerState = GAME_CONSTANTS.PLAYER_STATE.FIRE;
+        if (this.height === GAME_CONSTANTS.PLAYER.HEIGHT) {
+          this.height = GAME_CONSTANTS.PLAYER.HEIGHT * 2;
+          this.y -= GAME_CONSTANTS.PLAYER.HEIGHT;
+        }
+        break;
     }
   }
 
