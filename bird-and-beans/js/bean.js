@@ -1,11 +1,29 @@
+import {
+  BEAN_WIDTH,
+  BEAN_HEIGHT,
+  BEAN_BASE_SPEED,
+  BEAN_MIN_SCORE,
+  BEAN_MAX_SCORE,
+  BEAN_FLASH_INTERVAL,
+  BEAN_SPAWN_MARGIN,
+  BEAN_SPAWN_PROBABILITY,
+  CANVAS_HEIGHT,
+  COLORS,
+  INITIAL_SPAWN_INTERVAL,
+  MIN_SPAWN_INTERVAL,
+  SPAWN_INTERVAL_DECREASE_RATE,
+  SPEED_INCREASE_RATE,
+  DIFFICULTY_INCREASE_FRAMES,
+} from './constants.js';
+
 export class Bean {
   constructor(x, y, type = 'normal') {
     this.x = x;
     this.y = y;
-    this.width = 20;
-    this.height = 20;
+    this.width = BEAN_WIDTH;
+    this.height = BEAN_HEIGHT;
     this.type = type; // 'normal', 'white', 'flashing'
-    this.speed = 2;
+    this.speed = BEAN_BASE_SPEED;
     this.active = true;
     this.flashTimer = 0;
   }
@@ -24,24 +42,23 @@ export class Bean {
     let color;
     switch (this.type) {
       case 'white':
-        color = '#ffffff';
+        color = COLORS.BEAN_WHITE;
         break;
       case 'flashing':
-        color = Math.floor(this.flashTimer / 200) % 2 === 0 ? '#ffd93d' : '#ff6b6b';
+        color =
+          Math.floor(this.flashTimer / BEAN_FLASH_INTERVAL) % 2 === 0 ? COLORS.BEAN_FLASHING_1 : COLORS.BEAN_FLASHING_2;
         break;
       default:
-        color = '#4ecdc4';
+        color = COLORS.BEAN_NORMAL;
     }
 
     renderer.drawCircle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, color);
   }
 
   getScore(catchY) {
-    const maxScore = 300;
-    const minScore = 10;
-    const scoreRange = maxScore - minScore;
-    const heightRatio = (720 - catchY) / 720;
-    return Math.floor(minScore + scoreRange * heightRatio);
+    const scoreRange = BEAN_MAX_SCORE - BEAN_MIN_SCORE;
+    const heightRatio = (CANVAS_HEIGHT - catchY) / CANVAS_HEIGHT;
+    return Math.floor(BEAN_MIN_SCORE + scoreRange * heightRatio);
   }
 }
 
@@ -50,52 +67,68 @@ export class BeanManager {
     this.canvasWidth = canvasWidth;
     this.beans = [];
     this.spawnTimer = 0;
-    this.spawnInterval = 2000; // 2秒
-    this.minSpawnInterval = 500; // 最小0.5秒
+    this.spawnInterval = INITIAL_SPAWN_INTERVAL;
+    this.minSpawnInterval = MIN_SPAWN_INTERVAL;
     this.speedIncrease = 0;
-    this.speedIncreaseRate = 0.01; // 時間経過による速度増加率
+    this.speedIncreaseRate = SPEED_INCREASE_RATE;
   }
 
   update(deltaTime, frameCount) {
+    this.updateDifficulty(frameCount);
+    this.updateSpawnTimer(deltaTime);
+    this.updateBeans(deltaTime);
+    this.removeInactiveBeans();
+  }
+
+  updateDifficulty(frameCount) {
+    if (frameCount % DIFFICULTY_INCREASE_FRAMES === 0) {
+      this.speedIncrease += this.speedIncreaseRate;
+      this.spawnInterval = Math.max(this.minSpawnInterval, this.spawnInterval * SPAWN_INTERVAL_DECREASE_RATE);
+    }
+  }
+
+  updateSpawnTimer(deltaTime) {
     this.spawnTimer += deltaTime;
 
-    // 時間経過による難易度上昇
-    if (frameCount % 600 === 0) {
-      // 10秒ごと（60FPS想定）
-      this.speedIncrease += this.speedIncreaseRate;
-      this.spawnInterval = Math.max(this.minSpawnInterval, this.spawnInterval * 0.95);
-    }
-
-    // マメの生成
     if (this.spawnTimer >= this.spawnInterval) {
       this.spawnBean();
       this.spawnTimer = 0;
     }
+  }
 
-    // マメの更新
+  updateBeans(deltaTime) {
+    const currentSpeed = BEAN_BASE_SPEED + this.speedIncrease;
+
     this.beans.forEach((bean) => {
-      bean.speed = 2 + this.speedIncrease;
+      bean.speed = currentSpeed;
       bean.update(deltaTime);
     });
+  }
 
-    // 画面外のマメを削除
-    this.beans = this.beans.filter((bean) => bean.active && bean.y < 720);
+  removeInactiveBeans() {
+    this.beans = this.beans.filter((bean) => bean.active && bean.y < CANVAS_HEIGHT);
   }
 
   spawnBean() {
-    const x = Math.random() * (this.canvasWidth - 20);
+    const x = this.getRandomSpawnX();
+    const type = this.getRandomBeanType();
+    this.beans.push(new Bean(x, -BEAN_SPAWN_MARGIN, type));
+  }
+
+  getRandomSpawnX() {
+    return Math.random() * (this.canvasWidth - BEAN_WIDTH);
+  }
+
+  getRandomBeanType() {
     const rand = Math.random();
-    let type;
 
-    if (rand < 0.05) {
-      type = 'flashing';
-    } else if (rand < 0.2) {
-      type = 'white';
+    if (rand < BEAN_SPAWN_PROBABILITY.FLASHING) {
+      return 'flashing';
+    } else if (rand < BEAN_SPAWN_PROBABILITY.WHITE) {
+      return 'white';
     } else {
-      type = 'normal';
+      return 'normal';
     }
-
-    this.beans.push(new Bean(x, -20, type));
   }
 
   render(renderer) {
@@ -108,24 +141,33 @@ export class BeanManager {
     this.beans.forEach((bean) => {
       if (bean.y + bean.height >= ground.y) {
         beansToRemove.push(bean);
-
-        if (bean.type === 'white') {
-          ground.fillRandomHole();
-          if (audioManager) audioManager.play('fill');
-        } else if (bean.type === 'flashing') {
-          ground.fillAllHoles();
-          this.clearAllBeans();
-          if (audioManager) audioManager.play('powerUp');
-        } else {
-          ground.createHole(bean.x + bean.width / 2);
-          if (audioManager) audioManager.play('hole');
-        }
+        this.handleBeanGroundCollision(bean, ground, audioManager);
       }
     });
 
     beansToRemove.forEach((bean) => {
       bean.active = false;
     });
+  }
+
+  handleBeanGroundCollision(bean, ground, audioManager) {
+    const beanCenterX = bean.x + bean.width / 2;
+
+    switch (bean.type) {
+      case 'white':
+        ground.fillRandomHole();
+        if (audioManager) audioManager.play('fill');
+        break;
+      case 'flashing':
+        ground.fillAllHoles();
+        this.clearAllBeans();
+        if (audioManager) audioManager.play('powerUp');
+        break;
+      default:
+        ground.createHole(beanCenterX);
+        if (audioManager) audioManager.play('hole');
+        break;
+    }
   }
 
   clearAllBeans() {
@@ -137,7 +179,7 @@ export class BeanManager {
   reset() {
     this.beans = [];
     this.spawnTimer = 0;
-    this.spawnInterval = 2000;
+    this.spawnInterval = INITIAL_SPAWN_INTERVAL;
     this.speedIncrease = 0;
   }
 }
