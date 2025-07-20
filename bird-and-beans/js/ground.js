@@ -4,6 +4,7 @@ import {
   GROUND_BLOCK_GAP,
   COLORS
 } from './constants.js';
+import { CollisionManager } from './collision.js';
 
 export class Ground {
   constructor(canvasWidth, canvasHeight) {
@@ -18,15 +19,15 @@ export class Ground {
   }
 
   createHole(x) {
-    const blockIndex = Math.floor(x / this.blockWidth);
-    if (blockIndex >= 0 && blockIndex < this.blockCount) {
+    const blockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
+    if (CollisionManager.isWithinBounds(blockIndex, 0, this.blockCount)) {
       this.blocks[blockIndex] = false;
     }
   }
 
   fillHole(x) {
-    const blockIndex = Math.floor(x / this.blockWidth);
-    if (blockIndex >= 0 && blockIndex < this.blockCount) {
+    const blockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
+    if (CollisionManager.isWithinBounds(blockIndex, 0, this.blockCount)) {
       this.blocks[blockIndex] = true;
     }
   }
@@ -50,11 +51,11 @@ export class Ground {
   }
 
   canPlayerMoveTo(x, width) {
-    const leftBlockIndex = Math.floor(x / this.blockWidth);
-    const rightBlockIndex = Math.floor((x + width - 1) / this.blockWidth);
+    const leftBlockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
+    const rightBlockIndex = CollisionManager.getBlockIndexFromX(x + width - 1, this.blockWidth);
 
     for (let i = leftBlockIndex; i <= rightBlockIndex; i++) {
-      if (i >= 0 && i < this.blockCount && !this.blocks[i]) {
+      if (CollisionManager.isWithinBounds(i, 0, this.blockCount) && !this.blocks[i]) {
         return false;
       }
     }

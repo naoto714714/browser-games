@@ -6,6 +6,7 @@ import {
   TONGUE_CHECK_INTERVAL,
   COLORS
 } from './constants.js';
+import { CollisionManager } from './collision.js';
 
 export class Tongue {
   constructor() {
@@ -75,26 +76,10 @@ export class Tongue {
   checkCollision(bean) {
     if (!this.active || this.length === 0) return false;
 
-    const dx = this.endX - this.startX;
-    const dy = this.endY - this.startY;
-    const len = Math.sqrt(dx * dx + dy * dy);
-
-    for (let i = 0; i <= len; i += TONGUE_CHECK_INTERVAL) {
-      const ratio = i / len;
-      const checkX = this.startX + dx * ratio;
-      const checkY = this.startY + dy * ratio;
-
-      if (
-        checkX >= bean.x &&
-        checkX <= bean.x + bean.width &&
-        checkY >= bean.y &&
-        checkY <= bean.y + bean.height
-      ) {
-        return true;
-      }
-    }
-
-    return false;
+    const lineStart = { x: this.startX, y: this.startY };
+    const lineEnd = { x: this.endX, y: this.endY };
+    
+    return CollisionManager.checkLineRectCollision(lineStart, lineEnd, bean, TONGUE_CHECK_INTERVAL);
   }
 
   reset() {

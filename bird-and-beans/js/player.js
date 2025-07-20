@@ -9,6 +9,7 @@ import {
   COLORS
 } from './constants.js';
 import { Tongue } from './tongue.js';
+import { CollisionManager } from './collision.js';
 
 export class Player {
   constructor(canvasWidth, canvasHeight) {
@@ -85,12 +86,7 @@ export class Player {
   }
 
   checkCollision(bean) {
-    return (
-      bean.x < this.x + this.width &&
-      bean.x + bean.width > this.x &&
-      bean.y < this.y + this.height &&
-      bean.y + bean.height > this.y
-    );
+    return CollisionManager.checkRectCollision(this, bean);
   }
 
   checkTongueCollision(bean) {
