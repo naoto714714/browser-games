@@ -54,6 +54,15 @@ jobs:
                 * **結論を先に:** 各インラインコメントの冒頭で、指摘内容の要点を一行で簡潔に述べてください。
                 * **理由と提案:** 結論の後に、そのように判断した理由や背景、具体的な修正案を詳しく説明してください。
                 * **指摘中心に:** インラインコメントは、修正提案、バグの可能性、可読性の問題など、具体的な改善点に焦点を当ててください。
+                * **AI用のプロンプトを記載**: AIエージェントに修正をしてもらうようなプロンプトを、以下を参考に記載してください。
+                <details>
+                <summary>🤖 Prompt for AI Agents</summary>
+
+                ```
+                `bird-and-beans/js/collision.js` の 25 行目で、static メソッド内で `this.checkPointInRect` が誤って使われています。正しい static コンテキストで参照できるように、`this` をクラス名に置き換えてください。
+                ```
+
+                </details>
 
             * **ポジティブなフィードバックについて:**
                 * **インラインでは控えめに:** インラインで言及するのは、特に優れた設計や他の開発者の参考になるような独創的な実装など、特筆すべき点に限定します。
@@ -93,7 +102,7 @@ jobs:
           #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}
 
           # Optional: Add specific tools for running tests or linting
-          allowed_tools: "Bash(npm run lint),Bash(npm run lint:fix),Bash(npm run format),Bash(npm run check-format)"
+          allowed_tools: "mcp__github__create_pending_pull_request_review,mcp__github__add_pull_request_review_comment_to_pending_review,mcp__github__submit_pending_pull_request_review,mcp__github__get_pull_request_diffBash(npm run lint),Bash(npm run lint:fix),Bash(npm run format),Bash(npm run check-format)"
 
           # Optional: Skip review for certain conditions
           # if: |
