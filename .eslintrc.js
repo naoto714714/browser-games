@@ -1,50 +1,33 @@
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
+  root: true,
   env: {
+    es2023: true,
     browser: true,
-    es2021: true,
-    node: true,
+    node: true
   },
-  extends: ['eslint:recommended'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'script',
+    ecmaVersion: 'latest',   // パーサに最新構文許可
+    sourceType: 'module'     // ESM 前提 (CommonJS なら調整)
+    // project: 付けない = 型情報なし (高速)
   },
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier'               // ← 最後
+  ],
   rules: {
-    // 自動修正可能なスタイルルールのみエラーとして扱う
-    indent: ['error', 2],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
-    'comma-dangle': ['error', 'always-multiline'],
-    'object-curly-spacing': ['error', 'always'],
-    'array-bracket-spacing': ['error', 'never'],
-    'space-before-blocks': ['error', 'always'],
-    'keyword-spacing': ['error'],
-    'space-infix-ops': ['error'],
-
-    // 全て無効化（警告も表示しない）
-    'no-unused-vars': 'off',
-    'no-console': 'off',
-
-    // エラーになりそうなルールは無効化
-    'no-undef': 'off',
-    'no-loss-of-precision': 'off',
-    'prefer-const': 'off',
-    'no-var': 'off',
-    eqeqeq: 'off',
-    curly: 'off',
-    'no-case-declarations': 'off',
+    'no-undef': 'off', // グローバル変数多数のため一時的に無効化
+    '@typescript-eslint/no-unused-vars': 'warn', // 警告レベルに下げる
+    'no-loss-of-precision': 'off', // 大きな数値リテラルのため無効化
+    'no-case-declarations': 'off', // case文での変数宣言を許可
   },
-  globals: {
-    // ゲームで使用されるグローバル変数を定義
-    game: 'writable',
-    resources: 'writable',
-    upgrades: 'writable',
-    achievements: 'writable',
-    prestige: 'writable',
-    effects: 'writable',
-    combos: 'writable',
-    events: 'writable',
-    passives: 'writable',
-    saveManager: 'writable',
-  },
+  ignorePatterns: [
+    'dist/',
+    'build/',
+    'coverage/',
+    '*.min.js'
+  ]
 };
