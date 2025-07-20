@@ -61,7 +61,7 @@ export class Game {
         const score = bean.getScore(bean.y);
         this.addScore(score);
         bean.active = false;
-        
+
         // マメの種類に応じた効果
         switch (bean.type) {
           case 'white':
@@ -77,7 +77,7 @@ export class Game {
             this.audioManager.play('catch');
             break;
         }
-        
+
         // 舌を即座に戻す
         this.player.retractTongue();
       }

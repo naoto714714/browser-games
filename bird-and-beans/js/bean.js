@@ -2,8 +2,6 @@ import {
   BEAN_WIDTH,
   BEAN_HEIGHT,
   BEAN_BASE_SPEED,
-  BEAN_MIN_SCORE,
-  BEAN_MAX_SCORE,
   BEAN_FLASH_INTERVAL,
   BEAN_SPAWN_MARGIN,
   BEAN_SPAWN_PROBABILITY,
@@ -165,7 +163,7 @@ export class BeanManager {
 
   handleBeanGroundCollision(bean, ground, audioManager) {
     const beanCenterX = bean.x + bean.width / 2;
-    
+
     // 全てのマメ種類で床を1ブロック消す
     ground.createHole(beanCenterX);
     if (audioManager) audioManager.play('hole');
