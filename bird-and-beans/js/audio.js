@@ -1,10 +1,4 @@
-import {
-  AUDIO_GAIN,
-  AUDIO_FADE_TIME,
-  AUDIO_FREQUENCIES,
-  AUDIO_DURATIONS,
-  AUDIO_TYPES
-} from './constants.js';
+import { AUDIO_GAIN, AUDIO_FADE_TIME, AUDIO_FREQUENCIES, AUDIO_DURATIONS, AUDIO_TYPES } from './constants.js';
 
 export class AudioManager {
   constructor() {

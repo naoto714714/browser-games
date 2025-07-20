@@ -36,7 +36,7 @@ export const DIFFICULTY_INCREASE_FRAMES = 600; // 10秒（60FPS想定）
 // マメの出現確率
 export const BEAN_SPAWN_PROBABILITY = {
   FLASHING: 0.05,
-  WHITE: 0.2
+  WHITE: 0.2,
 };
 
 // 地面関連
@@ -55,7 +55,7 @@ export const COLORS = {
   BEAN_FLASHING_1: '#ffd93d',
   BEAN_FLASHING_2: '#ff6b6b',
   GROUND_BLOCK: '#333333',
-  GROUND_HOLE: '#000000'
+  GROUND_HOLE: '#000000',
 };
 
 // オーディオ関連
@@ -66,20 +66,20 @@ export const AUDIO_FREQUENCIES = {
   HOLE: 200,
   FILL: 600,
   GAME_OVER: 150,
-  POWER_UP: [400, 600, 800]
+  POWER_UP: [400, 600, 800],
 };
 export const AUDIO_DURATIONS = {
   CATCH: 0.1,
   HOLE: 0.2,
   FILL: 0.15,
   GAME_OVER: 0.5,
-  POWER_UP: 0.1
+  POWER_UP: 0.1,
 };
 export const AUDIO_TYPES = {
   CATCH: 'sine',
   HOLE: 'square',
   FILL: 'triangle',
-  GAME_OVER: 'sawtooth'
+  GAME_OVER: 'sawtooth',
 };
 
 // ローカルストレージ

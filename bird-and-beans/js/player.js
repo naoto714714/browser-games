@@ -6,7 +6,7 @@ import {
   PLAYER_EYE_OFFSET,
   PLAYER_EYE_RADIUS,
   GROUND_HEIGHT,
-  COLORS
+  COLORS,
 } from './constants.js';
 import { Tongue } from './tongue.js';
 import { CollisionManager } from './collision.js';
@@ -79,7 +79,7 @@ export class Player {
       this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
       this.y + PLAYER_EYE_OFFSET,
       PLAYER_EYE_RADIUS,
-      COLORS.PLAYER_EYE
+      COLORS.PLAYER_EYE,
     );
 
     this.tongue.render(renderer);

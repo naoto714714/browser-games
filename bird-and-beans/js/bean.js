@@ -13,7 +13,7 @@ import {
   MIN_SPAWN_INTERVAL,
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
-  DIFFICULTY_INCREASE_FRAMES
+  DIFFICULTY_INCREASE_FRAMES,
 } from './constants.js';
 
 export class Bean {
@@ -45,7 +45,8 @@ export class Bean {
         color = COLORS.BEAN_WHITE;
         break;
       case 'flashing':
-        color = Math.floor(this.flashTimer / BEAN_FLASH_INTERVAL) % 2 === 0 ? COLORS.BEAN_FLASHING_1 : COLORS.BEAN_FLASHING_2;
+        color =
+          Math.floor(this.flashTimer / BEAN_FLASH_INTERVAL) % 2 === 0 ? COLORS.BEAN_FLASHING_1 : COLORS.BEAN_FLASHING_2;
         break;
       default:
         color = COLORS.BEAN_NORMAL;
@@ -88,7 +89,7 @@ export class BeanManager {
 
   updateSpawnTimer(deltaTime) {
     this.spawnTimer += deltaTime;
-    
+
     if (this.spawnTimer >= this.spawnInterval) {
       this.spawnBean();
       this.spawnTimer = 0;
@@ -97,7 +98,7 @@ export class BeanManager {
 
   updateBeans(deltaTime) {
     const currentSpeed = BEAN_BASE_SPEED + this.speedIncrease;
-    
+
     this.beans.forEach((bean) => {
       bean.speed = currentSpeed;
       bean.update(deltaTime);
@@ -120,7 +121,7 @@ export class BeanManager {
 
   getRandomBeanType() {
     const rand = Math.random();
-    
+
     if (rand < BEAN_SPAWN_PROBABILITY.FLASHING) {
       return 'flashing';
     } else if (rand < BEAN_SPAWN_PROBABILITY.WHITE) {
@@ -151,7 +152,7 @@ export class BeanManager {
 
   handleBeanGroundCollision(bean, ground, audioManager) {
     const beanCenterX = bean.x + bean.width / 2;
-    
+
     switch (bean.type) {
       case 'white':
         ground.fillRandomHole();

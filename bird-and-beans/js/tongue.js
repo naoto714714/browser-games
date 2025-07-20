@@ -4,7 +4,7 @@ import {
   TONGUE_ANGLE_DEGREES,
   TONGUE_WIDTH,
   TONGUE_CHECK_INTERVAL,
-  COLORS
+  COLORS,
 } from './constants.js';
 import { CollisionManager } from './collision.js';
 
@@ -62,14 +62,7 @@ export class Tongue {
 
   render(renderer) {
     if (this.active && this.length > 0) {
-      renderer.drawLine(
-        this.startX,
-        this.startY,
-        this.endX,
-        this.endY,
-        COLORS.TONGUE,
-        TONGUE_WIDTH
-      );
+      renderer.drawLine(this.startX, this.startY, this.endX, this.endY, COLORS.TONGUE, TONGUE_WIDTH);
     }
   }
 
@@ -78,7 +71,7 @@ export class Tongue {
 
     const lineStart = { x: this.startX, y: this.startY };
     const lineEnd = { x: this.endX, y: this.endY };
-    
+
     return CollisionManager.checkLineRectCollision(lineStart, lineEnd, bean, TONGUE_CHECK_INTERVAL);
   }
 

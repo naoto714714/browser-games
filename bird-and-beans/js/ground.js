@@ -1,9 +1,4 @@
-import {
-  GROUND_BLOCK_COUNT,
-  GROUND_HEIGHT,
-  GROUND_BLOCK_GAP,
-  COLORS
-} from './constants.js';
+import { GROUND_BLOCK_COUNT, GROUND_HEIGHT, GROUND_BLOCK_GAP, COLORS } from './constants.js';
 import { CollisionManager } from './collision.js';
 
 export class Ground {
@@ -34,7 +29,7 @@ export class Ground {
 
   fillRandomHole() {
     const holes = this.getHoleIndices();
-    
+
     if (holes.length > 0) {
       const randomIndex = holes[Math.floor(Math.random() * holes.length)];
       this.blocks[randomIndex] = true;
@@ -44,9 +39,7 @@ export class Ground {
   }
 
   getHoleIndices() {
-    return this.blocks
-      .map((block, index) => !block ? index : -1)
-      .filter(index => index !== -1);
+    return this.blocks.map((block, index) => (!block ? index : -1)).filter((index) => index !== -1);
   }
 
   fillAllHoles() {

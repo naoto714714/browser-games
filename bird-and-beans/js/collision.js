@@ -9,12 +9,7 @@ export class CollisionManager {
   }
 
   static checkPointInRect(x, y, rect) {
-    return (
-      x >= rect.x &&
-      x <= rect.x + rect.width &&
-      y >= rect.y &&
-      y <= rect.y + rect.height
-    );
+    return x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height;
   }
 
   static checkLineRectCollision(lineStart, lineEnd, rect, checkInterval = 5) {
