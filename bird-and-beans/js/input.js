@@ -18,6 +18,7 @@ export class InputManager {
 
     window.addEventListener('blur', () => {
       this.keys = {};
+      this.prevKeys = {};
     });
   }
 
@@ -26,11 +27,11 @@ export class InputManager {
   }
 
   isLeftPressed() {
-    return this.isKeyPressed('ArrowLeft') || this.isKeyPressed('a') || this.isKeyPressed('A');
+    return this.isKeyPressed('ArrowLeft') || this.isKeyPressed('a');
   }
 
   isRightPressed() {
-    return this.isKeyPressed('ArrowRight') || this.isKeyPressed('d') || this.isKeyPressed('D');
+    return this.isKeyPressed('ArrowRight') || this.isKeyPressed('d');
   }
 
   isSpacePressed() {
