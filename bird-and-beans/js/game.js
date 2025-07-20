@@ -61,32 +61,7 @@ export class Game {
 
       // 舌との衝突
       if (this.player.checkTongueCollision(bean)) {
-        const score = bean.getScore(bean.y);
-        this.addScore(score);
-
-        // スコアエフェクトを追加
-        this.scoreEffectManager.add(bean.x + bean.width / 2, bean.y + bean.height / 2, score);
-
-        bean.active = false;
-
-        // マメの種類に応じた効果
-        switch (bean.type) {
-          case 'white':
-            this.ground.fillRandomHole();
-            this.audioManager.play('fill');
-            break;
-          case 'flashing':
-            this.ground.fillAllHoles();
-            this.beanManager.clearAllBeans();
-            this.audioManager.play('powerUp');
-            break;
-          default:
-            this.audioManager.play('catch');
-            break;
-        }
-
-        // 舌を即座に戻す
-        this.player.retractTongue();
+        this.handleBeanCatch(bean);
       }
 
       // 鳥本体との衝突
@@ -94,6 +69,35 @@ export class Game {
         this.endGame();
       }
     });
+  }
+
+  handleBeanCatch(bean) {
+    const score = bean.getScore(bean.y);
+    this.addScore(score);
+
+    // スコアエフェクトを追加
+    this.scoreEffectManager.add(bean.x + bean.width / 2, bean.y + bean.height / 2, score);
+
+    bean.active = false;
+
+    // マメの種類に応じた効果
+    switch (bean.type) {
+      case 'white':
+        this.ground.fillRandomHole();
+        this.audioManager.play('fill');
+        break;
+      case 'flashing':
+        this.ground.fillAllHoles();
+        this.beanManager.clearAllBeans();
+        this.audioManager.play('powerUp');
+        break;
+      default:
+        this.audioManager.play('catch');
+        break;
+    }
+
+    // 舌を即座に戻す
+    this.player.retractTongue();
   }
 
   render() {
