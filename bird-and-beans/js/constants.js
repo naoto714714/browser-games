@@ -40,13 +40,15 @@ export const BEAN_SPAWN_PROBABILITY = {
 };
 
 // スコアゾーン関連
-export const SCORE_ZONE_1_HEIGHT = 180; // 最上部ゾーン: 0〜180px
-export const SCORE_ZONE_2_HEIGHT = 360; // 上部ゾーン: 180〜360px
-export const SCORE_ZONE_3_HEIGHT = 540; // 中部ゾーン: 360〜540px
-export const SCORE_ZONE_1_SCORE = 300; // 最上部スコア
-export const SCORE_ZONE_2_SCORE = 100; // 上部スコア
-export const SCORE_ZONE_3_SCORE = 30; // 中部スコア
-export const SCORE_ZONE_4_SCORE = 10; // 下部スコア
+export const SCORE_ZONE_1_HEIGHT = 144; // 最上部ゾーン: 0〜144px
+export const SCORE_ZONE_2_HEIGHT = 288; // 上部ゾーン: 144〜288px
+export const SCORE_ZONE_3_HEIGHT = 432; // 中部ゾーン: 288〜432px
+export const SCORE_ZONE_4_HEIGHT = 576; // 下部ゾーン: 432〜576px
+export const SCORE_ZONE_1_SCORE = 1000; // 最上部スコア
+export const SCORE_ZONE_2_SCORE = 300; // 上部スコア
+export const SCORE_ZONE_3_SCORE = 100; // 中部スコア
+export const SCORE_ZONE_4_SCORE = 50; // 下部スコア
+export const SCORE_ZONE_5_SCORE = 10; // 最下部スコア
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;

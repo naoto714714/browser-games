@@ -15,10 +15,12 @@ import {
   SCORE_ZONE_1_HEIGHT,
   SCORE_ZONE_2_HEIGHT,
   SCORE_ZONE_3_HEIGHT,
+  SCORE_ZONE_4_HEIGHT,
   SCORE_ZONE_1_SCORE,
   SCORE_ZONE_2_SCORE,
   SCORE_ZONE_3_SCORE,
   SCORE_ZONE_4_SCORE,
+  SCORE_ZONE_5_SCORE,
 } from './constants.js';
 
 export class Bean {
@@ -67,8 +69,10 @@ export class Bean {
       return SCORE_ZONE_2_SCORE;
     } else if (catchY < SCORE_ZONE_3_HEIGHT) {
       return SCORE_ZONE_3_SCORE;
-    } else {
+    } else if (catchY < SCORE_ZONE_4_HEIGHT) {
       return SCORE_ZONE_4_SCORE;
+    } else {
+      return SCORE_ZONE_5_SCORE;
     }
   }
 }
