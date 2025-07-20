@@ -14,6 +14,13 @@ import {
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
+  SCORE_ZONE_1_HEIGHT,
+  SCORE_ZONE_2_HEIGHT,
+  SCORE_ZONE_3_HEIGHT,
+  SCORE_ZONE_1_SCORE,
+  SCORE_ZONE_2_SCORE,
+  SCORE_ZONE_3_SCORE,
+  SCORE_ZONE_4_SCORE,
 } from './constants.js';
 
 export class Bean {
@@ -56,9 +63,15 @@ export class Bean {
   }
 
   getScore(catchY) {
-    const scoreRange = BEAN_MAX_SCORE - BEAN_MIN_SCORE;
-    const heightRatio = (CANVAS_HEIGHT - catchY) / CANVAS_HEIGHT;
-    return Math.floor(BEAN_MIN_SCORE + scoreRange * heightRatio);
+    if (catchY < SCORE_ZONE_1_HEIGHT) {
+      return SCORE_ZONE_1_SCORE;
+    } else if (catchY < SCORE_ZONE_2_HEIGHT) {
+      return SCORE_ZONE_2_SCORE;
+    } else if (catchY < SCORE_ZONE_3_HEIGHT) {
+      return SCORE_ZONE_3_SCORE;
+    } else {
+      return SCORE_ZONE_4_SCORE;
+    }
   }
 }
 
