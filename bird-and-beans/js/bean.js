@@ -73,44 +73,61 @@ export class BeanManager {
   }
 
   update(deltaTime, frameCount) {
-    this.spawnTimer += deltaTime;
+    this.updateDifficulty(frameCount);
+    this.updateSpawnTimer(deltaTime);
+    this.updateBeans(deltaTime);
+    this.removeInactiveBeans();
+  }
 
-    // 時間経過による難易度上昇
+  updateDifficulty(frameCount) {
     if (frameCount % DIFFICULTY_INCREASE_FRAMES === 0) {
       this.speedIncrease += this.speedIncreaseRate;
       this.spawnInterval = Math.max(this.minSpawnInterval, this.spawnInterval * SPAWN_INTERVAL_DECREASE_RATE);
     }
+  }
 
-    // マメの生成
+  updateSpawnTimer(deltaTime) {
+    this.spawnTimer += deltaTime;
+    
     if (this.spawnTimer >= this.spawnInterval) {
       this.spawnBean();
       this.spawnTimer = 0;
     }
+  }
 
-    // マメの更新
+  updateBeans(deltaTime) {
+    const currentSpeed = BEAN_BASE_SPEED + this.speedIncrease;
+    
     this.beans.forEach((bean) => {
-      bean.speed = BEAN_BASE_SPEED + this.speedIncrease;
+      bean.speed = currentSpeed;
       bean.update(deltaTime);
     });
+  }
 
-    // 画面外のマメを削除
+  removeInactiveBeans() {
     this.beans = this.beans.filter((bean) => bean.active && bean.y < CANVAS_HEIGHT);
   }
 
   spawnBean() {
-    const x = Math.random() * (this.canvasWidth - BEAN_WIDTH);
-    const rand = Math.random();
-    let type;
-
-    if (rand < BEAN_SPAWN_PROBABILITY.FLASHING) {
-      type = 'flashing';
-    } else if (rand < BEAN_SPAWN_PROBABILITY.WHITE) {
-      type = 'white';
-    } else {
-      type = 'normal';
-    }
-
+    const x = this.getRandomSpawnX();
+    const type = this.getRandomBeanType();
     this.beans.push(new Bean(x, -BEAN_SPAWN_MARGIN, type));
+  }
+
+  getRandomSpawnX() {
+    return Math.random() * (this.canvasWidth - BEAN_WIDTH);
+  }
+
+  getRandomBeanType() {
+    const rand = Math.random();
+    
+    if (rand < BEAN_SPAWN_PROBABILITY.FLASHING) {
+      return 'flashing';
+    } else if (rand < BEAN_SPAWN_PROBABILITY.WHITE) {
+      return 'white';
+    } else {
+      return 'normal';
+    }
   }
 
   render(renderer) {
@@ -123,24 +140,33 @@ export class BeanManager {
     this.beans.forEach((bean) => {
       if (bean.y + bean.height >= ground.y) {
         beansToRemove.push(bean);
-
-        if (bean.type === 'white') {
-          ground.fillRandomHole();
-          if (audioManager) audioManager.play('fill');
-        } else if (bean.type === 'flashing') {
-          ground.fillAllHoles();
-          this.clearAllBeans();
-          if (audioManager) audioManager.play('powerUp');
-        } else {
-          ground.createHole(bean.x + bean.width / 2);
-          if (audioManager) audioManager.play('hole');
-        }
+        this.handleBeanGroundCollision(bean, ground, audioManager);
       }
     });
 
     beansToRemove.forEach((bean) => {
       bean.active = false;
     });
+  }
+
+  handleBeanGroundCollision(bean, ground, audioManager) {
+    const beanCenterX = bean.x + bean.width / 2;
+    
+    switch (bean.type) {
+      case 'white':
+        ground.fillRandomHole();
+        if (audioManager) audioManager.play('fill');
+        break;
+      case 'flashing':
+        ground.fillAllHoles();
+        this.clearAllBeans();
+        if (audioManager) audioManager.play('powerUp');
+        break;
+      default:
+        ground.createHole(beanCenterX);
+        if (audioManager) audioManager.play('hole');
+        break;
+    }
   }
 
   clearAllBeans() {
