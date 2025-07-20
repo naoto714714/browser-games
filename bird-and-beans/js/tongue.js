@@ -36,6 +36,12 @@ export class Tongue {
     }
   }
 
+  retract() {
+    this.active = false;
+    this.extending = false;
+    this.length = 0;
+  }
+
   update(x, y, direction) {
     if (!this.active) return;
 

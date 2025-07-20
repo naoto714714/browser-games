@@ -47,6 +47,7 @@ export class Game {
   update(deltaTime) {
     this.player.update(this.inputManager, this.ground);
     this.beanManager.update(deltaTime, this.frameCount);
+    this.inputManager.update();
 
     // 地面との衝突判定
     this.beanManager.checkGroundCollision(this.ground, this.audioManager);

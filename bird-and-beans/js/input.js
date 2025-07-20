@@ -1,6 +1,7 @@
 export class InputManager {
   constructor() {
     this.keys = {};
+    this.prevKeys = {};
     this.setupEventListeners();
   }
 
@@ -36,7 +37,16 @@ export class InputManager {
     return this.isKeyPressed(' ');
   }
 
+  isSpaceJustPressed() {
+    return this.isKeyPressed(' ') && !this.prevKeys[' '];
+  }
+
+  update() {
+    this.prevKeys = { ...this.keys };
+  }
+
   reset() {
     this.keys = {};
+    this.prevKeys = {};
   }
 }

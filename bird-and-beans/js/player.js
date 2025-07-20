@@ -50,6 +50,10 @@ export class Player {
     this.tongue.release();
   }
 
+  retractTongue() {
+    this.tongue.retract();
+  }
+
   updateTongue() {
     const centerX = this.x + this.width / 2;
     const centerY = this.y + this.height / 2;
@@ -63,9 +67,9 @@ export class Player {
       this.moveRight(ground);
     }
 
-    if (inputManager.isSpacePressed()) {
+    if (inputManager.isSpaceJustPressed() && !this.tongue.active) {
       this.startTongue();
-    } else {
+    } else if (!inputManager.isSpacePressed() && this.tongue.active) {
       this.releaseTongue();
     }
 
