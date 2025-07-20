@@ -33,17 +33,20 @@ export class Ground {
   }
 
   fillRandomHole() {
-    const holes = this.blocks
-      .map((block, index) => ({ block, index }))
-      .filter((item) => !item.block)
-      .map((item) => item.index);
-
+    const holes = this.getHoleIndices();
+    
     if (holes.length > 0) {
       const randomIndex = holes[Math.floor(Math.random() * holes.length)];
       this.blocks[randomIndex] = true;
       return randomIndex;
     }
     return -1;
+  }
+
+  getHoleIndices() {
+    return this.blocks
+      .map((block, index) => !block ? index : -1)
+      .filter(index => index !== -1);
   }
 
   fillAllHoles() {
@@ -54,7 +57,11 @@ export class Ground {
     const leftBlockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
     const rightBlockIndex = CollisionManager.getBlockIndexFromX(x + width - 1, this.blockWidth);
 
-    for (let i = leftBlockIndex; i <= rightBlockIndex; i++) {
+    return this.areBlocksSolid(leftBlockIndex, rightBlockIndex);
+  }
+
+  areBlocksSolid(startIndex, endIndex) {
+    for (let i = startIndex; i <= endIndex; i++) {
       if (CollisionManager.isWithinBounds(i, 0, this.blockCount) && !this.blocks[i]) {
         return false;
       }
@@ -63,10 +70,11 @@ export class Ground {
   }
 
   render(renderer) {
-    for (let i = 0; i < this.blockCount; i++) {
+    this.blocks.forEach((block, i) => {
       const x = i * this.blockWidth;
-      const color = this.blocks[i] ? COLORS.GROUND_BLOCK : COLORS.GROUND_HOLE;
-      renderer.drawRect(x, this.y, this.blockWidth - GROUND_BLOCK_GAP, this.blockHeight, color);
-    }
+      const width = this.blockWidth - GROUND_BLOCK_GAP;
+      const color = block ? COLORS.GROUND_BLOCK : COLORS.GROUND_HOLE;
+      renderer.drawRect(x, this.y, width, this.blockHeight, color);
+    });
   }
 }
