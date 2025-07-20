@@ -37,4 +37,18 @@ export class CollisionManager {
   static isWithinBounds(index, min, max) {
     return index >= min && index < max;
   }
+
+  static checkCircleRectCollision(circle, rect) {
+    // 矩形の最も近い点を見つける
+    const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.width));
+    const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.height));
+
+    // 円の中心と最も近い点の距離を計算
+    const distanceX = circle.x - closestX;
+    const distanceY = circle.y - closestY;
+    const distanceSquared = distanceX * distanceX + distanceY * distanceY;
+
+    // 距離が円の半径以下であれば衝突
+    return distanceSquared <= circle.radius * circle.radius;
+  }
 }

@@ -16,6 +16,7 @@ export const TONGUE_EXTEND_SPEED = 20;
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
 export const TONGUE_CHECK_INTERVAL = 5;
+export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定と描画用）
 
 // マメ関連
 export const BEAN_WIDTH = 20;
