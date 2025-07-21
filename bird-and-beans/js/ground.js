@@ -83,7 +83,7 @@ export class Ground {
     this.blocks.forEach((block, i) => {
       if (block) {
         const x = i * this.blockWidth;
-        
+
         if (this.imageLoaded && this.blockImage) {
           // 画像が読み込まれている場合は画像を描画
           renderer.drawImage(this.blockImage, x, this.y, this.blockWidth, this.blockHeight);

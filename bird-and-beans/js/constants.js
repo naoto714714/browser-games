@@ -44,10 +44,10 @@ export const BEAN_SPAWN_PROBABILITY = {
 // スコアゾーン関連
 // 画面高さ720px - 上下40px = 640pxを5分割（各128px）
 export const SCORE_ZONES = [
-  { maxHeight: 168, score: 1000 },   // 最上部ゾーン: 0〜168px (40px + 128px)
-  { maxHeight: 296, score: 300 },    // ゾーン2: 168〜296px (128px幅)
-  { maxHeight: 424, score: 100 },    // ゾーン3: 296〜424px (128px幅)
-  { maxHeight: 552, score: 50 },     // ゾーン4: 424〜552px (128px幅)
+  { maxHeight: 168, score: 1000 }, // 最上部ゾーン: 0〜168px (40px + 128px)
+  { maxHeight: 296, score: 300 }, // ゾーン2: 168〜296px (128px幅)
+  { maxHeight: 424, score: 100 }, // ゾーン3: 296〜424px (128px幅)
+  { maxHeight: 552, score: 50 }, // ゾーン4: 424〜552px (128px幅)
   { maxHeight: Infinity, score: 10 }, // ゾーン5: 552px〜 (128px + 40px)
 ];
 
@@ -65,10 +65,10 @@ export const COLORS = {
   BEAN_FLASHING_2: '#ff6b6b',
   GROUND_BLOCK: '#333333',
   SCORE_EFFECT: '#ffffff',
-  SCORE_EFFECT_10: '#ff0000',   // 赤
-  SCORE_EFFECT_50: '#0000ff',   // 青
-  SCORE_EFFECT_100: '#ffffff',  // 白
-  SCORE_EFFECT_300: '#00ff00',  // 緑
+  SCORE_EFFECT_10: '#ff0000', // 赤
+  SCORE_EFFECT_50: '#0000ff', // 青
+  SCORE_EFFECT_100: '#ffffff', // 白
+  SCORE_EFFECT_300: '#00ff00', // 緑
   SCORE_EFFECT_1000: '#ffd700', // ゴールド
 };
 
