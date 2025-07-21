@@ -44,10 +44,11 @@
 3. **CDN利用**: 外部ライブラリはCDN参照を推奨
 
 ## 開発用コマンド
-npm run lint              # ESLintでコードチェック
+npm run lint               # ESLintでコードチェック
 npm run lint:fix           # ESLint自動修正
 npm run format             # Prettierでフォーマット
 npm run check-format       # フォーマットチェック
+npm run dev                # サーバー起動
 
 ## タスク実行の4段階フロー
 
