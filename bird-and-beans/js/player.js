@@ -19,7 +19,7 @@ export class Player {
     this.width = PLAYER_WIDTH;
     this.height = PLAYER_HEIGHT;
     this.x = canvasWidth / 2 - this.width / 2;
-    const groundHeight = 40; // 地面ブロックの固定高さ
+    const groundHeight = canvasWidth / GROUND_BLOCK_COUNT; // 正方形ブロックの高さ
     this.y = canvasHeight - groundHeight - this.height - PLAYER_GROUND_MARGIN;
 
     this.speed = PLAYER_SPEED;

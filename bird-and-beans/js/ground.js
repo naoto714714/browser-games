@@ -7,7 +7,7 @@ export class Ground {
     this.canvasHeight = canvasHeight;
     this.blockCount = GROUND_BLOCK_COUNT;
     this.blockWidth = canvasWidth / this.blockCount;
-    this.blockHeight = 40; // 固定の高さ
+    this.blockHeight = this.blockWidth; // 正方形にするため横幅と同じに
     this.y = canvasHeight - this.blockHeight;
 
     this.blocks = new Array(this.blockCount).fill(true);
