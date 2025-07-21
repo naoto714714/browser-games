@@ -3,12 +3,12 @@ export const CANVAS_WIDTH = 1280;
 export const CANVAS_HEIGHT = 720;
 
 // プレイヤー関連
-export const PLAYER_WIDTH = 40;
-export const PLAYER_HEIGHT = 40;
+export const PLAYER_WIDTH = 80;
+export const PLAYER_HEIGHT = 80;
 export const PLAYER_SPEED = 5;
 export const PLAYER_GROUND_MARGIN = 10;
-export const PLAYER_EYE_OFFSET = 10;
-export const PLAYER_EYE_RADIUS = 3;
+export const PLAYER_EYE_OFFSET = 20;
+export const PLAYER_EYE_RADIUS = 6;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
 export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
 export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
