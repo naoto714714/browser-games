@@ -33,8 +33,8 @@ export class Player {
 
     // アニメーション状態
     this.isMoving = false;
-    this.animationFrame = 0;
-    this.animationSpeed = 20; // フレーム数でアニメーション速度を制御
+    this.animationTimer = 0;
+    this.animationInterval = 200; // ミリ秒単位でアニメーション間隔を制御
   }
 
   loadImages() {
@@ -108,7 +108,7 @@ export class Player {
     this.tongue.update(centerX, centerY, this.direction);
   }
 
-  update(inputManager, ground) {
+  update(inputManager, ground, deltaTime = 16) {
     // 移動状態の更新
     this.isMoving = false;
 
@@ -120,11 +120,11 @@ export class Player {
       this.isMoving = true;
     }
 
-    // アニメーションフレームの更新
+    // アニメーションタイマーの更新
     if (this.isMoving) {
-      this.animationFrame++;
+      this.animationTimer += deltaTime;
     } else {
-      this.animationFrame = 0;
+      this.animationTimer = 0;
     }
 
     if (inputManager.isSpaceJustPressed() && !this.tongue.active) {
@@ -144,8 +144,8 @@ export class Player {
 
       // 移動中はアニメーション
       if (this.isMoving) {
-        // animationSpeedフレームごとに画像を切り替え
-        const showWalkImage = Math.floor(this.animationFrame / this.animationSpeed) % 2 === 1;
+        // animationIntervalミリ秒ごとに画像を切り替え
+        const showWalkImage = Math.floor(this.animationTimer / this.animationInterval) % 2 === 1;
         imageToRender = showWalkImage ? this.imageWalk : this.imageDefault;
       }
 
