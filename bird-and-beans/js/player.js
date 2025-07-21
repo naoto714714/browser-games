@@ -3,13 +3,10 @@ import {
   PLAYER_HEIGHT,
   PLAYER_SPEED,
   PLAYER_GROUND_MARGIN,
-  PLAYER_EYE_OFFSET,
-  PLAYER_EYE_RADIUS,
   PLAYER_ANIMATION_INTERVAL,
   PLAYER_IMAGE_DEFAULT,
   PLAYER_IMAGE_WALK,
-  GROUND_HEIGHT,
-  COLORS,
+  GROUND_BLOCK_COUNT,
 } from './constants.js';
 import { Tongue } from './tongue.js';
 import { CollisionManager } from './collision.js';
@@ -22,7 +19,8 @@ export class Player {
     this.width = PLAYER_WIDTH;
     this.height = PLAYER_HEIGHT;
     this.x = canvasWidth / 2 - this.width / 2;
-    this.y = canvasHeight - GROUND_HEIGHT - this.height - PLAYER_GROUND_MARGIN;
+    const groundHeight = canvasWidth / GROUND_BLOCK_COUNT; // 正方形ブロックの高さ
+    this.y = canvasHeight - groundHeight - this.height - PLAYER_GROUND_MARGIN;
 
     this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き
@@ -144,16 +142,6 @@ export class Player {
       }
 
       renderer.drawImage(imageToRender, this.x, this.y, this.width, this.height, flipX);
-    } else {
-      // フォールバック: 画像が読み込まれていない場合は図形で描画
-      renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
-
-      renderer.drawCircle(
-        this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
-        this.y + PLAYER_EYE_OFFSET,
-        PLAYER_EYE_RADIUS,
-        COLORS.PLAYER_EYE,
-      );
     }
 
     this.tongue.render(renderer);
