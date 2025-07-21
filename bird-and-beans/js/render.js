@@ -36,4 +36,19 @@ export class Renderer {
     this.ctx.font = font;
     this.ctx.fillText(text, x, y);
   }
+
+  drawImage(image, x, y, width, height, flipX = false) {
+    this.ctx.save();
+    
+    if (flipX) {
+      // 左右反転の場合
+      this.ctx.translate(x + width, y);
+      this.ctx.scale(-1, 1);
+      this.ctx.drawImage(image, 0, 0, width, height);
+    } else {
+      this.ctx.drawImage(image, x, y, width, height);
+    }
+    
+    this.ctx.restore();
+  }
 }
