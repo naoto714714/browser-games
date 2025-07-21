@@ -6,7 +6,7 @@ import {
   PLAYER_ANIMATION_INTERVAL,
   PLAYER_IMAGE_DEFAULT,
   PLAYER_IMAGE_WALK,
-  GROUND_HEIGHT,
+  GROUND_BLOCK_COUNT,
 } from './constants.js';
 import { Tongue } from './tongue.js';
 import { CollisionManager } from './collision.js';
@@ -19,7 +19,8 @@ export class Player {
     this.width = PLAYER_WIDTH;
     this.height = PLAYER_HEIGHT;
     this.x = canvasWidth / 2 - this.width / 2;
-    this.y = canvasHeight - GROUND_HEIGHT - this.height - PLAYER_GROUND_MARGIN;
+    const groundHeight = canvasHeight / GROUND_BLOCK_COUNT;
+    this.y = canvasHeight - groundHeight - this.height - PLAYER_GROUND_MARGIN;
 
     this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き

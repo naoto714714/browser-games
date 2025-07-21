@@ -1,4 +1,4 @@
-import { GROUND_BLOCK_COUNT, GROUND_HEIGHT, GROUND_BLOCK_GAP, COLORS } from './constants.js';
+import { GROUND_BLOCK_COUNT, COLORS } from './constants.js';
 import { CollisionManager } from './collision.js';
 
 export class Ground {
@@ -7,7 +7,7 @@ export class Ground {
     this.canvasHeight = canvasHeight;
     this.blockCount = GROUND_BLOCK_COUNT;
     this.blockWidth = canvasWidth / this.blockCount;
-    this.blockHeight = GROUND_HEIGHT;
+    this.blockHeight = canvasHeight / this.blockCount;
     this.y = canvasHeight - this.blockHeight;
 
     this.blocks = new Array(this.blockCount).fill(true);
@@ -65,9 +65,8 @@ export class Ground {
   render(renderer) {
     this.blocks.forEach((block, i) => {
       const x = i * this.blockWidth;
-      const width = this.blockWidth - GROUND_BLOCK_GAP;
       const color = block ? COLORS.GROUND_BLOCK : COLORS.GROUND_HOLE;
-      renderer.drawRect(x, this.y, width, this.blockHeight, color);
+      renderer.drawRect(x, this.y, this.blockWidth, this.blockHeight, color);
     });
   }
 }

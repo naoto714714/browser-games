@@ -53,8 +53,6 @@ export const SCORE_ZONES = [
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;
-export const GROUND_HEIGHT = 40;
-export const GROUND_BLOCK_GAP = 1;
 
 // 色
 export const COLORS = {
