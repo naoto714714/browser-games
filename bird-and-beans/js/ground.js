@@ -1,4 +1,4 @@
-import { GROUND_BLOCK_COUNT, COLORS } from './constants.js';
+import { GROUND_BLOCK_COUNT, GROUND_BLOCK_IMAGE, COLORS } from './constants.js';
 import { CollisionManager } from './collision.js';
 
 export class Ground {
@@ -11,6 +11,23 @@ export class Ground {
     this.y = canvasHeight - this.blockHeight;
 
     this.blocks = new Array(this.blockCount).fill(true);
+
+    // ブロック画像の読み込み
+    this.blockImage = null;
+    this.imageLoaded = false;
+    this.loadImage();
+  }
+
+  loadImage() {
+    this.blockImage = new Image();
+    this.blockImage.onload = () => {
+      this.imageLoaded = true;
+    };
+    this.blockImage.onerror = () => {
+      console.warn('Failed to load ground block image');
+      this.imageLoaded = false;
+    };
+    this.blockImage.src = GROUND_BLOCK_IMAGE;
   }
 
   createHole(x) {
@@ -66,7 +83,14 @@ export class Ground {
     this.blocks.forEach((block, i) => {
       if (block) {
         const x = i * this.blockWidth;
-        renderer.drawRect(x, this.y, this.blockWidth, this.blockHeight, COLORS.GROUND_BLOCK);
+        
+        if (this.imageLoaded && this.blockImage) {
+          // 画像が読み込まれている場合は画像を描画
+          renderer.drawImage(this.blockImage, x, this.y, this.blockWidth, this.blockHeight);
+        } else {
+          // フォールバック：画像が読み込まれていない場合は色で描画
+          renderer.drawRect(x, this.y, this.blockWidth, this.blockHeight, COLORS.GROUND_BLOCK);
+        }
       }
       // ブロックがない場合は何も描画しない（背景が見える）
     });
