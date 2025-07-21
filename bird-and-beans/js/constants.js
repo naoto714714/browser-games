@@ -57,7 +57,7 @@ export const GROUND_BLOCK_GAP = 1;
 
 // 色
 export const COLORS = {
-  BACKGROUND: '#f5f5f5',
+  BACKGROUND: '#696969',
   TONGUE: '#ff9999',
   BEAN_NORMAL: '#4ecdc4',
   BEAN_WHITE: '#ffffff',
