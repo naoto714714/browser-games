@@ -5,7 +5,7 @@ export const CANVAS_HEIGHT = 720;
 // プレイヤー関連
 export const PLAYER_WIDTH = 80;
 export const PLAYER_HEIGHT = 80;
-export const PLAYER_SPEED = 5;
+export const PLAYER_SPEED = 10;
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_EYE_OFFSET = 20;
 export const PLAYER_EYE_RADIUS = 6;
