@@ -100,14 +100,21 @@ export class Player {
   }
 
   render(renderer) {
-    renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
+    if (this.imageLoaded && this.image) {
+      // 画像が読み込まれている場合は画像を描画
+      const flipX = this.direction === -1;
+      renderer.drawImage(this.image, this.x, this.y, this.width, this.height, flipX);
+    } else {
+      // フォールバック: 画像が読み込まれていない場合は図形で描画
+      renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
 
-    renderer.drawCircle(
-      this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
-      this.y + PLAYER_EYE_OFFSET,
-      PLAYER_EYE_RADIUS,
-      COLORS.PLAYER_EYE,
-    );
+      renderer.drawCircle(
+        this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
+        this.y + PLAYER_EYE_OFFSET,
+        PLAYER_EYE_RADIUS,
+        COLORS.PLAYER_EYE,
+      );
+    }
 
     this.tongue.render(renderer);
   }
