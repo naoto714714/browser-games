@@ -34,7 +34,7 @@ export class Player {
     // アニメーション状態
     this.isMoving = false;
     this.animationFrame = 0;
-    this.animationSpeed = 8; // フレーム数でアニメーション速度を制御
+    this.animationSpeed = 20; // フレーム数でアニメーション速度を制御
   }
 
   loadImages() {
