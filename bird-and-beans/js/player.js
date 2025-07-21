@@ -26,21 +26,46 @@ export class Player {
     this.tongue = new Tongue();
 
     // 画像の読み込み
-    this.image = null;
-    this.imageLoaded = false;
-    this.loadImage();
+    this.imageDefault = null;
+    this.imageWalk = null;
+    this.imagesLoaded = false;
+    this.loadImages();
+
+    // アニメーション状態
+    this.isMoving = false;
+    this.animationFrame = 0;
+    this.animationSpeed = 8; // フレーム数でアニメーション速度を制御
   }
 
-  loadImage() {
-    this.image = new Image();
-    this.image.onload = () => {
-      this.imageLoaded = true;
+  loadImages() {
+    let loadedCount = 0;
+    const totalImages = 2;
+
+    // デフォルト画像の読み込み
+    this.imageDefault = new Image();
+    this.imageDefault.onload = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        this.imagesLoaded = true;
+      }
     };
-    this.image.onerror = () => {
-      console.warn('Failed to load bird image, falling back to shape rendering');
-      this.imageLoaded = false;
+    this.imageDefault.onerror = () => {
+      console.warn('Failed to load bird default image');
     };
-    this.image.src = 'assets/bird_default.png';
+    this.imageDefault.src = 'assets/bird_default.png';
+
+    // 歩行画像の読み込み
+    this.imageWalk = new Image();
+    this.imageWalk.onload = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        this.imagesLoaded = true;
+      }
+    };
+    this.imageWalk.onerror = () => {
+      console.warn('Failed to load bird walk image');
+    };
+    this.imageWalk.src = 'assets/bird_walk.png';
   }
 
   moveLeft(ground) {
