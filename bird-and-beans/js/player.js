@@ -5,6 +5,9 @@ import {
   PLAYER_GROUND_MARGIN,
   PLAYER_EYE_OFFSET,
   PLAYER_EYE_RADIUS,
+  PLAYER_ANIMATION_INTERVAL,
+  PLAYER_IMAGE_DEFAULT,
+  PLAYER_IMAGE_WALK,
   GROUND_HEIGHT,
   COLORS,
 } from './constants.js';
@@ -34,7 +37,6 @@ export class Player {
     // アニメーション状態
     this.isMoving = false;
     this.animationTimer = 0;
-    this.animationInterval = 200; // ミリ秒単位でアニメーション間隔を制御
   }
 
   loadImages() {
@@ -56,8 +58,8 @@ export class Player {
       return img;
     };
 
-    this.imageDefault = loadImage('assets/bird_default.png', 'Failed to load bird default image');
-    this.imageWalk = loadImage('assets/bird_walk.png', 'Failed to load bird walk image');
+    this.imageDefault = loadImage(PLAYER_IMAGE_DEFAULT, 'Failed to load bird default image');
+    this.imageWalk = loadImage(PLAYER_IMAGE_WALK, 'Failed to load bird walk image');
   }
 
   moveLeft(ground) {
@@ -136,8 +138,8 @@ export class Player {
 
       // 移動中はアニメーション
       if (this.isMoving) {
-        // animationIntervalミリ秒ごとに画像を切り替え
-        const showWalkImage = Math.floor(this.animationTimer / this.animationInterval) % 2 === 1;
+        // PLAYER_ANIMATION_INTERVALミリ秒ごとに画像を切り替え
+        const showWalkImage = Math.floor(this.animationTimer / PLAYER_ANIMATION_INTERVAL) % 2 === 1;
         imageToRender = showWalkImage ? this.imageWalk : this.imageDefault;
       }
 

@@ -9,6 +9,9 @@ export const PLAYER_SPEED = 5;
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_EYE_OFFSET = 10;
 export const PLAYER_EYE_RADIUS = 3;
+export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
+export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
+export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
 
 // 舌関連
 export const TONGUE_MAX_LENGTH = 700;
