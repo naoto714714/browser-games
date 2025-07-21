@@ -24,6 +24,23 @@ export class Player {
     this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き
     this.tongue = new Tongue();
+
+    // 画像の読み込み
+    this.image = null;
+    this.imageLoaded = false;
+    this.loadImage();
+  }
+
+  loadImage() {
+    this.image = new Image();
+    this.image.onload = () => {
+      this.imageLoaded = true;
+    };
+    this.image.onerror = () => {
+      console.warn('Failed to load bird image, falling back to shape rendering');
+      this.imageLoaded = false;
+    };
+    this.image.src = 'assets/bird_default.png';
   }
 
   moveLeft(ground) {
