@@ -53,7 +53,7 @@ export const SCORE_ZONES = [
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;
-export const GROUND_BLOCK_IMAGE = 'assets/床ブロック.png';
+export const GROUND_BLOCK_IMAGE = 'assets/floor-block.png';
 
 // 色
 export const COLORS = {
