@@ -109,10 +109,22 @@ export class Player {
   }
 
   update(inputManager, ground) {
+    // 移動状態の更新
+    this.isMoving = false;
+
     if (inputManager.isLeftPressed()) {
       this.moveLeft(ground);
+      this.isMoving = true;
     } else if (inputManager.isRightPressed()) {
       this.moveRight(ground);
+      this.isMoving = true;
+    }
+
+    // アニメーションフレームの更新
+    if (this.isMoving) {
+      this.animationFrame++;
+    } else {
+      this.animationFrame = 0;
     }
 
     if (inputManager.isSpaceJustPressed() && !this.tongue.active) {
@@ -125,10 +137,19 @@ export class Player {
   }
 
   render(renderer) {
-    if (this.imageLoaded && this.image) {
-      // 画像が読み込まれている場合は画像を描画
+    if (this.imagesLoaded && this.imageDefault && this.imageWalk) {
+      // 画像が読み込まれている場合
       const flipX = this.direction === -1;
-      renderer.drawImage(this.image, this.x, this.y, this.width, this.height, flipX);
+      let imageToRender = this.imageDefault;
+
+      // 移動中はアニメーション
+      if (this.isMoving) {
+        // animationSpeedフレームごとに画像を切り替え
+        const showWalkImage = Math.floor(this.animationFrame / this.animationSpeed) % 2 === 1;
+        imageToRender = showWalkImage ? this.imageWalk : this.imageDefault;
+      }
+
+      renderer.drawImage(imageToRender, this.x, this.y, this.width, this.height, flipX);
     } else {
       // フォールバック: 画像が読み込まれていない場合は図形で描画
       renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
