@@ -41,31 +41,23 @@ export class Player {
     let loadedCount = 0;
     const totalImages = 2;
 
-    // デフォルト画像の読み込み
-    this.imageDefault = new Image();
-    this.imageDefault.onload = () => {
+    const checkAllImagesLoaded = () => {
       loadedCount++;
       if (loadedCount === totalImages) {
         this.imagesLoaded = true;
       }
     };
-    this.imageDefault.onerror = () => {
-      console.warn('Failed to load bird default image');
-    };
-    this.imageDefault.src = 'assets/bird_default.png';
 
-    // 歩行画像の読み込み
-    this.imageWalk = new Image();
-    this.imageWalk.onload = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
-        this.imagesLoaded = true;
-      }
+    const loadImage = (src, errorMessage) => {
+      const img = new Image();
+      img.onload = checkAllImagesLoaded;
+      img.onerror = () => console.warn(errorMessage);
+      img.src = src;
+      return img;
     };
-    this.imageWalk.onerror = () => {
-      console.warn('Failed to load bird walk image');
-    };
-    this.imageWalk.src = 'assets/bird_walk.png';
+
+    this.imageDefault = loadImage('assets/bird_default.png', 'Failed to load bird default image');
+    this.imageWalk = loadImage('assets/bird_walk.png', 'Failed to load bird walk image');
   }
 
   moveLeft(ground) {
