@@ -2,11 +2,9 @@ import {
   PLAYER_WIDTH,
   PLAYER_HEIGHT,
   PLAYER_SPEED,
-  PLAYER_GROUND_MARGIN,
   PLAYER_ANIMATION_INTERVAL,
   PLAYER_IMAGE_DEFAULT,
   PLAYER_IMAGE_WALK,
-  GROUND_BLOCK_COUNT,
 } from './constants.js';
 import { Tongue } from './tongue.js';
 import { CollisionManager } from './collision.js';
@@ -19,8 +17,8 @@ export class Player {
     this.width = PLAYER_WIDTH;
     this.height = PLAYER_HEIGHT;
     this.x = canvasWidth / 2 - this.width / 2;
-    const groundHeight = canvasWidth / GROUND_BLOCK_COUNT; // 正方形ブロックの高さ
-    this.y = canvasHeight - groundHeight - this.height - PLAYER_GROUND_MARGIN;
+    // Y座標は後でsetGroundPositionで設定される
+    this.y = 0;
 
     this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き
@@ -92,6 +90,10 @@ export class Player {
 
   retractTongue() {
     this.tongue.retract();
+  }
+
+  setGroundPosition(ground) {
+    this.y = ground.getTopY() - this.height;
   }
 
   updateTongue() {
