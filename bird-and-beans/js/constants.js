@@ -24,7 +24,7 @@ export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定�
 // マメ関連
 export const BEAN_WIDTH = 20;
 export const BEAN_HEIGHT = 20;
-export const BEAN_BASE_SPEED = 2;
+export const BEAN_BASE_SPEED = 3;
 export const BEAN_MIN_SCORE = 10;
 export const BEAN_MAX_SCORE = 300;
 export const BEAN_FLASH_INTERVAL = 200;
