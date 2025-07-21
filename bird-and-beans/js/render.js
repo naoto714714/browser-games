@@ -39,7 +39,7 @@ export class Renderer {
 
   drawImage(image, x, y, width, height, flipX = false) {
     this.ctx.save();
-    
+
     if (flipX) {
       // 左右反転の場合
       this.ctx.translate(x + width, y);
@@ -48,7 +48,7 @@ export class Renderer {
     } else {
       this.ctx.drawImage(image, x, y, width, height);
     }
-    
+
     this.ctx.restore();
   }
 }
