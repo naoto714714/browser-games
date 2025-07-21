@@ -44,13 +44,11 @@ export const BEAN_SPAWN_PROBABILITY = {
 // スコアゾーン関連
 // 画面高さ720px - 上下40px = 640pxを5分割（各128px）
 export const SCORE_ZONES = [
-  { maxHeight: 40, score: 1000 },    // 最上部ボーナスゾーン: 0〜40px
-  { maxHeight: 168, score: 300 },    // ゾーン1: 40〜168px (128px幅)
-  { maxHeight: 296, score: 200 },    // ゾーン2: 168〜296px (128px幅)
+  { maxHeight: 168, score: 1000 },   // 最上部ゾーン: 0〜168px (40px + 128px)
+  { maxHeight: 296, score: 300 },    // ゾーン2: 168〜296px (128px幅)
   { maxHeight: 424, score: 100 },    // ゾーン3: 296〜424px (128px幅)
   { maxHeight: 552, score: 50 },     // ゾーン4: 424〜552px (128px幅)
-  { maxHeight: 680, score: 30 },     // ゾーン5: 552〜680px (128px幅)
-  { maxHeight: Infinity, score: 10 }, // 最下部ボーナスゾーン: 680px〜
+  { maxHeight: Infinity, score: 10 }, // ゾーン5: 552px〜 (128px + 40px)
 ];
 
 // 地面関連
