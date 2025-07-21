@@ -7,8 +7,6 @@ export const PLAYER_WIDTH = 80;
 export const PLAYER_HEIGHT = 80;
 export const PLAYER_SPEED = 10;
 export const PLAYER_GROUND_MARGIN = 10;
-export const PLAYER_EYE_OFFSET = 20;
-export const PLAYER_EYE_RADIUS = 6;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
 export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
 export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
@@ -60,8 +58,6 @@ export const GROUND_BLOCK_GAP = 1;
 // 色
 export const COLORS = {
   BACKGROUND: '#1a1a1a',
-  PLAYER: '#ff6b6b',
-  PLAYER_EYE: '#ffffff',
   TONGUE: '#ff9999',
   BEAN_NORMAL: '#4ecdc4',
   BEAN_WHITE: '#ffffff',
