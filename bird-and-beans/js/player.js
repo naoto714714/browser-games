@@ -5,6 +5,9 @@ import {
   PLAYER_GROUND_MARGIN,
   PLAYER_EYE_OFFSET,
   PLAYER_EYE_RADIUS,
+  PLAYER_ANIMATION_INTERVAL,
+  PLAYER_IMAGE_DEFAULT,
+  PLAYER_IMAGE_WALK,
   GROUND_HEIGHT,
   COLORS,
 } from './constants.js';
@@ -24,6 +27,39 @@ export class Player {
     this.speed = PLAYER_SPEED;
     this.direction = 1; // 1: 右向き, -1: 左向き
     this.tongue = new Tongue();
+
+    // 画像の読み込み
+    this.imageDefault = null;
+    this.imageWalk = null;
+    this.imagesLoaded = false;
+    this.loadImages();
+
+    // アニメーション状態
+    this.isMoving = false;
+    this.animationTimer = 0;
+  }
+
+  loadImages() {
+    let loadedCount = 0;
+    const totalImages = 2;
+
+    const checkAllImagesLoaded = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        this.imagesLoaded = true;
+      }
+    };
+
+    const loadImage = (src, errorMessage) => {
+      const img = new Image();
+      img.onload = checkAllImagesLoaded;
+      img.onerror = () => console.warn(errorMessage);
+      img.src = src;
+      return img;
+    };
+
+    this.imageDefault = loadImage(PLAYER_IMAGE_DEFAULT, 'Failed to load bird default image');
+    this.imageWalk = loadImage(PLAYER_IMAGE_WALK, 'Failed to load bird walk image');
   }
 
   moveLeft(ground) {
@@ -66,11 +102,23 @@ export class Player {
     this.tongue.update(centerX, centerY, this.direction);
   }
 
-  update(inputManager, ground) {
+  update(inputManager, ground, deltaTime = 16) {
+    // 移動状態の更新
+    this.isMoving = false;
+
     if (inputManager.isLeftPressed()) {
       this.moveLeft(ground);
+      this.isMoving = true;
     } else if (inputManager.isRightPressed()) {
       this.moveRight(ground);
+      this.isMoving = true;
+    }
+
+    // アニメーションタイマーの更新
+    if (this.isMoving) {
+      this.animationTimer += deltaTime;
+    } else {
+      this.animationTimer = 0;
     }
 
     if (inputManager.isSpaceJustPressed() && !this.tongue.active) {
@@ -83,14 +131,30 @@ export class Player {
   }
 
   render(renderer) {
-    renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
+    if (this.imagesLoaded && this.imageDefault && this.imageWalk) {
+      // 画像が読み込まれている場合
+      const flipX = this.direction === -1;
+      let imageToRender = this.imageDefault;
 
-    renderer.drawCircle(
-      this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
-      this.y + PLAYER_EYE_OFFSET,
-      PLAYER_EYE_RADIUS,
-      COLORS.PLAYER_EYE,
-    );
+      // 移動中はアニメーション
+      if (this.isMoving) {
+        // PLAYER_ANIMATION_INTERVALミリ秒ごとに画像を切り替え
+        const showWalkImage = Math.floor(this.animationTimer / PLAYER_ANIMATION_INTERVAL) % 2 === 1;
+        imageToRender = showWalkImage ? this.imageWalk : this.imageDefault;
+      }
+
+      renderer.drawImage(imageToRender, this.x, this.y, this.width, this.height, flipX);
+    } else {
+      // フォールバック: 画像が読み込まれていない場合は図形で描画
+      renderer.drawRect(this.x, this.y, this.width, this.height, COLORS.PLAYER);
+
+      renderer.drawCircle(
+        this.x + this.width / 2 + this.direction * PLAYER_EYE_OFFSET,
+        this.y + PLAYER_EYE_OFFSET,
+        PLAYER_EYE_RADIUS,
+        COLORS.PLAYER_EYE,
+      );
+    }
 
     this.tongue.render(renderer);
   }

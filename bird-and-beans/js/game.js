@@ -47,7 +47,7 @@ export class Game {
   }
 
   update(deltaTime) {
-    this.player.update(this.inputManager, this.ground);
+    this.player.update(this.inputManager, this.ground, deltaTime);
     this.beanManager.update(deltaTime, this.frameCount);
     this.scoreEffectManager.update();
     this.inputManager.update();
