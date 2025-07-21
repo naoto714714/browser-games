@@ -15,7 +15,7 @@ export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
 
 // 舌関連
 export const TONGUE_MAX_LENGTH = 700;
-export const TONGUE_EXTEND_SPEED = 20;
+export const TONGUE_EXTEND_SPEED = 30;
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
 export const TONGUE_CHECK_INTERVAL = 5;
