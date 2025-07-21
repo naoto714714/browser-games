@@ -8,6 +8,24 @@ export class ScoreEffect {
     this.createdAt = Date.now();
     this.duration = SCORE_EFFECT_DURATION;
     this.active = true;
+    this.color = this.getColorByScore(score);
+  }
+
+  getColorByScore(score) {
+    switch (score) {
+      case 10:
+        return COLORS.SCORE_EFFECT_10;
+      case 50:
+        return COLORS.SCORE_EFFECT_50;
+      case 100:
+        return COLORS.SCORE_EFFECT_100;
+      case 300:
+        return COLORS.SCORE_EFFECT_300;
+      case 1000:
+        return COLORS.SCORE_EFFECT_1000;
+      default:
+        return COLORS.SCORE_EFFECT;
+    }
   }
 
   update() {
@@ -20,8 +38,8 @@ export class ScoreEffect {
   render(renderer) {
     if (!this.active) return;
 
-    // スコアテキストを白色で表示
-    renderer.drawText(this.score.toString(), this.x, this.y, COLORS.SCORE_EFFECT, FONTS.SCORE_EFFECT);
+    // スコアテキストをスコアに応じた色で表示
+    renderer.drawText(this.score.toString(), this.x, this.y, this.color, FONTS.SCORE_EFFECT);
   }
 }
 

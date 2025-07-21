@@ -67,6 +67,11 @@ export const COLORS = {
   GROUND_BLOCK: '#333333',
   GROUND_HOLE: '#000000',
   SCORE_EFFECT: '#ffffff',
+  SCORE_EFFECT_10: '#ff0000',   // 赤
+  SCORE_EFFECT_50: '#0000ff',   // 青
+  SCORE_EFFECT_100: '#ffffff',  // 白
+  SCORE_EFFECT_300: '#00ff00',  // 緑
+  SCORE_EFFECT_1000: '#ffd700', // ゴールド
 };
 
 // オーディオ関連
