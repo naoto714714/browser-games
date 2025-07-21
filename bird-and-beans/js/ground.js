@@ -64,9 +64,11 @@ export class Ground {
 
   render(renderer) {
     this.blocks.forEach((block, i) => {
-      const x = i * this.blockWidth;
-      const color = block ? COLORS.GROUND_BLOCK : COLORS.GROUND_HOLE;
-      renderer.drawRect(x, this.y, this.blockWidth, this.blockHeight, color);
+      if (block) {
+        const x = i * this.blockWidth;
+        renderer.drawRect(x, this.y, this.blockWidth, this.blockHeight, COLORS.GROUND_BLOCK);
+      }
+      // ブロックがない場合は何も描画しない（背景が見える）
     });
   }
 }

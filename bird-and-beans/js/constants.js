@@ -63,7 +63,6 @@ export const COLORS = {
   BEAN_FLASHING_1: '#ffd93d',
   BEAN_FLASHING_2: '#ff6b6b',
   GROUND_BLOCK: '#333333',
-  GROUND_HOLE: '#000000',
   SCORE_EFFECT: '#ffffff',
   SCORE_EFFECT_10: '#ff0000',   // 赤
   SCORE_EFFECT_50: '#0000ff',   // 青
