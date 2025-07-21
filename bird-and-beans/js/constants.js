@@ -3,8 +3,8 @@ export const CANVAS_WIDTH = 1280;
 export const CANVAS_HEIGHT = 720;
 
 // プレイヤー関連
-export const PLAYER_WIDTH = 80;
-export const PLAYER_HEIGHT = 80;
+export const PLAYER_WIDTH = 60;
+export const PLAYER_HEIGHT = 60;
 export const PLAYER_SPEED = 10;
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
@@ -42,12 +42,15 @@ export const BEAN_SPAWN_PROBABILITY = {
 };
 
 // スコアゾーン関連
+// 画面高さ720px - 上下40px = 640pxを5分割（各128px）
 export const SCORE_ZONES = [
-  { maxHeight: 144, score: 1000 }, // 最上部ゾーン: 0〜144px
-  { maxHeight: 288, score: 300 }, // 上部ゾーン: 144〜288px
-  { maxHeight: 432, score: 100 }, // 中部ゾーン: 288〜432px
-  { maxHeight: 576, score: 50 }, // 下部ゾーン: 432〜576px
-  { maxHeight: Infinity, score: 10 }, // 最下部ゾーン: 576px〜
+  { maxHeight: 40, score: 1000 },    // 最上部ボーナスゾーン: 0〜40px
+  { maxHeight: 168, score: 300 },    // ゾーン1: 40〜168px (128px幅)
+  { maxHeight: 296, score: 200 },    // ゾーン2: 168〜296px (128px幅)
+  { maxHeight: 424, score: 100 },    // ゾーン3: 296〜424px (128px幅)
+  { maxHeight: 552, score: 50 },     // ゾーン4: 424〜552px (128px幅)
+  { maxHeight: 680, score: 30 },     // ゾーン5: 552〜680px (128px幅)
+  { maxHeight: Infinity, score: 10 }, // 最下部ボーナスゾーン: 680px〜
 ];
 
 // 地面関連
