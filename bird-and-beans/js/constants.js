@@ -1,6 +1,6 @@
 // 画面サイズ
-export const CANVAS_WIDTH = 1280;
-export const CANVAS_HEIGHT = 720;
+export const CANVAS_WIDTH = 800;
+export const CANVAS_HEIGHT = 600;
 
 // プレイヤー関連
 export const PLAYER_WIDTH = 60;
