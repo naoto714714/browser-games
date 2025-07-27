@@ -84,7 +84,7 @@ export const AUDIO_TYPES = {
 
 // フォント
 export const FONTS = {
-  SCORE_EFFECT: '20px Arial',
+  SCORE_EFFECT: '16px "Press Start 2P"',
 };
 
 // スコアエフェクト関連
