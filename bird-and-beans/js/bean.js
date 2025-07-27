@@ -140,7 +140,15 @@ export class BeanManager {
     const x = this.getRandomSpawnX();
     const type = this.getRandomBeanType();
     this.beans.push(
-      new Bean(x, -BEAN_SPAWN_MARGIN, this.dimensions.beanWidth, this.dimensions.beanHeight, type, this.canvasWidth, this.canvasHeight)
+      new Bean(
+        x,
+        -BEAN_SPAWN_MARGIN,
+        this.dimensions.beanWidth,
+        this.dimensions.beanHeight,
+        type,
+        this.canvasWidth,
+        this.canvasHeight,
+      ),
     );
   }
 
