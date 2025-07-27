@@ -3,7 +3,7 @@ export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
 
 // プレイヤー関連
-export const PLAYER_SPEED = 10;
+export const PLAYER_SPEED = 10 / 3; // 1/3に調整
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
 export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
@@ -11,14 +11,14 @@ export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
 
 // 舌関連
 export const TONGUE_MAX_LENGTH = 700; // 画面サイズ800x600に合わせて調整
-export const TONGUE_EXTEND_SPEED = 30;
+export const TONGUE_EXTEND_SPEED = 30 / 2; // 1/2に調整
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
 export const TONGUE_CHECK_INTERVAL = 5;
 export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定と描画用）
 
 // マメ関連
-export const BEAN_BASE_SPEED = 3;
+export const BEAN_BASE_SPEED = 3 / 2; // 1/2に調整
 export const BEAN_MIN_SCORE = 10;
 export const BEAN_MAX_SCORE = 300;
 export const BEAN_FLASH_INTERVAL = 200;
