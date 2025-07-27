@@ -41,21 +41,6 @@ export const BEAN_SPAWN_PROBABILITY = {
   WHITE: 0.15,
 };
 
-// スコアゾーン関連
-// 動的に計算される関数
-export const calculateScoreZones = (canvasWidth, canvasHeight) => {
-  const blockHeight = canvasWidth / GROUND_BLOCK_COUNT;
-  const remainingHeight = canvasHeight - blockHeight * 2;
-  const zoneHeight = remainingHeight / 5;
-
-  return [
-    { maxHeight: blockHeight + zoneHeight, score: 1000 }, // 最上部ゾーン
-    { maxHeight: blockHeight + zoneHeight * 2, score: 300 }, // ゾーン2
-    { maxHeight: blockHeight + zoneHeight * 3, score: 100 }, // ゾーン3
-    { maxHeight: blockHeight + zoneHeight * 4, score: 50 }, // ゾーン4
-    { maxHeight: Infinity, score: 10 }, // ゾーン5（最下部）
-  ];
-};
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;

@@ -13,8 +13,23 @@ import {
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
-  calculateScoreZones,
+  GROUND_BLOCK_COUNT,
 } from './constants.js';
+
+// スコアゾーンの計算
+const calculateScoreZones = (canvasWidth, canvasHeight) => {
+  const blockHeight = canvasWidth / GROUND_BLOCK_COUNT;
+  const remainingHeight = canvasHeight - blockHeight * 2;
+  const zoneHeight = remainingHeight / 5;
+
+  return [
+    { maxHeight: blockHeight + zoneHeight, score: 1000 }, // 最上部ゾーン
+    { maxHeight: blockHeight + zoneHeight * 2, score: 300 }, // ゾーン2
+    { maxHeight: blockHeight + zoneHeight * 3, score: 100 }, // ゾーン3
+    { maxHeight: blockHeight + zoneHeight * 4, score: 50 }, // ゾーン4
+    { maxHeight: Infinity, score: 10 }, // ゾーン5（最下部）
+  ];
+};
 
 export class Bean {
   constructor(x, y, type = 'normal') {
