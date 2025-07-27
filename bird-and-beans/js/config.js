@@ -3,7 +3,7 @@ export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
 
 // プレイヤー関連
-export const PLAYER_SPEED = 3.3;
+export const PLAYER_SPEED = 5;
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
 export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
@@ -18,7 +18,7 @@ export const TONGUE_CHECK_INTERVAL = 5;
 export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定と描画用）
 
 // マメ関連
-export const BEAN_BASE_SPEED = 1.5;
+export const BEAN_BASE_SPEED = 2;
 export const BEAN_MIN_SCORE = 10;
 export const BEAN_MAX_SCORE = 300;
 export const BEAN_FLASH_INTERVAL = 200;
