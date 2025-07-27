@@ -7,9 +7,8 @@ export class Ground {
     this.canvasHeight = canvasHeight;
     this.blockCount = GROUND_BLOCK_COUNT;
     const dimensions = calculateDimensions(canvasWidth, canvasHeight);
-    this.blockWidth = dimensions.blockWidth;
-    this.blockHeight = dimensions.blockHeight;
-    this.y = canvasHeight - this.blockHeight;
+    this.blockSize = dimensions.blockSize;
+    this.y = canvasHeight - this.blockSize;
 
     this.blocks = new Array(this.blockCount).fill(true);
 
@@ -32,14 +31,14 @@ export class Ground {
   }
 
   createHole(x) {
-    const blockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
+    const blockIndex = CollisionManager.getBlockIndexFromX(x, this.blockSize);
     if (CollisionManager.isWithinBounds(blockIndex, 0, this.blockCount)) {
       this.blocks[blockIndex] = false;
     }
   }
 
   fillHole(x) {
-    const blockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
+    const blockIndex = CollisionManager.getBlockIndexFromX(x, this.blockSize);
     if (CollisionManager.isWithinBounds(blockIndex, 0, this.blockCount)) {
       this.blocks[blockIndex] = true;
     }
@@ -65,8 +64,8 @@ export class Ground {
   }
 
   canPlayerMoveTo(x, width) {
-    const leftBlockIndex = CollisionManager.getBlockIndexFromX(x, this.blockWidth);
-    const rightBlockIndex = CollisionManager.getBlockIndexFromX(x + width - 1, this.blockWidth);
+    const leftBlockIndex = CollisionManager.getBlockIndexFromX(x, this.blockSize);
+    const rightBlockIndex = CollisionManager.getBlockIndexFromX(x + width - 1, this.blockSize);
 
     return this.areBlocksSolid(leftBlockIndex, rightBlockIndex);
   }
@@ -87,14 +86,14 @@ export class Ground {
   render(renderer) {
     this.blocks.forEach((block, i) => {
       if (block) {
-        const x = i * this.blockWidth;
+        const x = i * this.blockSize;
 
         if (this.imageLoaded && this.blockImage) {
           // 画像が読み込まれている場合は画像を描画
-          renderer.drawImage(this.blockImage, x, this.y, this.blockWidth, this.blockHeight);
+          renderer.drawImage(this.blockImage, x, this.y, this.blockSize, this.blockSize);
         } else {
           // フォールバック：画像が読み込まれていない場合は色で描画
-          renderer.drawRect(x, this.y, this.blockWidth, this.blockHeight, COLORS.GROUND_BLOCK);
+          renderer.drawRect(x, this.y, this.blockSize, this.blockSize, COLORS.GROUND_BLOCK);
         }
       }
       // ブロックがない場合は何も描画しない（背景が見える）

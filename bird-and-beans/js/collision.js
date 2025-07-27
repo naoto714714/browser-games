@@ -30,8 +30,8 @@ export class CollisionManager {
     return false;
   }
 
-  static getBlockIndexFromX(x, blockWidth) {
-    return Math.floor(x / blockWidth);
+  static getBlockIndexFromX(x, blockSize) {
+    return Math.floor(x / blockSize);
   }
 
   static isWithinBounds(index, min, max) {

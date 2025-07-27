@@ -98,8 +98,6 @@ export const calculateDimensions = (canvasWidth = CANVAS_WIDTH, canvasHeight = C
   const blockSize = canvasWidth / GROUND_BLOCK_COUNT;
   return {
     blockSize,
-    blockWidth: blockSize,
-    blockHeight: blockSize,
     playerWidth: blockSize * 1.5,
     playerHeight: blockSize * 1.5,
     beanWidth: blockSize,
