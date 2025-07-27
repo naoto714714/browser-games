@@ -6,13 +6,14 @@ import {
   BEAN_SPAWN_MARGIN,
   BEAN_SPAWN_PROBABILITY,
   CANVAS_HEIGHT,
+  CANVAS_WIDTH,
   COLORS,
   INITIAL_SPAWN_INTERVAL,
   MIN_SPAWN_INTERVAL,
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
-  SCORE_ZONES,
+  calculateScoreZones,
 } from './constants.js';
 
 export class Bean {
@@ -55,13 +56,14 @@ export class Bean {
   }
 
   getScore(catchY) {
-    for (const zone of SCORE_ZONES) {
+    const scoreZones = calculateScoreZones(CANVAS_WIDTH, CANVAS_HEIGHT);
+    for (const zone of scoreZones) {
       if (catchY < zone.maxHeight) {
         return zone.score;
       }
     }
     // これは実際には到達しないはず（最後のゾーンがInfinity）
-    return SCORE_ZONES[SCORE_ZONES.length - 1].score;
+    return scoreZones[scoreZones.length - 1].score;
   }
 }
 
