@@ -5,7 +5,7 @@ import {
   TONGUE_WIDTH,
   TONGUE_TIP_RADIUS,
   COLORS,
-} from './constants.js';
+} from './config.js';
 import { CollisionManager } from './collision.js';
 
 export class Tongue {

@@ -1,4 +1,4 @@
-import { GROUND_BLOCK_COUNT, GROUND_BLOCK_IMAGE, COLORS } from './constants.js';
+import { GROUND_BLOCK_COUNT, GROUND_BLOCK_IMAGE, COLORS } from './config.js';
 import { CollisionManager } from './collision.js';
 
 export class Ground {

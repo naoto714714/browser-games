@@ -1,6 +1,4 @@
 import {
-  BEAN_WIDTH,
-  BEAN_HEIGHT,
   BEAN_BASE_SPEED,
   BEAN_FLASH_INTERVAL,
   BEAN_SPAWN_MARGIN,
@@ -14,7 +12,8 @@ import {
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
   GROUND_BLOCK_COUNT,
-} from './constants.js';
+  calculateDimensions,
+} from './config.js';
 
 // スコアゾーンの計算
 const calculateScoreZones = (canvasWidth, canvasHeight) => {
@@ -35,8 +34,9 @@ export class Bean {
   constructor(x, y, type = 'normal') {
     this.x = x;
     this.y = y;
-    this.width = BEAN_WIDTH;
-    this.height = BEAN_HEIGHT;
+    const dimensions = calculateDimensions();
+    this.width = dimensions.beanWidth;
+    this.height = dimensions.beanHeight;
     this.type = type; // 'normal', 'white', 'flashing'
     this.speed = BEAN_BASE_SPEED;
     this.active = true;
@@ -136,7 +136,8 @@ export class BeanManager {
   }
 
   getRandomSpawnX() {
-    return Math.random() * (this.canvasWidth - BEAN_WIDTH);
+    const dimensions = calculateDimensions();
+    return Math.random() * (this.canvasWidth - dimensions.beanWidth);
   }
 
   getRandomBeanType() {

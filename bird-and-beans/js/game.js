@@ -5,7 +5,7 @@ import { BeanManager } from './bean.js';
 import { Ground } from './ground.js';
 import { AudioManager } from './audio.js';
 import { ScoreEffectManager } from './scoreEffect.js';
-import { HIGH_SCORE_KEY } from './constants.js';
+import { HIGH_SCORE_KEY } from './config.js';
 
 export class Game {
   constructor(canvas, ctx) {
