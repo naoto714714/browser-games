@@ -41,7 +41,6 @@ export const BEAN_SPAWN_PROBABILITY = {
   WHITE: 0.15,
 };
 
-
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;
 export const GROUND_BLOCK_IMAGE = 'assets/floor-block.png';
