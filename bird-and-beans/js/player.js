@@ -10,6 +10,11 @@ import { Tongue } from './tongue.js';
 import { CollisionManager } from './collision.js';
 
 export class Player {
+  /**
+   * プレイヤーのコンストラクタ
+   * 注意: 生成後は必ずsetGroundPosition()を呼び出してください。
+   * 呼び出さない場合、プレイヤーは画面上部(y=0)に配置されます。
+   */
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
