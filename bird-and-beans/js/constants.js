@@ -12,7 +12,7 @@ export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
 export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
 
 // 舌関連
-export const TONGUE_MAX_LENGTH = 1000;
+export const TONGUE_MAX_LENGTH = 700; // 画面サイズ800x600に合わせて調整
 export const TONGUE_EXTEND_SPEED = 30;
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
