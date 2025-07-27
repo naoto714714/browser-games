@@ -79,6 +79,10 @@ export class Ground {
     return true;
   }
 
+  getTopY() {
+    return this.y;
+  }
+
   render(renderer) {
     this.blocks.forEach((block, i) => {
       if (block) {

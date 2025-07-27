@@ -20,9 +20,10 @@ export class Game {
     this.lastTime = 0;
 
     this.inputManager = new InputManager();
-    this.player = new Player(canvas.width, canvas.height);
-    this.beanManager = new BeanManager(canvas.width);
     this.ground = new Ground(canvas.width, canvas.height);
+    this.player = new Player(canvas.width, canvas.height);
+    this.player.setGroundPosition(this.ground);
+    this.beanManager = new BeanManager(canvas.width);
     this.audioManager = new AudioManager();
     this.scoreEffectManager = new ScoreEffectManager();
 
@@ -113,9 +114,10 @@ export class Game {
     this.gameOver = false;
     this.frameCount = 0;
 
-    this.player = new Player(this.canvas.width, this.canvas.height);
-    this.beanManager.reset();
     this.ground = new Ground(this.canvas.width, this.canvas.height);
+    this.player = new Player(this.canvas.width, this.canvas.height);
+    this.player.setGroundPosition(this.ground);
+    this.beanManager.reset();
     this.scoreEffectManager.reset();
 
     this.updateUI();
