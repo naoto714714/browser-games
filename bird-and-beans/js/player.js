@@ -1,11 +1,10 @@
 import {
-  PLAYER_WIDTH,
-  PLAYER_HEIGHT,
   PLAYER_SPEED,
   PLAYER_ANIMATION_INTERVAL,
   PLAYER_IMAGE_DEFAULT,
   PLAYER_IMAGE_WALK,
-} from './constants.js';
+  calculateDimensions,
+} from './config.js';
 import { Tongue } from './tongue.js';
 import { CollisionManager } from './collision.js';
 
@@ -19,8 +18,10 @@ export class Player {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.width = PLAYER_WIDTH;
-    this.height = PLAYER_HEIGHT;
+    // ブロックサイズと同じサイズに設定
+    const dimensions = calculateDimensions(canvasWidth, canvasHeight);
+    this.width = dimensions.playerWidth;
+    this.height = dimensions.playerHeight;
     this.x = canvasWidth / 2 - this.width / 2;
     // Y座標は後でsetGroundPositionで設定される
     this.y = 0;

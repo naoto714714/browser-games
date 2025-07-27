@@ -1,4 +1,4 @@
-import { COLORS, FONTS, SCORE_EFFECT_DURATION } from './constants.js';
+import { COLORS, FONTS, SCORE_EFFECT_DURATION } from './config.js';
 
 export class ScoreEffect {
   constructor(x, y, score) {

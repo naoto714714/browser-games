@@ -1,4 +1,4 @@
-import { COLORS } from './constants.js';
+import { COLORS } from './config.js';
 
 export class Renderer {
   constructor(ctx) {

@@ -5,7 +5,7 @@ import { BeanManager } from './bean.js';
 import { Ground } from './ground.js';
 import { AudioManager } from './audio.js';
 import { ScoreEffectManager } from './scoreEffect.js';
-import { HIGH_SCORE_KEY } from './constants.js';
+import { HIGH_SCORE_KEY } from './config.js';
 
 export class Game {
   constructor(canvas, ctx) {
@@ -23,7 +23,7 @@ export class Game {
     this.ground = new Ground(canvas.width, canvas.height);
     this.player = new Player(canvas.width, canvas.height);
     this.player.setGroundPosition(this.ground);
-    this.beanManager = new BeanManager(canvas.width);
+    this.beanManager = new BeanManager(canvas.width, canvas.height);
     this.audioManager = new AudioManager();
     this.scoreEffectManager = new ScoreEffectManager();
 
@@ -73,7 +73,7 @@ export class Game {
   }
 
   handleBeanCatch(bean) {
-    const score = bean.getScore(bean.y);
+    const score = this.beanManager.getScoreForY(bean.y);
     this.addScore(score);
 
     // スコアエフェクトを追加

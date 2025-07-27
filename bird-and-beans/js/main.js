@@ -1,5 +1,5 @@
 import { Game } from './game.js';
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from './config.js';
 
 let game;
 

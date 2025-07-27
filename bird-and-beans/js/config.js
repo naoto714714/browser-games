@@ -1,28 +1,24 @@
 // 画面サイズ
-export const CANVAS_WIDTH = 1280;
-export const CANVAS_HEIGHT = 720;
+export const CANVAS_WIDTH = 800;
+export const CANVAS_HEIGHT = 600;
 
 // プレイヤー関連
-export const PLAYER_WIDTH = 60;
-export const PLAYER_HEIGHT = 60;
-export const PLAYER_SPEED = 10;
+export const PLAYER_SPEED = 5;
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
 export const PLAYER_IMAGE_DEFAULT = 'assets/bird_default.png';
 export const PLAYER_IMAGE_WALK = 'assets/bird_walk.png';
 
 // 舌関連
-export const TONGUE_MAX_LENGTH = 1000;
-export const TONGUE_EXTEND_SPEED = 30;
+export const TONGUE_MAX_LENGTH = 700; // 画面サイズ800x600に合わせて調整
+export const TONGUE_EXTEND_SPEED = 15;
 export const TONGUE_ANGLE_DEGREES = 45;
 export const TONGUE_WIDTH = 5;
 export const TONGUE_CHECK_INTERVAL = 5;
 export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定と描画用）
 
 // マメ関連
-export const BEAN_WIDTH = 20;
-export const BEAN_HEIGHT = 20;
-export const BEAN_BASE_SPEED = 3;
+export const BEAN_BASE_SPEED = 2;
 export const BEAN_MIN_SCORE = 10;
 export const BEAN_MAX_SCORE = 300;
 export const BEAN_FLASH_INTERVAL = 200;
@@ -40,16 +36,6 @@ export const BEAN_SPAWN_PROBABILITY = {
   FLASHING: 0.05,
   WHITE: 0.15,
 };
-
-// スコアゾーン関連
-// 画面高さ720px - 上下40px = 640pxを5分割（各128px）
-export const SCORE_ZONES = [
-  { maxHeight: 168, score: 1000 }, // 最上部ゾーン: 0〜168px (40px + 128px)
-  { maxHeight: 296, score: 300 }, // ゾーン2: 168〜296px (128px幅)
-  { maxHeight: 424, score: 100 }, // ゾーン3: 296〜424px (128px幅)
-  { maxHeight: 552, score: 50 }, // ゾーン4: 424〜552px (128px幅)
-  { maxHeight: Infinity, score: 10 }, // ゾーン5: 552px〜 (128px + 40px)
-];
 
 // 地面関連
 export const GROUND_BLOCK_COUNT = 30;
@@ -106,3 +92,15 @@ export const SCORE_EFFECT_DURATION = 3000; // 3秒間表示
 
 // ローカルストレージ
 export const HIGH_SCORE_KEY = 'birdAndBeansHighScore';
+
+// 動的に計算される値
+export const calculateDimensions = (canvasWidth = CANVAS_WIDTH, canvasHeight = CANVAS_HEIGHT) => {
+  const blockSize = canvasWidth / GROUND_BLOCK_COUNT;
+  return {
+    blockSize,
+    playerWidth: blockSize * 1.5,
+    playerHeight: blockSize * 1.5,
+    beanWidth: blockSize * 0.8,
+    beanHeight: blockSize * 0.8,
+  };
+};

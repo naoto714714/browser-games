@@ -1,30 +1,47 @@
 import {
-  BEAN_WIDTH,
-  BEAN_HEIGHT,
   BEAN_BASE_SPEED,
   BEAN_FLASH_INTERVAL,
   BEAN_SPAWN_MARGIN,
   BEAN_SPAWN_PROBABILITY,
   CANVAS_HEIGHT,
+  CANVAS_WIDTH,
   COLORS,
   INITIAL_SPAWN_INTERVAL,
   MIN_SPAWN_INTERVAL,
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
-  SCORE_ZONES,
-} from './constants.js';
+  calculateDimensions,
+} from './config.js';
+
+// スコアゾーンの計算
+const calculateScoreZones = (canvasWidth, canvasHeight) => {
+  const dimensions = calculateDimensions(canvasWidth, canvasHeight);
+  const blockSize = dimensions.blockSize;
+  const remainingHeight = canvasHeight - blockSize * 2;
+  const zoneHeight = remainingHeight / 5;
+
+  return [
+    { maxHeight: blockSize + zoneHeight, score: 1000 }, // 最上部ゾーン
+    { maxHeight: blockSize + zoneHeight * 2, score: 300 }, // ゾーン2
+    { maxHeight: blockSize + zoneHeight * 3, score: 100 }, // ゾーン3
+    { maxHeight: blockSize + zoneHeight * 4, score: 50 }, // ゾーン4
+    { maxHeight: Infinity, score: 10 }, // ゾーン5（最下部）
+  ];
+};
 
 export class Bean {
-  constructor(x, y, type = 'normal') {
+  constructor(x, y, width, height, type = 'normal', canvasWidth = null, canvasHeight = null) {
     this.x = x;
     this.y = y;
-    this.width = BEAN_WIDTH;
-    this.height = BEAN_HEIGHT;
+    this.width = width;
+    this.height = height;
     this.type = type; // 'normal', 'white', 'flashing'
     this.speed = BEAN_BASE_SPEED;
     this.active = true;
     this.flashTimer = 0;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
   update(deltaTime) {
@@ -55,19 +72,26 @@ export class Bean {
   }
 
   getScore(catchY) {
-    for (const zone of SCORE_ZONES) {
+    // canvas dimensionsが設定されていない場合はデフォルト値を使用
+    const canvasWidth = this.canvasWidth || CANVAS_WIDTH;
+    const canvasHeight = this.canvasHeight || CANVAS_HEIGHT;
+    const scoreZones = calculateScoreZones(canvasWidth, canvasHeight);
+    for (const zone of scoreZones) {
       if (catchY < zone.maxHeight) {
         return zone.score;
       }
     }
     // これは実際には到達しないはず（最後のゾーンがInfinity）
-    return SCORE_ZONES[SCORE_ZONES.length - 1].score;
+    return scoreZones[scoreZones.length - 1].score;
   }
 }
 
 export class BeanManager {
-  constructor(canvasWidth) {
+  constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.dimensions = calculateDimensions(canvasWidth, canvasHeight);
+    this.scoreZones = calculateScoreZones(canvasWidth, canvasHeight); // スコアゾーンを一度だけ計算
     this.beans = [];
     this.spawnTimer = 0;
     this.spawnInterval = INITIAL_SPAWN_INTERVAL;
@@ -109,17 +133,27 @@ export class BeanManager {
   }
 
   removeInactiveBeans() {
-    this.beans = this.beans.filter((bean) => bean.active && bean.y < CANVAS_HEIGHT);
+    this.beans = this.beans.filter((bean) => bean.active && bean.y < this.canvasHeight);
   }
 
   spawnBean() {
     const x = this.getRandomSpawnX();
     const type = this.getRandomBeanType();
-    this.beans.push(new Bean(x, -BEAN_SPAWN_MARGIN, type));
+    this.beans.push(
+      new Bean(
+        x,
+        -BEAN_SPAWN_MARGIN,
+        this.dimensions.beanWidth,
+        this.dimensions.beanHeight,
+        type,
+        this.canvasWidth,
+        this.canvasHeight,
+      ),
+    );
   }
 
   getRandomSpawnX() {
-    return Math.random() * (this.canvasWidth - BEAN_WIDTH);
+    return Math.random() * (this.canvasWidth - this.dimensions.beanWidth);
   }
 
   getRandomBeanType() {
@@ -172,5 +206,16 @@ export class BeanManager {
     this.spawnTimer = 0;
     this.spawnInterval = INITIAL_SPAWN_INTERVAL;
     this.speedIncrease = 0;
+  }
+
+  getScoreForY(y) {
+    // BeanManagerが計算済みのscoreZonesを使用
+    for (const zone of this.scoreZones) {
+      if (y < zone.maxHeight) {
+        return zone.score;
+      }
+    }
+    // これは実際には到達しないはず（最後のゾーンがInfinity）
+    return this.scoreZones[this.scoreZones.length - 1].score;
   }
 }
