@@ -11,7 +11,6 @@ import {
   SPAWN_INTERVAL_DECREASE_RATE,
   SPEED_INCREASE_RATE,
   DIFFICULTY_INCREASE_FRAMES,
-  GROUND_BLOCK_COUNT,
   calculateDimensions,
 } from './config.js';
 
