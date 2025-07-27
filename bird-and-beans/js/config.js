@@ -100,7 +100,7 @@ export const calculateDimensions = (canvasWidth = CANVAS_WIDTH, canvasHeight = C
     blockSize,
     playerWidth: blockSize * 1.5,
     playerHeight: blockSize * 1.5,
-    beanWidth: blockSize,
-    beanHeight: blockSize,
+    beanWidth: blockSize * 0.8,
+    beanHeight: blockSize * 0.8,
   };
 };
