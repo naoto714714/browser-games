@@ -23,7 +23,7 @@ export class Game {
     this.ground = new Ground(canvas.width, canvas.height);
     this.player = new Player(canvas.width, canvas.height);
     this.player.setGroundPosition(this.ground);
-    this.beanManager = new BeanManager(canvas.width);
+    this.beanManager = new BeanManager(canvas.width, canvas.height);
     this.audioManager = new AudioManager();
     this.scoreEffectManager = new ScoreEffectManager();
 

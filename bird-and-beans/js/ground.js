@@ -1,4 +1,4 @@
-import { GROUND_BLOCK_COUNT, GROUND_BLOCK_IMAGE, COLORS } from './config.js';
+import { GROUND_BLOCK_COUNT, GROUND_BLOCK_IMAGE, COLORS, calculateDimensions } from './config.js';
 import { CollisionManager } from './collision.js';
 
 export class Ground {
@@ -6,8 +6,9 @@ export class Ground {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.blockCount = GROUND_BLOCK_COUNT;
-    this.blockWidth = canvasWidth / this.blockCount;
-    this.blockHeight = this.blockWidth; // 正方形にするため横幅と同じに
+    const dimensions = calculateDimensions(canvasWidth, canvasHeight);
+    this.blockWidth = dimensions.blockWidth;
+    this.blockHeight = dimensions.blockHeight;
     this.y = canvasHeight - this.blockHeight;
 
     this.blocks = new Array(this.blockCount).fill(true);

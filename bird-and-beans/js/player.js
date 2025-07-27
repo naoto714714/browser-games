@@ -19,7 +19,7 @@ export class Player {
     this.canvasHeight = canvasHeight;
 
     // ブロックサイズと同じサイズに設定
-    const dimensions = calculateDimensions();
+    const dimensions = calculateDimensions(canvasWidth, canvasHeight);
     this.width = dimensions.playerWidth;
     this.height = dimensions.playerHeight;
     this.x = canvasWidth / 2 - this.width / 2;

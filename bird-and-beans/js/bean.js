@@ -17,7 +17,8 @@ import {
 
 // スコアゾーンの計算
 const calculateScoreZones = (canvasWidth, canvasHeight) => {
-  const blockHeight = canvasWidth / GROUND_BLOCK_COUNT;
+  const dimensions = calculateDimensions(canvasWidth, canvasHeight);
+  const blockHeight = dimensions.blockHeight;
   const remainingHeight = canvasHeight - blockHeight * 2;
   const zoneHeight = remainingHeight / 5;
 
@@ -31,12 +32,11 @@ const calculateScoreZones = (canvasWidth, canvasHeight) => {
 };
 
 export class Bean {
-  constructor(x, y, type = 'normal') {
+  constructor(x, y, width, height, type = 'normal') {
     this.x = x;
     this.y = y;
-    const dimensions = calculateDimensions();
-    this.width = dimensions.beanWidth;
-    this.height = dimensions.beanHeight;
+    this.width = width;
+    this.height = height;
     this.type = type; // 'normal', 'white', 'flashing'
     this.speed = BEAN_BASE_SPEED;
     this.active = true;
@@ -83,8 +83,10 @@ export class Bean {
 }
 
 export class BeanManager {
-  constructor(canvasWidth) {
+  constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.dimensions = calculateDimensions(canvasWidth, canvasHeight);
     this.beans = [];
     this.spawnTimer = 0;
     this.spawnInterval = INITIAL_SPAWN_INTERVAL;
@@ -126,18 +128,17 @@ export class BeanManager {
   }
 
   removeInactiveBeans() {
-    this.beans = this.beans.filter((bean) => bean.active && bean.y < CANVAS_HEIGHT);
+    this.beans = this.beans.filter((bean) => bean.active && bean.y < this.canvasHeight);
   }
 
   spawnBean() {
     const x = this.getRandomSpawnX();
     const type = this.getRandomBeanType();
-    this.beans.push(new Bean(x, -BEAN_SPAWN_MARGIN, type));
+    this.beans.push(new Bean(x, -BEAN_SPAWN_MARGIN, this.dimensions.beanWidth, this.dimensions.beanHeight, type));
   }
 
   getRandomSpawnX() {
-    const dimensions = calculateDimensions();
-    return Math.random() * (this.canvasWidth - dimensions.beanWidth);
+    return Math.random() * (this.canvasWidth - this.dimensions.beanWidth);
   }
 
   getRandomBeanType() {

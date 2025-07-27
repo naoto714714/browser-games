@@ -94,15 +94,15 @@ export const SCORE_EFFECT_DURATION = 3000; // 3秒間表示
 export const HIGH_SCORE_KEY = 'birdAndBeansHighScore';
 
 // 動的に計算される値
-export const calculateDimensions = () => {
-  const blockSize = CANVAS_WIDTH / GROUND_BLOCK_COUNT;
+export const calculateDimensions = (canvasWidth = CANVAS_WIDTH, canvasHeight = CANVAS_HEIGHT) => {
+  const blockSize = canvasWidth / GROUND_BLOCK_COUNT;
   return {
     blockSize,
     blockWidth: blockSize,
     blockHeight: blockSize,
-    playerWidth: blockSize,
-    playerHeight: blockSize,
-    beanWidth: blockSize * (2 / 3),
-    beanHeight: blockSize * (2 / 3),
+    playerWidth: blockSize * 1.5,
+    playerHeight: blockSize * 1.5,
+    beanWidth: blockSize,
+    beanHeight: blockSize,
   };
 };
