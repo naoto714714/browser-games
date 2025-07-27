@@ -31,7 +31,7 @@ const calculateScoreZones = (canvasWidth, canvasHeight) => {
 };
 
 export class Bean {
-  constructor(x, y, width, height, type = 'normal') {
+  constructor(x, y, width, height, type = 'normal', canvasWidth = null, canvasHeight = null) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -40,6 +40,8 @@ export class Bean {
     this.speed = BEAN_BASE_SPEED;
     this.active = true;
     this.flashTimer = 0;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
   update(deltaTime) {
@@ -70,7 +72,10 @@ export class Bean {
   }
 
   getScore(catchY) {
-    const scoreZones = calculateScoreZones(CANVAS_WIDTH, CANVAS_HEIGHT);
+    // canvas dimensionsが設定されていない場合はデフォルト値を使用
+    const canvasWidth = this.canvasWidth || CANVAS_WIDTH;
+    const canvasHeight = this.canvasHeight || CANVAS_HEIGHT;
+    const scoreZones = calculateScoreZones(canvasWidth, canvasHeight);
     for (const zone of scoreZones) {
       if (catchY < zone.maxHeight) {
         return zone.score;
@@ -86,6 +91,7 @@ export class BeanManager {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.dimensions = calculateDimensions(canvasWidth, canvasHeight);
+    this.scoreZones = calculateScoreZones(canvasWidth, canvasHeight); // スコアゾーンを一度だけ計算
     this.beans = [];
     this.spawnTimer = 0;
     this.spawnInterval = INITIAL_SPAWN_INTERVAL;
@@ -133,7 +139,9 @@ export class BeanManager {
   spawnBean() {
     const x = this.getRandomSpawnX();
     const type = this.getRandomBeanType();
-    this.beans.push(new Bean(x, -BEAN_SPAWN_MARGIN, this.dimensions.beanWidth, this.dimensions.beanHeight, type));
+    this.beans.push(
+      new Bean(x, -BEAN_SPAWN_MARGIN, this.dimensions.beanWidth, this.dimensions.beanHeight, type, this.canvasWidth, this.canvasHeight)
+    );
   }
 
   getRandomSpawnX() {
@@ -190,5 +198,16 @@ export class BeanManager {
     this.spawnTimer = 0;
     this.spawnInterval = INITIAL_SPAWN_INTERVAL;
     this.speedIncrease = 0;
+  }
+
+  getScoreForY(y) {
+    // BeanManagerが計算済みのscoreZonesを使用
+    for (const zone of this.scoreZones) {
+      if (y < zone.maxHeight) {
+        return zone.score;
+      }
+    }
+    // これは実際には到達しないはず（最後のゾーンがInfinity）
+    return this.scoreZones[this.scoreZones.length - 1].score;
   }
 }

@@ -73,7 +73,7 @@ export class Game {
   }
 
   handleBeanCatch(bean) {
-    const score = bean.getScore(bean.y);
+    const score = this.beanManager.getScoreForY(bean.y);
     this.addScore(score);
 
     // スコアエフェクトを追加
