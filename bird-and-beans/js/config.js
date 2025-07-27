@@ -3,8 +3,6 @@ export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
 
 // プレイヤー関連
-export const PLAYER_WIDTH = 60;
-export const PLAYER_HEIGHT = 60;
 export const PLAYER_SPEED = 10;
 export const PLAYER_GROUND_MARGIN = 10;
 export const PLAYER_ANIMATION_INTERVAL = 200; // ミリ秒単位
@@ -20,8 +18,6 @@ export const TONGUE_CHECK_INTERVAL = 5;
 export const TONGUE_TIP_RADIUS = 10; // 舌の先端の半径（当たり判定と描画用）
 
 // マメ関連
-export const BEAN_WIDTH = 20;
-export const BEAN_HEIGHT = 20;
 export const BEAN_BASE_SPEED = 3;
 export const BEAN_MIN_SCORE = 10;
 export const BEAN_MAX_SCORE = 300;
@@ -96,3 +92,17 @@ export const SCORE_EFFECT_DURATION = 3000; // 3秒間表示
 
 // ローカルストレージ
 export const HIGH_SCORE_KEY = 'birdAndBeansHighScore';
+
+// 動的に計算される値
+export const calculateDimensions = () => {
+  const blockSize = CANVAS_WIDTH / GROUND_BLOCK_COUNT;
+  return {
+    blockSize,
+    blockWidth: blockSize,
+    blockHeight: blockSize,
+    playerWidth: blockSize,
+    playerHeight: blockSize,
+    beanWidth: blockSize * (2 / 3),
+    beanHeight: blockSize * (2 / 3),
+  };
+};
