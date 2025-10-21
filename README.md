@@ -23,3 +23,6 @@
 ### 鳥とマメ (Bird & Beans)
 **空から落ちてくるマメを舌でキャッチ！レトロな雰囲気のアクションゲーム**
 [➤ ゲームを開始](https://naoto714714.github.io/browser-games/bird-and-beans/)
+
+---
+最終更新: 2025-10-21
