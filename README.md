@@ -4,6 +4,10 @@
 **スーパーマリオブラザーズ1-1完全再現**
 [➤ ゲームを開始](https://naoto714714.github.io/browser-games/super-mario-bros-1-1/)
 
+### Super Mario Bros 1-1 Classic
+**ステージ構造・敵配置・ゴール演出を再構成した完全版リメイク**
+[➤ ゲームを開始](https://naoto714714.github.io/browser-games/super-mario-bros-1-1-classic/)
+
 ### Neon Breaker
 **近未来的ブロック崩しゲーム**
 [➤ ゲームを開始](https://naoto714714.github.io/browser-games/neon-breaker/)

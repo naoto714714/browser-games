@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Mario Bros. 1-1 Remake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="hud">
+    <div class="hud__section">
+      <div class="hud__label">MARIO</div>
+      <div id="score">000000</div>
+    </div>
+    <div class="hud__section">
+      <div class="hud__label">COIN</div>
+      <div id="coins">x00</div>
+    </div>
+    <div class="hud__section">
+      <div class="hud__label">WORLD</div>
+      <div>1-1</div>
+    </div>
+    <div class="hud__section">
+      <div class="hud__label">TIME</div>
+      <div id="time">400</div>
+    </div>
+  </header>
+
+  <main>
+    <div id="game-wrapper">
+      <canvas id="game"></canvas>
+    </div>
+    <section class="controls">
+      <h1>Super Mario Bros. 1-1</h1>
+      <p>左右キーで移動、XまたはJでジャンプ、Sでダッシュ＆ファイア（スター時）。ポールに触れて旗を降ろし、ピーチ城まで進もう！</p>
+      <p>1-1の地形、ブロック配置、敵、ゴール演出を可能な限り再現した完全版です。</p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/kaboom@3001.0.0-beta.3/dist/kaboom.js"></script>
+  <script src="./main.js" type="module"></script>
+</body>
+</html>
